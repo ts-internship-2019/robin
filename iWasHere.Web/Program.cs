@@ -19,7 +19,7 @@ namespace iWasHere.Web
         {
             CreateWebHostBuilder(args).Build().Run();
         }
-        //vgmaxim
+        //vgmaxim 3.33
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
