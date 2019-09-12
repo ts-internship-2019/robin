@@ -14,6 +14,7 @@ namespace iWasHere.Web
     public class Program
     {
         //1209 Mihai Popa test
+        //...
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
