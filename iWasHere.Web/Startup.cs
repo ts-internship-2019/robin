@@ -22,6 +22,7 @@ namespace iWasHere.Web
     {
         public Startup(IConfiguration configuration)
         {
+            //Mare Comentariu
             Configuration = configuration;
         }
 
