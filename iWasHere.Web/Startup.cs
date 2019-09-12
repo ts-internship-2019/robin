@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
-
+//Test
 namespace iWasHere.Web
 {
     public class Startup
