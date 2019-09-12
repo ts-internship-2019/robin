@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 //test push github Alexandru Vasile
+// tes 2 pull 
 
 namespace iWasHere.Web
 {
