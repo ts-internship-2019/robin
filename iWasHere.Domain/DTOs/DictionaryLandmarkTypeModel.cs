@@ -10,3 +10,4 @@ namespace iWasHere.Domain.DTOs
         public string Name { get; set; }
     }
 }
+//my mark
