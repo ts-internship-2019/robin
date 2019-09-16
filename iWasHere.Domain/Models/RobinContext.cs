@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace iWasHere.Web.Models
+namespace iWasHere.Domain.Models
 {
     public partial class RobinContext : DbContext
     {
@@ -269,19 +269,11 @@ namespace iWasHere.Web.Models
                     .HasName("UQ__Dictiona__598CF7A360A3AA1F")
                     .IsUnique();
 
-                entity.Property(e => e.TicketTypeId).ValueGeneratedOnAdd();
-
                 entity.Property(e => e.TicketCode)
                     .IsRequired()
                     .HasMaxLength(255);
 
                 entity.Property(e => e.TicketName).HasMaxLength(255);
-
-                entity.HasOne(d => d.TicketType)
-                    .WithOne(p => p.DictionaryTicketType)
-                    .HasForeignKey<DictionaryTicketType>(d => d.TicketTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Dictionar__Ticke__0F2D40CE");
             });
 
             modelBuilder.Entity<Landmark>(entity =>

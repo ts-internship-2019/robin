@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace iWasHere.Web.Models
+namespace iWasHere.Domain.Models
 {
     public partial class AspNetUserTokens
     {
