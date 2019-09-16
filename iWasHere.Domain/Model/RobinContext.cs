@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace iWasHere.Web.Models
+namespace iWasHere.Domain.Model
 {
     public partial class RobinContext : DbContext
     {
@@ -262,8 +262,8 @@ namespace iWasHere.Web.Models
 
             modelBuilder.Entity<DictionaryTicketType>(entity =>
             {
-                entity.HasKey(e => e.TicketTypeId)
-                    .HasName("PK__Dictiona__6CD68431257B8B72");
+                /*entity.HasKey(e => e.TicketTypeId)
+                    .HasName("PK__Dictiona__6CD68431257B8B72");*/
 
                 entity.HasIndex(e => e.TicketCode)
                     .HasName("UQ__Dictiona__598CF7A360A3AA1F")
@@ -277,11 +277,11 @@ namespace iWasHere.Web.Models
 
                 entity.Property(e => e.TicketName).HasMaxLength(255);
 
-                entity.HasOne(d => d.TicketType)
+                /*entity.HasOne(d => d.TicketType)
                     .WithOne(p => p.DictionaryTicketType)
                     .HasForeignKey<DictionaryTicketType>(d => d.TicketTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Dictionar__Ticke__0F2D40CE");
+                    .HasConstraintName("FK__Dictionar__Ticke__0F2D40CE");*/
             });
 
             modelBuilder.Entity<Landmark>(entity =>
@@ -356,11 +356,11 @@ namespace iWasHere.Web.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Ticket__TicketId__2057CCD0");
 
-                entity.HasOne(d => d.TicketType)
+                /*entity.HasOne(d => d.TicketType)
                     .WithMany(p => p.Ticket)
                     .HasForeignKey(d => d.TicketTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Ticket__TicketTy__214BF109");
+                    .HasConstraintName("FK__Ticket__TicketTy__214BF109");*/
             });
         }
     }

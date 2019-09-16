@@ -1,5 +1,4 @@
 ﻿using System;
-using iWasHere.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -17,6 +16,7 @@ namespace iWasHere.Domain.Model
         }
 
         public virtual DbSet<DictionaryLandmarkType> DictionaryLandmarkType { get; set; }
+        public virtual DbSet<DictionaryCity> DictionaryCity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,6 +40,20 @@ namespace iWasHere.Domain.Model
                 entity.Property(e => e.ItemName)
                     .IsRequired()
                     .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<DictionaryCity>(entity =>
+            {
+                entity.HasKey(e => e.CityId);
+
+                entity.Property(e => e.CityName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+                entity.Property(e => e.CountyId)
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
         }

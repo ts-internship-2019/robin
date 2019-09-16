@@ -19,11 +19,22 @@ namespace iWasHere.Domain.Service
         {
             List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
-                Id = a.DictionaryItemId,
-                Name = a.DictionaryItemName
+                Id = a.ItemId,
+                Name = a.ItemName
             }).ToList();
 
             return dictionaryLandmarkTypeModels;
+        }
+        public List<DictionaryCity> GetDictionaryCity()
+        {
+            List<DictionaryCity> dictionaryCities = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId
+            }).ToList();
+
+            return dictionaryCities;
         }
     }
 }
