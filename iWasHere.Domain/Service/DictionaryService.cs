@@ -1,5 +1,5 @@
 ﻿using iWasHere.Domain.DTOs;
-using iWasHere.Domain.Model;
+using iWasHere.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +9,10 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
-        private readonly DatabaseContext _dbContext;
-        public DictionaryService(DatabaseContext databaseContext)
+        private readonly RobinContext _dbContext;
+        public DictionaryService(RobinContext robinContext)
         {
-            _dbContext = databaseContext;
+            _dbContext = robinContext;
         }
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()

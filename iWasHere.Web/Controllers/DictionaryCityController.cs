@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using iWasHere.Domain.Model;
+using iWasHere.Domain.Models;
 using iWasHere.Domain.Service;
 using iWasHere.Web.Models;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iWasHere.Web.Controllers
@@ -17,11 +19,17 @@ namespace iWasHere.Web.Controllers
         {
             _dictionaryService = dictionaryService;
         }
+
+        public ActionResult City_Read([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(_dictionaryService.GetDictionaryCity().ToDataSourceResult(request));
+        }
+
         public IActionResult City()
         {
-            List<DictionaryCity> dictionaryLandmarkTypeModels = _dictionaryService.GetDictionaryCity();
+            List<DictionaryCity> dictionaryCities = _dictionaryService.GetDictionaryCity();
 
-            return View(dictionaryLandmarkTypeModels);
+            return View(dictionaryCities);
             //return View();
         }
     }
