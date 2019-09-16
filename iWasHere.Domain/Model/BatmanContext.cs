@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -16,6 +17,7 @@ namespace iWasHere.Domain.Model
         }
 
         public virtual DbSet<DictionaryLandmarkType> DictionaryLandmarkType { get; set; }
+        public IEnumerable<object> DictionaryCountry { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

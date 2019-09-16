@@ -1,0 +1,33 @@
+﻿@*@(Html.Kendo().Grid<Kendo.Mvc.IWasHere.Models.Country>()
+        .Name("gridCountry")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.CountryId).Width(140);
+            columns.Bound(c => c.CountryName).Width(190);
+
+        })
+        .HtmlAttributes(new { style = "height: 380px;" })
+        .Scrollable()
+        .Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Customers_Read", "Grid"))
+        )
+)*@
+
+
+<!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Country</title>
+    </head>
+    <body>
+    </body>
+    </html>
