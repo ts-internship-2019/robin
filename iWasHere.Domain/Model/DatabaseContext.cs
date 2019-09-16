@@ -1,4 +1,5 @@
 ﻿using System;
+using iWasHere.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -27,16 +28,16 @@ namespace iWasHere.Domain.Model
 
             modelBuilder.Entity<DictionaryLandmarkType>(entity =>
             {
-                entity.HasKey(e => e.DictionaryItemId);
+                entity.HasKey(e => e.ItemId);
 
                 entity.Property(e => e.Description).IsUnicode(false);
 
-                entity.Property(e => e.DictionaryItemCode)
+                entity.Property(e => e.ItemCode)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.DictionaryItemName)
+                entity.Property(e => e.ItemName)
                     .IsRequired()
                     .HasMaxLength(255)
                     .IsUnicode(false);
