@@ -21,6 +21,13 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
+        //Ciprian Step 1: Tip Valute >> DictionaryCurrencies.cshtml
+        public IActionResult DictionaryCurrencies()
+        {
+            
+            return View();
+        }
+
         public IActionResult County()
         {
             return View();
