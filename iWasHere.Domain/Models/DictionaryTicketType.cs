@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace iWasHere.Web.Models
+namespace iWasHere.Domain.Models
 {
     public partial class DictionaryTicketType
     {
@@ -14,7 +14,6 @@ namespace iWasHere.Web.Models
         public string TicketCode { get; set; }
         public string TicketName { get; set; }
 
-        public virtual Ticket TicketType { get; set; }
         public virtual ICollection<Ticket> Ticket { get; set; }
     }
 }
