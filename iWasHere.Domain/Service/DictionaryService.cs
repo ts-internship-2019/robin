@@ -1,6 +1,5 @@
 ﻿using iWasHere.Domain.DTOs;
-using iWasHere.Domain.Model;
-using iWasHere.Web.Models;
+using iWasHere.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +9,8 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
-        private readonly DatabaseContext _dbContext;
-        public DictionaryService(DatabaseContext databaseContext)
+        private readonly RobinContext _dbContext;
+        public DictionaryService(RobinContext databaseContext)
         {
             _dbContext = databaseContext;
         }
@@ -20,8 +19,8 @@ namespace iWasHere.Domain.Service
         {
             List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
-                Id = a.DictionaryItemId,
-                Name = a.DictionaryItemName
+                Id = a.ItemId,
+                Name = a.ItemName
             }).ToList();
 
             return dictionaryLandmarkTypeModels;
@@ -30,11 +29,22 @@ namespace iWasHere.Domain.Service
         {
             List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
             {
-                //CountryId = a.CountryId,
-                //CountryName = a.CountryName
+                CountryId = a.CountryId,
+                CountryName = a.CountryName
             }).ToList();
 
             return dictionaryCountry;
+        }
+        public List<DictionaryCity> GetDictionaryCity()
+        {
+            List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId,
+            }).ToList();
+
+            return dictionaryCity;
         }
     }
 }

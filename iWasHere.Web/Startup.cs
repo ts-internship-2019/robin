@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using iWasHere.Domain.Models;
 using iWasHere.Domain.Service;
 using Newtonsoft.Json.Serialization;
-//Test2
+
 namespace iWasHere.Web
 {
     public class Startup
