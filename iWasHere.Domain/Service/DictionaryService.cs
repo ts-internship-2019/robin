@@ -19,11 +19,13 @@ namespace iWasHere.Domain.Service
         {
             List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
-                Id = a.DictionaryItemId,
-                Name = a.DictionaryItemName
+                Id = a.ItemId,
+                Name = a.ItemName
             }).ToList();
 
             return dictionaryLandmarkTypeModels;
         }
+
+       
     }
 }
