@@ -70,6 +70,17 @@ namespace iWasHere.Domain.Service
 
                 return dictionaryTickeTypeModel;
             }
+        public List<DictionaryCurrency> GetDictionaryCurrency()
+        {
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).ToList();
 
+            return dictionaryCurrency;
         }
+
+    }
 }
