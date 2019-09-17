@@ -1,0 +1,17 @@
+﻿@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCountry>()
+        .Name("CountryGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.CountryId);
+            columns.Bound(c => c.CountryName);
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Scrollable()
+        .Groupable()
+        .Sortable()
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Country_Read", "DictionaryCountry"))
+            .PageSize(20)
+        )
+)

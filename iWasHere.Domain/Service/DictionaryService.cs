@@ -10,9 +10,9 @@ namespace iWasHere.Domain.Service
     public class DictionaryService
     {
         private readonly RobinContext _dbContext;
-        public DictionaryService(RobinContext robinContext)
+        public DictionaryService(RobinContext databaseContext)
         {
-            _dbContext = robinContext;
+            _dbContext = databaseContext;
         }
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
@@ -25,16 +25,26 @@ namespace iWasHere.Domain.Service
 
             return dictionaryLandmarkTypeModels;
         }
+        public List<DictionaryCountry> GetDictionaryCountry()
+        {
+            List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
+            {
+                CountryId = a.CountryId,
+                CountryName = a.CountryName
+            }).ToList();
+
+            return dictionaryCountry;
+        }
         public List<DictionaryCity> GetDictionaryCity()
         {
-            List<DictionaryCity> dictionaryCities = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
+            List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
             {
                 CityId = a.CityId,
                 CityName = a.CityName,
-                CountyId = a.CountyId
+                CountyId = a.CountyId,
             }).ToList();
 
-            return dictionaryCities;
+            return dictionaryCity;
         }
         public List<DictionaryCounty> GetDictionaryCouny()
         {

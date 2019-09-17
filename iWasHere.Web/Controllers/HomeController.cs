@@ -17,22 +17,13 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult Privacy()
         {
-            //fgdfgdf
             return View();
         }
 
-        //Ciprian Step 1: Tip Valute >> DictionaryCurrencies.cshtml
-        public IActionResult DictionaryCurrencies()
-        {
-            
-            return View();
-        }
-
-        public IActionResult County()
+        public IActionResult Country()
         {
             return View();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

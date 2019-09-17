@@ -27,10 +27,9 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult City()
         {
-            List<DictionaryCity> dictionaryCities = _dictionaryService.GetDictionaryCity();
+            List<Domain.Models.DictionaryCity> dictionaryCities = _dictionaryService.GetDictionaryCity();
 
             return View(dictionaryCities);
-            //return View();
         }
     }
 }

@@ -16,14 +16,13 @@ using Microsoft.Extensions.DependencyInjection;
 using iWasHere.Domain.Models;
 using iWasHere.Domain.Service;
 using Newtonsoft.Json.Serialization;
-//Test2
+
 namespace iWasHere.Web
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            //Mare Comentariu
             Configuration = configuration;
         }
 
@@ -62,8 +61,6 @@ namespace iWasHere.Web
             }
             else
             {
-
-                
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
