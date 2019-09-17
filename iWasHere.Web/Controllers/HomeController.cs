@@ -20,6 +20,12 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
+        public IActionResult Ticket()
+        {
+            return View();
+        }
+
+
         public IActionResult Country()
         {
             return View();

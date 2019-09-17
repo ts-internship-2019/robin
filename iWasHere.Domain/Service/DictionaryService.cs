@@ -58,4 +58,18 @@ namespace iWasHere.Domain.Service
             return dictionaryCounties;
         }
     }
+            public List<DictionaryTicketType> GetDictionaryTicketType()
+            {
+                List<DictionaryTicketType> dictionaryTickeTypeModel = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+                {
+                    TicketTypeId = a.TicketTypeId,
+                    TicketCode = a.TicketCode,
+                    TicketName = a.TicketName
+                
+                }).ToList();
+
+                return dictionaryTickeTypeModel;
+            }
+
+        }
 }
