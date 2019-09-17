@@ -22,14 +22,14 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult County_Read([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_dictionaryService.GetDictionaryCouny().ToDataSourceResult(request));
+            return Json(_dictionaryService.GetDictionaryCounty().ToDataSourceResult(request));
         }
 
-        public IActionResult City()
+        public IActionResult County()
         {
-            List<DictionaryCounty> dictionaryCounties = _dictionaryService.GetDictionaryCouny();
+            List<Domain.Models.DictionaryCounty> dictionaryCounty = _dictionaryService.GetDictionaryCounty();
 
-            return View(dictionaryCounties);
+            return View(dictionaryCounty);
             //return View();
         }
     }

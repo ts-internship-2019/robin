@@ -46,16 +46,16 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCity;
         }
-        public List<DictionaryCounty> GetDictionaryCouny()
+        public List<DictionaryCounty> GetDictionaryCounty()
         {
-            List<DictionaryCounty> dictionaryCounties = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
+            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
             {
                 CountyId = a.CountyId,
                 CountyName = a.CountyName,
                 CountryId = a.CountryId
             }).ToList();
 
-            return dictionaryCounties;
+            return dictionaryCounty;
         }
     
             public List<DictionaryTicketType> GetDictionaryTicketType()
