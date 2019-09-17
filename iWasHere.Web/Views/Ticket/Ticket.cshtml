@@ -13,20 +13,23 @@
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.TicketTypeId);
-            columns.Bound(c => c.TicketCode);
-            columns.Bound(c => c.TicketName);
+            columns.Bound(c => c.TicketTypeId).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false))).Width(225);
+            columns.Bound(c => c.TicketCode).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+            columns.Bound(c => c.TicketName).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
 
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
-          .Groupable()
+        
         //< a href = "~/Views/Ticket/Ticket.cshtml" > ~/ Views / Ticket / Ticket.cshtml </ a >
-        .Sortable()
+        
         .Pageable(pageable => pageable
+
             .Refresh(true)
             .PageSizes(true)
-            .ButtonCount(5))
+            .ButtonCount(5)) 
+        .Sortable()
+        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read(read => read.Action("TicketTypeRead", "Ticket"))
