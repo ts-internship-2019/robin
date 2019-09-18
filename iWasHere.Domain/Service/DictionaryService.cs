@@ -51,14 +51,14 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCity.Count();
         }
 
-        public List<DictionaryCity> GetDictionaryCityPage(int page, int pageSize)
+        public List<DictionaryCity> GetDictionaryCityPage(int page,int pageSize)
         {
             List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
             {
                 CityId = a.CityId,
                 CityName = a.CityName,
                 CountyId = a.CountyId
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page-1) * pageSize).Take(pageSize).ToList();
 
             return dictionaryCity;
         }
@@ -73,19 +73,36 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCounty;
         }
-
-        public List<DictionaryTicketType> GetDictionaryTicketType()
-        {
-            List<DictionaryTicketType> dictionaryTickeTypeModel = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+    
+            public List<DictionaryTicketType> GetDictionaryTicketType()
             {
-                TicketTypeId = a.TicketTypeId,
-                TicketCode = a.TicketCode,
-                TicketName = a.TicketName
+                List<DictionaryTicketType> dictionaryTickeTypeModel = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+                {
+                    TicketTypeId = a.TicketTypeId,
+                    TicketCode = a.TicketCode,
+                    TicketName = a.TicketName
+                
+                }).ToList();
 
-            }).ToList();
-
-            return dictionaryTickeTypeModel;
+                return dictionaryTickeTypeModel;
+            }
+        public int GetDictionaryTicketTypeCount()
+        {
+            return _dbContext.DictionaryTicketType.Count();
         }
+
+        public List<DictionaryTicketType> GetDictionaryTicketTypePage(int page, int pageSize)
+        {
+            List<DictionaryTicketType> dictionaryTicketType = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+            {
+               TicketTypeId=a.TicketTypeId,
+               TicketCode=a.TicketCode,
+               TicketName=a.TicketName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryTicketType;
+        }
+
         public List<DictionaryCurrency> GetDictionaryCurrency()
         {
             List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
@@ -97,25 +114,6 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCurrency;
         }
-        public int GetDictionaryCurrencyCount()
-        {
-            return _dbContext.DictionaryCurrency.Count();
-        }
 
-
-        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
-        {
-            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
-            {
-                CurrencyId = a.CurrencyId,
-                CurrencyCode = a.CurrencyCode,
-                CurrencyName = a.CurrencyName
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            return dictionaryCurrency;
-
-
-
-        }
     }
 }
