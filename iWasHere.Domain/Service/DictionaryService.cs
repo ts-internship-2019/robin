@@ -181,18 +181,40 @@ namespace iWasHere.Domain.Service
             return dictionaryLandmarkType;
         }
 
-        public List<DictionaryLandmarkType> GetDictionaryLandmarkTypePage(int page, int pageSize)
+        //public List<DictionaryLandmarkType> GetDictionaryLandmarkTypePage(int page, int pageSize)
+        //{
+        //    List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+        //    {
+        //        ItemId = a.ItemId,
+        //        ItemCode = a.ItemCode,
+        //        ItemName = a.ItemName,
+        //        Description = a.Description
+        //    }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+        //    return dictionaryLandmarkType;
+
+        //}
+
+        public List<DictionaryLandmarkType> GetDictionaryLandmarkTypeFilterPage(int page, int pageSize, string txtboxItemName)
         {
-            List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+            IQueryable<DictionaryLandmarkType> queryable = _dbContext.DictionaryLandmarkType;
+            if (!string.IsNullOrWhiteSpace(txtboxItemName))
+            {
+                queryable = queryable.Where(a => a.ItemName.Contains(txtboxItemName));
+            }
+            queryable = queryable.Select(a => new DictionaryLandmarkType()
             {
                 ItemId = a.ItemId,
                 ItemCode = a.ItemCode,
                 ItemName = a.ItemName,
                 Description = a.Description
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryLandmarkType;
+            return queryable.ToList();
         }
+
+
+
 
         public int GetDictionaryLandmarkTypeCount()
         {

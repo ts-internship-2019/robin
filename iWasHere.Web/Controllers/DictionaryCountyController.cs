@@ -24,7 +24,7 @@ namespace iWasHere.Web.Controllers
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryCountyCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize, txtboxCountyName);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize);
 
             return Json(tempDataSourceResult);
 
