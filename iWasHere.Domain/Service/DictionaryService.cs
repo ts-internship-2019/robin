@@ -9,9 +9,6 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
-
-        private static bool UpdateDatabase = false;
-
         private readonly RobinContext _dbContext;
         public DictionaryService(RobinContext databaseContext)
         {
@@ -142,21 +139,16 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCurrency.Count();
         }
-        public List<DictionaryCurrency> GetDictionaryCurrencyFilterPage(int page, int pageSize, string txtboxCurrencyName)
+        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
         {
-            IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
-            if (!string.IsNullOrWhiteSpace(txtboxCurrencyName))
-            {
-                queryable = queryable.Where(a => a.CurrencyName.Contains(txtboxCurrencyName));
-            }
-            queryable = queryable.Select(a => new DictionaryCurrency()
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
             {
                 CurrencyId = a.CurrencyId,
                 CurrencyCode = a.CurrencyCode,
                 CurrencyName = a.CurrencyName
-            }).Skip((page - 1) * pageSize).Take(pageSize);
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            return queryable.ToList();
+            return dictionaryCurrency;
         }
 
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
@@ -193,6 +185,24 @@ namespace iWasHere.Domain.Service
         public int GetDictionaryCountyCount()
         {
             return _dbContext.DictionaryCounty.Count();
+        }
+
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
+        {
+            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty;
+
+            if (!string.IsNullOrWhiteSpace(txtboxCountyName))
+            {
+                queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
+            }
+            queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryableCounty.ToList();
         }
 
     }
