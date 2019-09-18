@@ -115,15 +115,21 @@ namespace iWasHere.Domain.Service
             return dictionaryCurrency;
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyCount()
+        public int GetDictionaryCountyCount()
         {
-
-            
+            return _dbContext.DictionaryCounty.Count();
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyPage()
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize)
         {
+            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
+            return dictionaryCounty;
         }
     }
 
