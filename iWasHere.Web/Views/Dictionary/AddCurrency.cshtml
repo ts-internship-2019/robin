@@ -1,0 +1,48 @@
+@*@model IEnumerable<iWasHere.Domain.DTOs.DictionaryCurrency>
+
+@{
+    ViewData["Title"] = "Adauga Valuta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Adauga</h1>
+
+<p>
+    <a asp-action="Create">Adaugare Valuta Noua</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrencyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrencyCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrencyName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrencyName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new {  id=item.CurrencyId  }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.CurrencyId }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.CurrencyId  })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>*@

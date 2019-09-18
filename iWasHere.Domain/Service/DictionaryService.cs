@@ -114,6 +114,21 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCurrency;
         }
+        public int GetDictionaryCurrencyCount()
+        {
+            return _dbContext.DictionaryCurrency.Count();
+        }
+        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
+        {
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryCurrency;
+        }
 
     }
 }

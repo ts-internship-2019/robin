@@ -6,6 +6,12 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Views\NewFile.txt" />
+    <None Remove="Views\NewFile1.txt" />
+    <None Remove="Views\NewFile2.txt" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
