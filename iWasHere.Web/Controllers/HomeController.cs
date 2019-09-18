@@ -45,5 +45,9 @@ namespace iWasHere.Web.Controllers
         {
             return View();
         }
+        public IActionResult Menu()
+        {
+            return View();
+        }
     }
 }

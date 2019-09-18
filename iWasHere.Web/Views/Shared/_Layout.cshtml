@@ -70,30 +70,6 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            @*@(Html.Kendo().Menu()
-                              .Name("Menu")
-                              .Items(items =>
-                              {
-                                items.Add().Text("Home").Action("Index", "Home", new { area = "" });
-                            .Text("Menu")
-                            .Items(children =>
-                            {
-                            children.Add().Text("Cities").Action("Index", "DictionaryCity", new { area = "" });
-                            children.Add().Text("Counties").Action("Index", "DictionaryCounty", new { area = "" });\
-                            children.Add().Text("Countries").Action("Index", "DictionaryCountry", new { area = "" });
-                            children.Add().Text("Landmark Types").Action("Index", "DictionaryLandmarkType", new { area = "" });
-                            children.Add().Text("Languages").Action("Index", "DictionaryLanguage", new { area = "" });
-                            children.Add().Text("Currencies").Action("Index", "DictionaryCurrency", new { area = "" });
-                            children.Add().Text("Ticket Types").Action("Index", "DictionaryTicketType", new { area = "" });
-                            children.Add().Text("Interval Types").Action("Index", "DictionaryInterval", new { area = "" });
-                            });
-                                   });
-
-             items.Add().Text("Add").Action("AddCountry", "DictionaryCountry", new { area = "" });
-
-            })*@
-
-                            @*)*@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
@@ -105,10 +81,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Country">Country</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCity" asp-action="City">City</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="County">County</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="County">County</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCity" asp-action="City">City</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Ticket">Tip de bilet</a>

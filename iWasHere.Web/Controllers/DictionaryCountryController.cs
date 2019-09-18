@@ -22,15 +22,14 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult Country_Read([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_dictionaryService.GetDictionaryCountry().ToDataSourceResult(request));
+            DataSourceResult tempDataSourceResult = new DataSourceResult();
+            tempDataSourceResult.Total = _dictionaryService.GetDictionaryCountryCount();
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountryPage(request.Page, request.PageSize);
+            return Json(tempDataSourceResult);
         }
-
         public IActionResult Country()
         {
-            List<Domain.Models.DictionaryCountry> dictionaryCountries = _dictionaryService.GetDictionaryCountry();
-
-            return View(dictionaryCountries);
-           
+            return View();
         }
     }
 }
