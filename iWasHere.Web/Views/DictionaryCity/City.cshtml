@@ -1,5 +1,7 @@
 ﻿@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCity>()
         .Name("CityGrid")
+        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+        .Pageable()
         .Columns(columns =>
         {
             columns.Bound(c => c.CityId);
@@ -8,8 +10,6 @@
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
-        .Groupable()
-        .Sortable()
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read(read => read.Action("City_Read", "DictionaryCity"))

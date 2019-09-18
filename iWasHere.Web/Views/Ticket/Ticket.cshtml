@@ -8,25 +8,26 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-    <p>TESESDASd</p>
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryTicketType>()
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.TicketTypeId);
+            columns.Bound(c => c.TicketTypeId); 
             columns.Bound(c => c.TicketCode);
             columns.Bound(c => c.TicketName);
-
+            
         })
+    
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
-          .Groupable()
+        
         //< a href = "~/Views/Ticket/Ticket.cshtml" > ~/ Views / Ticket / Ticket.cshtml </ a >
-        .Sortable()
+        
         .Pageable(pageable => pageable
             .Refresh(true)
             .PageSizes(true)
-            .ButtonCount(5))
+            .ButtonCount(5)) 
+        .Sortable()
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read(read => read.Action("TicketTypeRead", "Ticket"))

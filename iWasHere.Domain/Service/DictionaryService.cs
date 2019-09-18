@@ -46,6 +46,22 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCity;
         }
+        public int GetDictionaryCityCount()
+        {
+            return _dbContext.DictionaryCity.Count();
+        }
+
+        public List<DictionaryCity> GetDictionaryCityPage(int page,int pageSize)
+        {
+            List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId
+            }).Skip((page-1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryCity;
+        }
         public List<DictionaryCounty> GetDictionaryCounty()
         {
             List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
@@ -70,6 +86,34 @@ namespace iWasHere.Domain.Service
 
                 return dictionaryTickeTypeModel;
             }
+        public int GetDictionaryTicketTypeCount()
+        {
+            return _dbContext.DictionaryTicketType.Count();
+        }
+
+        public List<DictionaryTicketType> GetDictionaryTicketTypePage(int page, int pageSize)
+        {
+            List<DictionaryTicketType> dictionaryTicketType = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+            {
+               TicketTypeId=a.TicketTypeId,
+               TicketCode=a.TicketCode,
+               TicketName=a.TicketName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryTicketType;
+        }
+
+        public List<DictionaryCurrency> GetDictionaryCurrency()
+        {
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).ToList();
+
+            return dictionaryCurrency;
+        }
 
         public List<DictionaryCounty> GetDictionaryCountyCount()
         {
