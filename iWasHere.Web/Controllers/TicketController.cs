@@ -31,6 +31,10 @@ namespace iWasHere.Web.Controllers
 
             return Json(tempDataSourceResult);
         }
+        public IActionResult TicketAdd()
+        {
+            return View();
+        }
 
     }
 }

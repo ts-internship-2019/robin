@@ -22,14 +22,21 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult Currency_Read([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_dictionaryService.GetDictionaryCurrency().ToDataSourceResult(request));
+            DataSourceResult tempDataSourceResult = new DataSourceResult();
+
+            tempDataSourceResult.Total = _dictionaryService.GetDictionaryCurrencyCount();
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCurrencyPage(request.Page, request.PageSize);
+            return Json(tempDataSourceResult);
+
+
+            //return Json(_dictionaryService.GetDictionaryCurrency().ToDataSourceResult(request));
         }
 
         public IActionResult Currency()
         {
-            List<Domain.Models.DictionaryCurrency> dictionaryCurrency = _dictionaryService.GetDictionaryCurrency();
+          //  List<Domain.Models.DictionaryCurrency> dictionaryCurrency = _dictionaryService.GetDictionaryCurrency();
 
-            return View(dictionaryCurrency);
+            return View();  //dictionaryCurrency inside View
         }
     }
 }
