@@ -22,7 +22,13 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult County_Read([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_dictionaryService.GetDictionaryCounty().ToDataSourceResult(request));
+            DataSourceResult tempDataSourceResult = new DataSourceResult();
+            tempDataSourceResult.Total = _dictionaryService.GetDictionaryCountyCount();
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize);
+
+            return Json(tempDataSourceResult);
+
+            //return Json(_dictionaryService.GetDictionaryCounty().ToDataSourceResult(request));
         }
 
         public IActionResult County()

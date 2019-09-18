@@ -35,6 +35,22 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountry;
         }
+        public int GetDictionaryCountryCount()
+        {
+            return _dbContext.DictionaryCountry.Count();
+        }
+
+        public List<DictionaryCountry> GetDictionaryCountryPage(int page, int pageSize)
+        {
+            List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
+            {
+                CountryId = a.CountryId,
+                CountryName = a.CountryName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryCountry;
+        }
+
         public List<DictionaryCity> GetDictionaryCity()
         {
             List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
@@ -91,6 +107,23 @@ namespace iWasHere.Domain.Service
 
                 return dictionaryTickeTypeModel;
             }
+        public int GetDictionaryTicketTypeCount()
+        {
+            return _dbContext.DictionaryTicketType.Count();
+        }
+
+        public List<DictionaryTicketType> GetDictionaryTicketTypePage(int page, int pageSize)
+        {
+            List<DictionaryTicketType> dictionaryTicketType = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+            {
+               TicketTypeId=a.TicketTypeId,
+               TicketCode=a.TicketCode,
+               TicketName=a.TicketName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryTicketType;
+        }
+
         public List<DictionaryCurrency> GetDictionaryCurrency()
         {
             List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
@@ -102,6 +135,69 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCurrency;
         }
+        public int GetDictionaryCurrencyCount()
+        {
+            return _dbContext.DictionaryCurrency.Count();
+        }
+        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
+        {
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
+            return dictionaryCurrency;
+        }
+
+        public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
+        {
+            List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+            {
+                ItemId = a.ItemId,
+                ItemCode = a.ItemCode,
+                ItemName = a.ItemName,
+                Description = a.Description
+            }).ToList();
+
+            return dictionaryLandmarkType;
+        }
+
+        public List<DictionaryLandmarkType> GetDictionaryLandmarkTypePage(int page, int pageSize)
+        {
+            List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+            {
+                ItemId = a.ItemId,
+                ItemCode = a.ItemCode,
+                ItemName = a.ItemName,
+                Description = a.Description
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryLandmarkType;
+        }
+
+        public int GetDictionaryLandmarkTypeCount()
+        {
+            return _dbContext.DictionaryLandmarkType.Count();
+        }
+
+        public int GetDictionaryCountyCount()
+        {
+            return _dbContext.DictionaryCounty.Count();
+        }
+
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize)
+        {
+            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryCounty;
+        }
     }
+
 }
