@@ -69,18 +69,23 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCity.Count();
         }
-
-        public List<DictionaryCity> GetDictionaryCityPage(int page,int pageSize)
+        public List<DictionaryCity> GetDictionaryCityFilterPage(int page, int pageSize,string txtboxCityName)
         {
-            List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            if (!string.IsNullOrWhiteSpace(txtboxCityName))
+            {
+                queryable = queryable.Where(a => a.CityName.Contains(txtboxCityName));
+            }
+            queryable = queryable.Select(a => new DictionaryCity()
             {
                 CityId = a.CityId,
                 CityName = a.CityName,
                 CountyId = a.CountyId
-            }).Skip((page-1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCity;
+            return queryable.ToList();
         }
+     
         public List<DictionaryCounty> GetDictionaryCounty()
         {
             List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
@@ -180,54 +185,11 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryLandmarkType.Count();
         }
 
-        //public void LandmarkType_Create(DictionaryLandmarkType dictionaryLandmarkType)
-        //{
-        //    if (!UpdateDatabase)
-        //    {
-        //        var first = GetAll().OrderByDescending(e => e.ProductID).FirstOrDefault();
-        //        var id = (first != null) ? first.ProductID : 0;
-
-        //        dictionaryLandmarkType.ProductID = id + 1;
-
-        //        if (dictionaryLandmarkType.CategoryID == null)
-        //        {
-        //            dictionaryLandmarkType.CategoryID = 1;
-        //        }
-
-        //        if (dictionaryLandmarkType.Category == null)
-        //        {
-        //            dictionaryLandmarkType.Category = new CategoryViewModel() { CategoryID = 1, CategoryName = "Beverages" };
-        //        }
-
-        //        GetAll().Insert(0, dictionaryLandmarkType);
-        //    }
-        //    else
-        //    {
-        //        var entity = new dictionaryLandmarkType();
-
-        //        entity.ProductName = product.ProductName;
-        //        entity.UnitPrice = product.UnitPrice;
-        //        entity.UnitsInStock = (short)product.UnitsInStock;
-        //        entity.Discontinued = product.Discontinued;
-        //        entity.CategoryID = product.CategoryID;
-
-        //        if (entity.CategoryID == null)
-        //        {
-        //            entity.CategoryID = 1;
-        //        }
-
-        //        if (product.Category != null)
-        //        {
-        //            entity.CategoryID = product.Category.CategoryID;
-        //        }
-
-        //        entities.Products.Add(entity);
-        //        entities.SaveChanges();
-
-        //        product.ProductID = entity.ProductID;
-        //    }
-        //}
-
+        public int GetDictionaryCountyCount()
+        {
+            return _dbContext.DictionaryCounty.Count();
+        }
 
     }
+
 }
