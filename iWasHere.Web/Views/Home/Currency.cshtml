@@ -1,4 +1,32 @@
-﻿@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>()
+﻿@(Html.Kendo().Button()
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
+)
+
+@(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("filter-clear")
+        .Content("Sterge filtru")
+        .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+        .Events(e => e.Click("removeFilter"))
+)
+
+@(Html.Kendo().TextBox()
+    .Name("inputCurrencyNameFilter")
+    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+)
+
+
+
+
+
+
+@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>()
         .Name("CurrencyGrid")
         .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
         .Pageable()
@@ -8,7 +36,7 @@
             columns.Bound(c => c.CurrencyCode).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
             columns.Bound(c => c.CurrencyName).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
         })
-        .HtmlAttributes(new { style = "height: 550px;" })
+        .HtmlAttributes(new {id="CurrencyGrid", style = "height: 550px;" })
         .Scrollable()
        // .Groupable()
        // .Sortable()
@@ -19,3 +47,26 @@
             .PageSize(20)
         )
 )
+
+
+
+
+<script>
+
+        getFilter = function () {
+            var model = {};
+            model["txtboxCurrencyName"] = $("#inputTextbox").val();
+            return model;
+        }
+
+        removeFilter = function () {
+            $("#inputTextbox").val("");
+            refresh();
+        }
+
+        refresh = function () {
+            $("#CurrencyGrid").data("kendoGrid").dataSource.read();
+            $("#CurrencyGrid").data("kendoGrid").dataSource.page(1);
+        }
+
+</script>

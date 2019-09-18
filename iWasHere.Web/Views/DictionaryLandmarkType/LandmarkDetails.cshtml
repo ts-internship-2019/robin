@@ -11,8 +11,21 @@
 
     @(Html.Kendo().TextBox()
        .Name("kTextBox")
-       //.Value("Cautare")
+    //.Value("Cautare")
     )
+
+    <div data-role="view">
+        <br />
+        <button data-role="button" data-click="buttonClick">
+            My Kendo Button
+        </button>
+        <a data-role="button" data-click="buttonClick">
+
+            @*var button = $("#kendoButton").kendoMobileButton({
+            click: buttonClick
+            });*@
+     
+    </div>
 
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryLandmarkType>()
@@ -23,6 +36,9 @@
             columns.Bound(c => c.ItemCode);
             columns.Bound(c => c.ItemName);
             columns.Bound(c => c.Description);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            //columns.Template("<a class='k-button' href='~/DictionaryLandmarkType/AddLandmarkDetails'>Editeaza</a>").Width(150);
+            //columns.Template("<a class='k-button k-primary' href='~/Home/Index'>Sterge</a>").Width(150);
 
         })
         .HtmlAttributes(new { style = "height: 550px;" })
@@ -33,9 +49,16 @@
             .Refresh(true)
             .PageSizes(true)
             .ButtonCount(5))
+            .ToolBar(toolbar => toolbar.Create())
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
             .Ajax()
+            //CRUD
             .Read(read => read.Action("LandmarkType_Read", "DictionaryLandmarkType"))
+            .Create(create => create.Action("LandmarkType_Read", "DictionaryLandmarkType"))
+            .Update(update => update.Action("LandmarkType_Update", "DictionaryLandmarkType"))
+            .Destroy(destroy => destroy.Action("LandmarkType_Destroy", "DictionaryLandmarkType"))
+
             .PageSize(20)
         )
     )
