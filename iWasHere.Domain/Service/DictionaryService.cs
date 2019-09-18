@@ -130,6 +130,52 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCurrency;
         }
+        public int GetDictionaryCurrencyCount()
+        {
+            return _dbContext.DictionaryCurrency.Count();
+        }
+        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
+        {
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryCurrency;
+        }
+
+        public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
+        {
+            List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+            {
+                ItemId = a.ItemId,
+                ItemCode = a.ItemCode,
+                ItemName = a.ItemName,
+                Description = a.Description
+            }).ToList();
+
+            return dictionaryLandmarkType;
+        }
+
+        public List<DictionaryLandmarkType> GetDictionaryLandmarkTypePage(int page, int pageSize)
+        {
+            List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+            {
+                ItemId = a.ItemId,
+                ItemCode = a.ItemCode,
+                ItemName = a.ItemName,
+                Description = a.Description
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryLandmarkType;
+        }
+
+        public int GetDictionaryLandmarkTypeCount()
+        {
+            return _dbContext.DictionaryLandmarkType.Count();
+        }
 
     }
 }

@@ -4,37 +4,37 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Ticket</title>
-  
+
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
+
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryTicketType>()
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.TicketTypeId); 
-            columns.Bound(c => c.TicketCode);
-            columns.Bound(c => c.TicketName);
-            
-        })
-    
-        .HtmlAttributes(new { style = "height: 550px;" })
-        .Scrollable()
-        
-        //< a href = "~/Views/Ticket/Ticket.cshtml" > ~/ Views / Ticket / Ticket.cshtml </ a >
-        
-        .Pageable(pageable => pageable
+            columns.Bound(c => c.TicketCode).Title("Cod bilet");
+            columns.Bound(c => c.TicketName).Title("Denumire bilet");
+            columns.Template("<a class='k-button' href='/Ticket/TicketAdd'>Editeaza</a>").Width(150);
+            columns.Template("<a class='k-button k-primary' href='/Home/Index'>Sterge</a>").Width(150);
+            })
+            .HtmlAttributes(new { style = "height: 550px;" })
+            .Scrollable()
+            //< a href = "~/Views/Ticket/Ticket.cshtml" > ~/ Views / Ticket / Ticket.cshtml </ a >
+            .Pageable(pageable => pageable
             .Refresh(true)
             .PageSizes(true)
-            .ButtonCount(5)) 
-        .Sortable()
-        .DataSource(dataSource => dataSource
+            .ButtonCount(5))
+            .Sortable()
+            .DataSource(dataSource => dataSource
             .Ajax()
-            .Read(read => read.Action("TicketTypeRead", "Ticket"))
             .PageSize(20)
-        )
-          )
+            .Read(read => read.Action("TicketTypeRead", "Ticket"))
 
+        )
+    )
+
+<p align="right"> <a href='/Ticket/TicketAdd' class="k-button k-primary">Adauga un nou tip de bilet</a></p>
 
 </body>
 </html>
