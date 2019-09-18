@@ -71,5 +71,16 @@ namespace iWasHere.Domain.Service
                 return dictionaryTickeTypeModel;
             }
 
+        public List<DictionaryCounty> GetDictionaryCountyCount()
+        {
+
+            
         }
+
+        public List<DictionaryCounty> GetDictionaryCountyPage()
+        {
+
+        }
+    }
+
 }
