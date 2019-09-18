@@ -46,16 +46,32 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCity;
         }
-        public List<DictionaryCounty> GetDictionaryCouny()
+        public int GetDictionaryCityCount()
         {
-            List<DictionaryCounty> dictionaryCounties = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
+            return _dbContext.DictionaryCity.Count();
+        }
+
+        public List<DictionaryCity> GetDictionaryCityPage(int page,int pageSize)
+        {
+            List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId
+            }).Skip((page-1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryCity;
+        }
+        public List<DictionaryCounty> GetDictionaryCounty()
+        {
+            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
             {
                 CountyId = a.CountyId,
                 CountyName = a.CountyName,
                 CountryId = a.CountryId
             }).ToList();
 
-            return dictionaryCounties;
+            return dictionaryCounty;
         }
     
             public List<DictionaryTicketType> GetDictionaryTicketType()
@@ -70,6 +86,17 @@ namespace iWasHere.Domain.Service
 
                 return dictionaryTickeTypeModel;
             }
+        public List<DictionaryCurrency> GetDictionaryCurrency()
+        {
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).ToList();
 
+            return dictionaryCurrency;
         }
+
+    }
 }
