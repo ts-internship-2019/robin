@@ -9,23 +9,46 @@
 <body>
     <h1>@ViewData["Title"]</h1>
 
+
+    @(Html.Kendo().Button()
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
+    )
+
+    @(Html.Kendo().Button()
+            .Name("kendoIconTextButton")
+            .Tag("a")
+            .Icon("filter-clear")
+            .Content("Sterge filtru")
+            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+            .Events(e => e.Click("removeFilter"))
+    )
+
     @(Html.Kendo().TextBox()
-       .Name("kTextBox")
-       //.Value("Cautare")
+        .Name("inputItemNameFilter")
+        .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
 
+
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryLandmarkType>()
-        .Name("grid")
+        .Name("LandmarkTypeGrid")
         .Columns(columns =>
         {
             columns.Bound(c => c.ItemId);
             columns.Bound(c => c.ItemCode);
             columns.Bound(c => c.ItemName);
             columns.Bound(c => c.Description);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            //columns.Template("<a class='k-button' href='~/DictionaryLandmarkType/AddLandmarkDetails'>Editeaza</a>").Width(150);
+            //columns.Template("<a class='k-button k-primary' href='~/Home/Index'>Sterge</a>").Width(150);
 
         })
-        .HtmlAttributes(new { style = "height: 550px;" })
+        .HtmlAttributes(new { id="landmarkTypeGrid", style = "height: 550px;" })
         .Scrollable()
           .Groupable()
         .Sortable()
@@ -33,14 +56,42 @@
             .Refresh(true)
             .PageSizes(true)
             .ButtonCount(5))
+            .ToolBar(toolbar => toolbar.Create())
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Read(read => read.Action("LandmarkType_Read", "DictionaryLandmarkType"))
+            //CRUD
+            .Read(read => read.Action("LandmarkType_Read", "DictionaryLandmarkType").Data("getFilter"))
+            .Create(create => create.Action("LandmarkType_Read", "DictionaryLandmarkType"))
+            .Update(update => update.Action("LandmarkType_Update", "DictionaryLandmarkType"))
+            .Destroy(destroy => destroy.Action("LandmarkType_Destroy", "DictionaryLandmarkType"))
+
             .PageSize(20)
         )
     )
 
     <p align="right"> <a href='/DictionaryLandmarkType/AddLandmarkDetails' class="k-button k-primary">Adauga un nou tip de atractie</a></p>
+
+    <script>
+
+        getFilter = function () {
+            var model = {};
+            model["txtboxItemName"] = $("#inputTextbox").val();
+            return model;
+        }
+
+        removeFilter = function () {
+            $("#inputTextbox").val("");
+            refresh();
+        }
+
+        refresh = function () {
+            $("#landmarkTypeGrid").data("kendoGrid").dataSource.read();
+            $("#landmarkTypeGrid").data("kendoGrid").dataSource.page(1);
+        }
+
+    </script>
+
 
 </body>
 </html>
