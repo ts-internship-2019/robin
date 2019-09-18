@@ -9,6 +9,9 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
+
+        private static bool UpdateDatabase = false;
+
         private readonly RobinContext _dbContext;
         public DictionaryService(RobinContext databaseContext)
         {
@@ -192,17 +195,6 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCounty.Count();
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize)
-        {
-            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
-            {
-                CountyId = a.CountyId,
-                CountyName = a.CountyName,
-                CountryId = a.CountryId
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            return dictionaryCounty;
-        }
     }
 
 }
