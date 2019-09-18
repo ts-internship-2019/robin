@@ -20,12 +20,12 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult City_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult City_Read([DataSourceRequest] DataSourceRequest request,string txtboxCityName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
-            
+
             tempDataSourceResult.Total =_dictionaryService.GetDictionaryCityCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCityPage(request.Page,request.PageSize);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCityFilterPage(request.Page,request.PageSize, txtboxCityName);
             return Json(tempDataSourceResult);
         }
 
