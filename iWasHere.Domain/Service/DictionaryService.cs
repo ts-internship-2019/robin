@@ -70,6 +70,51 @@ namespace iWasHere.Domain.Service
 
                 return dictionaryTickeTypeModel;
             }
-
+        public int GetDictionaryTicketTypeCount()
+        {
+            return _dbContext.DictionaryTicketType.Count();
         }
+
+        public List<DictionaryTicketType> GetDictionaryTicketTypePage(int page, int pageSize)
+        {
+            List<DictionaryTicketType> dictionaryTicketType = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+            {
+               TicketTypeId=a.TicketTypeId,
+               TicketCode=a.TicketCode,
+               TicketName=a.TicketName
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryTicketType;
+        }
+
+        public List<DictionaryCurrency> GetDictionaryCurrency()
+        {
+            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).ToList();
+
+            return dictionaryCurrency;
+        }
+
+        public int GetDictionaryCountyCount()
+        {
+            return _dbContext.DictionaryCounty.Count();
+        }
+
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize)
+        {
+            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            return dictionaryCounty;
+        }
+    }
+
 }
