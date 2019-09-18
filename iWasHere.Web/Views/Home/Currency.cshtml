@@ -43,7 +43,7 @@
        // .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Read(read => read.Action("Currency_Read", "DictionaryCurrency"))
+            .Read(read => read.Action("Currency_Read", "DictionaryCurrency").Data("getFilter"))
             .PageSize(20)
         )
 )
@@ -53,7 +53,7 @@
 
 <script>
 
-        getFilter = function () {
+    getFilter = function () {
             var model = {};
             model["txtboxCurrencyName"] = $("#inputTextbox").val();
             return model;
