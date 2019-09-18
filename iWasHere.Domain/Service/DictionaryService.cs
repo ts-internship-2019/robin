@@ -9,6 +9,9 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
+
+        private static bool UpdateDatabase = false;
+
         private readonly RobinContext _dbContext;
         public DictionaryService(RobinContext databaseContext)
         {
@@ -176,6 +179,55 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryLandmarkType.Count();
         }
+
+        //public void LandmarkType_Create(DictionaryLandmarkType dictionaryLandmarkType)
+        //{
+        //    if (!UpdateDatabase)
+        //    {
+        //        var first = GetAll().OrderByDescending(e => e.ProductID).FirstOrDefault();
+        //        var id = (first != null) ? first.ProductID : 0;
+
+        //        dictionaryLandmarkType.ProductID = id + 1;
+
+        //        if (dictionaryLandmarkType.CategoryID == null)
+        //        {
+        //            dictionaryLandmarkType.CategoryID = 1;
+        //        }
+
+        //        if (dictionaryLandmarkType.Category == null)
+        //        {
+        //            dictionaryLandmarkType.Category = new CategoryViewModel() { CategoryID = 1, CategoryName = "Beverages" };
+        //        }
+
+        //        GetAll().Insert(0, dictionaryLandmarkType);
+        //    }
+        //    else
+        //    {
+        //        var entity = new dictionaryLandmarkType();
+
+        //        entity.ProductName = product.ProductName;
+        //        entity.UnitPrice = product.UnitPrice;
+        //        entity.UnitsInStock = (short)product.UnitsInStock;
+        //        entity.Discontinued = product.Discontinued;
+        //        entity.CategoryID = product.CategoryID;
+
+        //        if (entity.CategoryID == null)
+        //        {
+        //            entity.CategoryID = 1;
+        //        }
+
+        //        if (product.Category != null)
+        //        {
+        //            entity.CategoryID = product.Category.CategoryID;
+        //        }
+
+        //        entities.Products.Add(entity);
+        //        entities.SaveChanges();
+
+        //        product.ProductID = entity.ProductID;
+        //    }
+        //}
+
 
     }
 }
