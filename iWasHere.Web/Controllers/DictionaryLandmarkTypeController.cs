@@ -22,12 +22,12 @@ namespace iWasHere.Web.Controllers
         }
 
 
-        public ActionResult LandmarkType_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult LandmarkType_Read([DataSourceRequest] DataSourceRequest request, string txtboxItemName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
 
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryLandmarkTypeCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryLandmarkTypePage(request.Page, request.PageSize);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryLandmarkTypeFilterPage(request.Page, request.PageSize, txtboxItemName);
             return Json(tempDataSourceResult);
         }
 
