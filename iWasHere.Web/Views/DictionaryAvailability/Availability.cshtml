@@ -1,0 +1,62 @@
+﻿@(Html.Kendo().Button()
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new {id="btnFilter", type = "button"})
+        .Events(e=>e.Click("refresh"))
+)
+
+@(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("filter-clear")
+        .Content("Sterge filtru")
+        .HtmlAttributes(new {id="btnResetFilter", type = "button"})
+        .Events(e=>e.Click("removeFilter"))
+)
+
+@(Html.Kendo().TextBox()
+    .Name("inputAvailabilityNameFilter")
+    .HtmlAttributes(new {id="inputTextbox", type = "textbox"})
+)
+
+
+@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAvailability>
+    ()
+    .Name("CityGrid")
+    .Pageable()
+    .Columns(columns =>
+    {
+    columns.Bound(c => c.AvailabilityId);
+    columns.Bound(c => c.AvailabilityName);
+    columns.Bound(c => c.Schedule);
+    })
+    .HtmlAttributes(new { id="AvailabilityGrid", style = "height: 550px;" })
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .Read(read => read.Action("Availability_Read", "AvailabilityCity").Data("getFilter"))
+    .PageSize(20)
+    )
+)
+
+<script>
+
+    getFilter = function () {
+        var model = {};
+        model["txtboxAvailabilityName"] = $("#inputTextbox").val();
+        return model;
+    }
+
+    removeFilter = function () {
+        $("#inputTextbox").val("");
+        refresh();
+    }
+
+    refresh = function () {
+        $("#cityGrid").data("kendoGrid").dataSource.read();
+        $("#cityGrid").data("kendoGrid").dataSource.page(1);
+    }
+
+</script>

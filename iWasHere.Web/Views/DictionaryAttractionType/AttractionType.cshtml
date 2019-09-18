@@ -7,7 +7,7 @@
 
 </head>
 <body>
-    <h1>@ViewData["Country"]</h1>
+    <h1>@ViewData["AttractionType"]</h1>
     @(Html.Kendo().Button()
             .Name("iconTextButton")
             .Tag("a")
@@ -27,25 +27,26 @@
     )
 
     @(Html.Kendo().TextBox()
-        .Name("inputCountryNameFilter")
+        .Name("inputAttractionNameFilter")
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
 
-    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCountry>
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>
         ()
-        .Name("CountryGrid")
+        .Name("AttractionTypeGrid")
         .Pageable()
         .Columns(columns =>
         {
-        columns.Bound(c => c.CountryId);
-        columns.Bound(c => c.CountryName);
+        columns.Bound(c => c.AttractionTypeId);
+        columns.Bound(c => c.AttractionCode);
+        columns.Bound(c => c.AttractionName);
         })
-        .HtmlAttributes(new { id = "CountryGrid", style = "height: 550px;" })
+        .HtmlAttributes(new { id = "AttractionGrid", style = "height: 550px;" })
         .Scrollable()
         .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action("Country_Read", "DictionaryCountry").Data("getFilter"))
+        .Read(read => read.Action("Attraction_Read", "DictionaryAttractionType").Data("getFilter"))
         .PageSize(20)
         )
     )
@@ -54,7 +55,7 @@
 
         getFilter = function () {
             var model = {};
-            model["txtboxCountryName"] = $("#inputTextbox").val();
+            model["txtboxAttractionName"] = $("#inputTextbox").val();
             return model;
         }
 
@@ -64,8 +65,8 @@
         }
 
         refresh = function () {
-            $("#CountryGrid").data("kendoGrid").dataSource.read();
-            $("#CountryGrid").data("kendoGrid").dataSource.page(1);
+            $("#AttractionTypeGrid").data("kendoGrid").dataSource.read();
+            $("#AttractionTypeGrid").data("kendoGrid").dataSource.page(1);
         }
 
     </script>

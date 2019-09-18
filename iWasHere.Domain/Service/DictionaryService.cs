@@ -40,15 +40,20 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCountry.Count();
         }
 
-        public List<DictionaryCountry> GetDictionaryCountryPage(int page, int pageSize)
+        public List<DictionaryCountry> GetDictionaryCountryFilterPage(int page, int pageSize, string txtboxCountryName)
         {
-            List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
+            IQueryable<DictionaryCountry> queryable = _dbContext.DictionaryCountry;
+            if (!string.IsNullOrWhiteSpace(txtboxCountryName))
+            {
+                queryable = queryable.Where(a => a.CountryName.Contains(txtboxCountryName));
+            }
+            queryable = queryable.Select(a => new DictionaryCountry()
             {
                 CountryId = a.CountryId,
-                CountryName = a.CountryName
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                CountryName = a.CountryName,
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCountry;
+            return queryable.ToList();
         }
 
         public List<DictionaryCity> GetDictionaryCity()
@@ -197,6 +202,68 @@ namespace iWasHere.Domain.Service
             }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             return dictionaryCounty;
+        }
+        public List<DictionaryAvailability> GetDictionaryAvailability()
+        {
+            List<DictionaryAvailability> dictionaryAvailability = _dbContext.DictionaryAvailability.Select(a => new DictionaryAvailability()
+            {
+                AvailabilityId = a.AvailabilityId,
+                AvailabilityName = a.AvailabilityName,
+                Schedule = a.Schedule,
+            }).ToList();
+
+            return dictionaryAvailability;
+        }
+        public int GetDictionaryAvailabilityCount()
+        {
+            return _dbContext.DictionaryAvailability.Count();
+        }
+        public List<DictionaryAvailability> GetDictionaryAvailabilityFilterPage(int page, int pageSize, string txtboxAvailabilityName)
+        {
+            IQueryable<DictionaryAvailability> queryable = _dbContext.DictionaryAvailability;
+            if (!string.IsNullOrWhiteSpace(txtboxAvailabilityName))
+            {
+                queryable = queryable.Where(a => a.AvailabilityName.Contains(txtboxAvailabilityName));
+            }
+            queryable = queryable.Select(a => new DictionaryAvailability()
+            {
+                AvailabilityId = a.AvailabilityId,
+                AvailabilityName = a.AvailabilityName,
+                Schedule = a.Schedule
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+        public List<DictionaryAttractionType> GetDictionaryAttractionType()
+        {
+            List<DictionaryAttractionType> dictionaryAttractionType = _dbContext.DictionaryAttractionType.Select(a => new DictionaryAttractionType()
+            {
+                AttractionTypeId = a.AttractionTypeId,
+                AttractionCode = a.AttractionCode,
+                AttractionName = a.AttractionName,
+            }).ToList();
+
+            return dictionaryAttractionType;
+        }
+        public int GetDictionaryAttractionTypeCount()
+        {
+            return _dbContext.DictionaryAttractionType.Count();
+        }
+        public List<DictionaryAttractionType> GetDictionaryAttractionTypeFilterPage(int page, int pageSize, string txtboxAttractionName)
+        {
+            IQueryable<DictionaryAttractionType> queryable = _dbContext.DictionaryAttractionType;
+            if (!string.IsNullOrWhiteSpace(txtboxAttractionName))
+            {
+                queryable = queryable.Where(a => a.AttractionName.Contains(txtboxAttractionName));
+            }
+            queryable = queryable.Select(a => new DictionaryAttractionType()
+            {
+                AttractionTypeId = a.AttractionTypeId,
+                AttractionCode = a.AttractionCode,
+                AttractionName = a.AttractionName,
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
         }
     }
 
