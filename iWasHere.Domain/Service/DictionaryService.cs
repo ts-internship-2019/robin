@@ -187,17 +187,24 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCounty.Count();
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize)
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
         {
-            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
+            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty;
+
+            if (!string.IsNullOrWhiteSpace(txtboxCountyName))
+            {
+                queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
+            }
+            queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
             {
                 CountyId = a.CountyId,
                 CountyName = a.CountyName,
                 CountryId = a.CountryId
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCounty;
+            return queryableCounty.ToList();
         }
+
     }
 
 }

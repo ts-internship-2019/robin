@@ -20,11 +20,11 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult County_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult County_Read([DataSourceRequest] DataSourceRequest request, string txtboxCountyName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryCountyCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize, txtboxCountyName);
 
             return Json(tempDataSourceResult);
 
