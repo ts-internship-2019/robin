@@ -1,5 +1,7 @@
 ﻿@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>()
         .Name("CurrencyGrid")
+        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+        .Pageable()
         .Columns(columns =>
         {
             columns.Bound(c => c.CurrencyId).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false))).Width(225);
