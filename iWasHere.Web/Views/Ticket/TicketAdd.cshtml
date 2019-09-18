@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ticket</title>
+
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="row">
+        <div class="col-xl-6 col-sm-10 offset-sm-3">
+            <div class="card">
+                <div class="card-block">
+                    <form class="k-form">
+                        <fieldset>
+                            <legend>Adauga tip de bilet</legend>
+
+                            <label class="k-form-field">
+                                <span>Nume Tipului de Bilet: </span>
+                                <input class="k-textbox" placeholder="Numele Biletului" />
+                            </label>
+                            <label class="k-form-field">
+                                <span>Codul tipului de bilet: </span>
+                                <input class="k-textbox" value="nimic" placeholder="Codul Biletului" />
+                            </label> 
+                        </fieldset>
+                        <fieldset>
+                            <legend>PlaceHolder pentru COMBOBOX</legend>
+                            <label class="k-form-field">
+                                <span>Selecteaza ceva</span>
+                                @(Html.Kendo().ComboBox()
+                                    .Name("fabric")
+                                    .Filter("contains")
+                                    .Placeholder("Select fabric...")
+                                    .DataTextField("Text")
+                                    .DataValueField("Value")
+                                    .BindTo(new List<SelectListItem>() {
+                                        new SelectListItem() {
+                                          Text = "Aici", Value = "1"
+                                        },
+                                        new SelectListItem() {
+                                          Text = "Trebuie", Value = "2"
+                                        },
+                                        new SelectListItem() {
+                                          Text = "Legatura Cu", Value = "3"
+                                        },
+                                        new SelectListItem() {
+                                          Text = "Baza", Value = "4"
+                                        }
+                                    })
+                                    .SelectedIndex(3)
+                                    .Suggest(true)
+                                    .HtmlAttributes(new { style = "width:100%;" })
+
+                                                        )
+                            </label>
+                        </fieldset>
+
+                        <div class="text-right">
+                            <button type="button" class="k-button k-primary">Anuleaza</button>
+                            <button type="button" class="k-button">Salveaza</button>
+                            <button type="button" class="k-button">Salveaza si nou</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
