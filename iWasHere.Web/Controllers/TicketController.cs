@@ -20,14 +20,20 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult Ticket()
         {
-           // List<DictionaryTicketTypeModel> dictionaryTicketTypeModels = _dictionaryService.GetDictionaryTicketType();
-            List<DictionaryTicketType> dictionaryTicketType = _dictionaryService.GetDictionaryTicketType();
-            return View(dictionaryTicketType);
+            return View();
         }
 
         public ActionResult TicketTypeRead([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_dictionaryService.GetDictionaryTicketType().ToDataSourceResult(request));
+            DataSourceResult tempDataSourceResult = new DataSourceResult();
+            tempDataSourceResult.Total = _dictionaryService.GetDictionaryTicketTypeCount();
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryTicketTypePage(request.Page, request.PageSize);
+
+            return Json(tempDataSourceResult);
+        }
+        public IActionResult TicketAdd()
+        {
+            return View();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
+﻿
+@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
         .Name("CountyGrid")
         .Columns(columns =>
         {
@@ -8,8 +9,10 @@
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
-        .Groupable()
+        //.Groupable()
+        //.Filterable(ftb => ftb.Mode(GridFilterMode.Row))
         .Sortable()
+        .Pageable()
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read(read => read.Action("County_Read", "DictionaryCounty"))

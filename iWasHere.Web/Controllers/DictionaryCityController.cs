@@ -22,14 +22,16 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult City_Read([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_dictionaryService.GetDictionaryCity().ToDataSourceResult(request));
+            DataSourceResult tempDataSourceResult = new DataSourceResult();
+            
+            tempDataSourceResult.Total =_dictionaryService.GetDictionaryCityCount();
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCityPage(request.Page,request.PageSize);
+            return Json(tempDataSourceResult);
         }
 
         public IActionResult City()
         {
-            List<Domain.Models.DictionaryCity> dictionaryCities = _dictionaryService.GetDictionaryCity();
-
-            return View(dictionaryCities);
+            return View();
         }
     }
 }
