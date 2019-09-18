@@ -20,12 +20,12 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult Currency_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Currency_Read([DataSourceRequest] DataSourceRequest request, string txtboxCurrencyName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
 
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryCurrencyCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCurrencyPage(request.Page, request.PageSize);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCurrencyFilterPage(request.Page, request.PageSize, txtboxCurrencyName);
             return Json(tempDataSourceResult);
 
 

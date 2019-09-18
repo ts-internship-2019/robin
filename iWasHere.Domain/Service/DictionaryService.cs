@@ -139,16 +139,21 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCurrency.Count();
         }
-        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
+        public List<DictionaryCurrency> GetDictionaryCurrencyFilterPage(int page, int pageSize, string txtboxCurrencyName)
         {
-            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+            if (!string.IsNullOrWhiteSpace(txtboxCurrencyName))
+            {
+                queryable = queryable.Where(a => a.CurrencyName.Contains(txtboxCurrencyName));
+            }
+            queryable = queryable.Select(a => new DictionaryCurrency()
             {
                 CurrencyId = a.CurrencyId,
                 CurrencyCode = a.CurrencyCode,
                 CurrencyName = a.CurrencyName
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCurrency;
+            return queryable.ToList();
         }
 
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
