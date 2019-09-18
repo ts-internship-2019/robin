@@ -116,7 +116,7 @@ namespace iWasHere.Domain.Service
         }
         public int GetDictionaryCurrencyCount()
         {
-            return _dbContext.DictionaryTicketType.Count();
+            return _dbContext.DictionaryCurrency.Count();
         }
         public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
         {
