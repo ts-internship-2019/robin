@@ -1,5 +1,7 @@
 ﻿@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>()
         .Name("CurrencyGrid")
+        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+        .Pageable()
         .Columns(columns =>
         {
             columns.Bound(c => c.CurrencyId).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false))).Width(225);
@@ -8,9 +10,9 @@
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
-        .Groupable()
-        .Sortable()
-        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+       // .Groupable()
+       // .Sortable()
+       // .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read(read => read.Action("Currency_Read", "DictionaryCurrency"))
