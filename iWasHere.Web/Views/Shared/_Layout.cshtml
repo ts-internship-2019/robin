@@ -77,27 +77,44 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Country">Country</a>
+                        <li>
+                            <ul id="menu">
+                                <li id="Item1">
+                                    Meniu
+                                    <ul>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="County">County</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Country">Country</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCity" asp-action="City">City</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Ticket">Tip de bilet</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Currency">Tip Valuta</a></li>
+                                        <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryLandmarkType" asp-action="LandmarkDetails">Detalii Atractie</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="County">County</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCity" asp-action="City">City</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Ticket">Tip de bilet</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Currency">Tip Valuta</a>
-                        </li>
-                        <li class="nav-item">
-                            @*<a class="nav-link text-dark" asp-area="" asp-controller="LandmarkDetails" asp-action="LandmarkDetails">Detalii Atractie</a>*@
-                            <a class="nav-link text-dark" asp-area="" asp-controller="DictionaryLandmarkType" asp-action="LandmarkDetails">Detalii Atractie</a>
+                        @* <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Country">Country</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="County">County</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCity" asp-action="City">City</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Ticket">Tip de bilet</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Currency">Tip Valuta</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="LandmarkDetails" asp-action="LandmarkDetails">Detalii Atractie</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="DictionaryLandmarkType" asp-action="LandmarkDetails">Detalii Atractie</a>
 
-                        </li>
+        </li>*@
+
                     </ul>
+                    
                 </div>
             </div>
         </nav>
@@ -144,6 +161,12 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script>
+        $("#menu").kendoMenu();
+        var menu = $("#menu").data("kendoMenu");
+            //menu.open("#Item1");
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>
