@@ -42,11 +42,11 @@
         columns.Bound(c => c.AttractionCode);
         columns.Bound(c => c.AttractionName);
         })
-        .HtmlAttributes(new { id = "AttractionGrid", style = "height: 550px;" })
+        .HtmlAttributes(new { id = "AttractionTypeGrid", style = "height: 550px;" })
         .Scrollable()
         .DataSource(dataSource => dataSource
         .Ajax()
-        .Read(read => read.Action("Attraction_Read", "DictionaryAttractionType").Data("getFilter"))
+        .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
         .PageSize(20)
         )
     )
