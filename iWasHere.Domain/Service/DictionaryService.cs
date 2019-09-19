@@ -240,6 +240,12 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
+        //public int ModificaValuta(DictionaryCurrency ValutaModificata)
+        //{
+        //    _dbContext.DictionaryCurrency.Update(ValutaModificata);
+        //    return _dbContext.SaveChanges();
+        //}
+
         public string Currency_DestroyId(int id)
         {
             try
