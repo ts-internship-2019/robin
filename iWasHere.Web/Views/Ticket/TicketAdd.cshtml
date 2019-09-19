@@ -15,46 +15,22 @@
                 <div class="card-block">
                     <form class="k-form">
                         <fieldset>
-                            <legend>Adauga tip de bilet</legend>
+                            <p id="ticketAddTitle">Test</p>
 
                             <label class="k-form-field">
                                 <span>Nume Tipului de Bilet: </span>
-                                <input class="k-textbox" placeholder="Numele Biletului" />
+                                @(Html.Kendo().TextBox()
+                                 .Name("inputTicketTypeCode")
+                                 .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox" })
+                                )
                             </label>
                             <label class="k-form-field">
-                                <span>Codul tipului de bilet: </span>
-                                <input class="k-textbox" value="nimic" placeholder="Codul Biletului" />
-                            </label> 
-                        </fieldset>
-                        <fieldset>
-                            <legend>PlaceHolder pentru COMBOBOX</legend>
-                            <label class="k-form-field">
-                                <span>Selecteaza ceva</span>
-                                @(Html.Kendo().ComboBox()
-                                    .Name("fabric")
-                                    .Filter("contains")
-                                    .Placeholder("Select fabric...")
-                                    .DataTextField("Text")
-                                    .DataValueField("Value")
-                                    .BindTo(new List<SelectListItem>() {
-                                        new SelectListItem() {
-                                          Text = "Aici", Value = "1"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Trebuie", Value = "2"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Legatura Cu", Value = "3"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Baza", Value = "4"
-                                        }
-                                    })
-                                    .SelectedIndex(3)
-                                    .Suggest(true)
-                                    .HtmlAttributes(new { style = "width:100%;" })
+                                <span>Codul tipului de Bilet: </span>
+                                @(Html.Kendo().TextBox()
+                                    .Name("inputTicketTypeName")
+                                    .HtmlAttributes(new { id = "textBoxTicketTypeName", type = "textbox" })
+                                )
 
-                                                        )
                             </label>
                         </fieldset>
 
@@ -70,5 +46,23 @@
         </div>
     </div>
 
+
+
+    <script type="text/javascript">
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var c = url.searchParams.get("Id");
+        // alert(c); // alert pentru verificarea id-ului
+        //c ia valoarea id-ului
+        if (c == 0) {
+            var test = document.getElementById("ticketAddTitle").innerHTML = "Adauga un tip nou de bilet";
+
+        } else {
+            var test = document.getElementById("ticketAddTitle").innerHTML = "Editeaza bilet";
+
+            $("#textBoxTicketTypeCode").val(c);
+
+        }
+    </script>
 </body>
 </html>

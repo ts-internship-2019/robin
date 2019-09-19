@@ -196,11 +196,11 @@ namespace iWasHere.Domain.Models
 
                 entity.Property(e => e.CityName).HasMaxLength(255);
 
-                entity.HasOne(d => d.City)
-                    .WithOne(p => p.DictionaryCity)
-                    .HasForeignKey<DictionaryCity>(d => d.CityId)
+                entity.HasOne(d => d.County)
+                    .WithMany(p => p.DictionaryCity)
+                    .HasForeignKey(d => d.CountyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Dictionar__CityI__16CE6296");
+                    .HasConstraintName("FK__Dictionar__Count__2DB1C7EE");
             });
 
             modelBuilder.Entity<DictionaryCountry>(entity =>
