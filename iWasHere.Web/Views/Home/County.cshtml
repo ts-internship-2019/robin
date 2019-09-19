@@ -29,6 +29,7 @@
             columns.Bound(c => c.CountyId);
             columns.Bound(c => c.CountyName);
             columns.Bound(c => c.CountryId);
+            columns.Bound(c => c.Country.CountryName);
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()

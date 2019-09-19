@@ -10,6 +10,6 @@ namespace iWasHere.Domain.Models
         public int CountryId { get; set; }
 
         public virtual DictionaryCountry Country { get; set; }
-        public virtual DictionaryCity DictionaryCity { get; set; }
+        public virtual ICollection<DictionaryCity> DictionaryCity { get; set; }
     }
 }

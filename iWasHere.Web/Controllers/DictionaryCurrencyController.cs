@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace iWasHere.Web.Controllers
 {
+
     public class DictionaryCurrencyController : Controller
     {
         private readonly DictionaryService _dictionaryService;
@@ -19,8 +20,14 @@ namespace iWasHere.Web.Controllers
         {
             _dictionaryService = dictionaryService;
         }
+        //added 18 sep pentru butonul de ADD, am facut new folder cu Add si Index in DictionaryCurrency
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-        public ActionResult Currency_Read([DataSourceRequest] DataSourceRequest request, string txtboxCurrencyName)  
+
+        public ActionResult Currency_Read([DataSourceRequest] DataSourceRequest request, string txtboxCurrencyName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
 
@@ -28,15 +35,23 @@ namespace iWasHere.Web.Controllers
             tempDataSourceResult.Data = _dictionaryService.GetDictionaryCurrencyFilterPage(request.Page, request.PageSize, txtboxCurrencyName);
             return Json(tempDataSourceResult);
 
-
-            //return Json(_dictionaryService.GetDictionaryCurrency().ToDataSourceResult(request));
         }
 
-        public IActionResult Currency()
-        {
-          //  List<Domain.Models.DictionaryCurrency> dictionaryCurrency = _dictionaryService.GetDictionaryCurrency();
+       
 
-            return View();  //dictionaryCurrency inside View
+        [HttpGet]
+        public IActionResult Add()
+        {
+
+
+            return View("AddCurrency");
+        }
+        [HttpPost]
+        public IActionResult AddValuta(DictionaryCurrency modelValuta)
+        {
+            var result = _dictionaryService.AdaugaValuta(modelValuta);
+
+            return View("Index");
         }
     }
 }
