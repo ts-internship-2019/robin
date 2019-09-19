@@ -173,6 +173,12 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
+        public int AdaugaValuta(DictionaryCurrency ValutaAdaugata)
+        {
+            _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
+            return _dbContext.SaveChanges();
+        }
+
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
