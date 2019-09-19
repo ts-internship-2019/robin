@@ -290,6 +290,14 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryLandmarkType.Count();
         }
 
+
+         public int AddNewLandmarkDetails(DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            _dbContext.DictionaryLandmarkType.Add(dictionaryLandmarkType);
+            return _dbContext.SaveChanges();
+        }
+
+
         //Metode DictionaryAvailability
        
         public List<DictionaryAvailability> GetDictionaryAvailabilityFilterPage(int page, int pageSize, string txtboxAvailabilityName)
@@ -357,6 +365,16 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryAttractionType.Count();
         }
+
+
+        public int AddNewAttractionType(DictionaryAttractionType dictionaryAttractionType)
+        {
+            _dbContext.DictionaryAttractionType.Add(dictionaryAttractionType);
+            return _dbContext.SaveChanges();
+        }
+
+
+
 
         public string LandmarkType_DestroyId(int id)
         {
