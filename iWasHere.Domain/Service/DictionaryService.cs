@@ -80,7 +80,7 @@ namespace iWasHere.Domain.Service
             {
                 queryable = queryable.Where(a => a.CityName.Contains(txtboxCityName));
             }
-            if (cmbboxCountyId>=0)
+            if (cmbboxCountyId>0)
             {
                 queryable = queryable.Where(a => a.County.CountyId==(cmbboxCountyId));
             }
