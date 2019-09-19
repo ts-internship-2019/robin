@@ -57,6 +57,20 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+
+        public string Country_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCountry.Single(a => a.CountryId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta tara nu poate fi stearsa.";
+            }
+        }
         //Metode DictionaryCity
         public List<DictionaryCity> GetDictionaryCity()
         {
@@ -232,14 +246,13 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
-        //Metode DictionaryLandmarkType
 
         public int AdaugaValuta(DictionaryCurrency ValutaAdaugata)
         {
             _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
             return _dbContext.SaveChanges();
         }
-
+        //Metode DictionaryLandmarkType
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
@@ -285,6 +298,20 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
+        public string LandmarkType_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi stearsa.";
+            }
+        }
+
         public int GetDictionaryLandmarkTypeCount()
         {
             return _dbContext.DictionaryLandmarkType.Count();
@@ -324,6 +351,20 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryAvailability.Count();
         }
+
+        public string Availability_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryAvailability.Single(a => a.AvailabilityId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceast program nu poate fi sters.";
+            }
+        }
         //Metode DictionaryAttractionType
         public List<DictionaryAttractionType> GetDictionaryAttractionTypeFilterPage(int page, int pageSize, string txtboxAttractionName)
         {
@@ -357,22 +398,6 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryAttractionType.Count();
         }
-
-        public string LandmarkType_DestroyId(int id)
-        {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest Landmark nu poate fi stearsa.";
-            }
-        }
-
-
 
         public string AttractionType_DestroyId(int id)
         {
