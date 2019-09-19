@@ -53,5 +53,28 @@ namespace iWasHere.Web.Controllers
 
             return View("Index");
         }
+
+        public ActionResult Currency_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCurrency dictionaryCurrency)
+        {
+            if (dictionaryCurrency != null)
+            {
+                string CurrencyType = _dictionaryService.Currency_DestroyId(dictionaryCurrency.CurrencyId);
+
+                if (string.IsNullOrWhiteSpace(CurrencyType))
+                {
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", CurrencyType);
+                    return Json(ModelState.ToDataSourceResult());
+                }
+            }
+            else if (dictionaryCurrency != null)
+            { }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
     }
 }

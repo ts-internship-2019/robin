@@ -256,6 +256,20 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
+        public string Currency_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
+        }
+
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
@@ -379,6 +393,22 @@ namespace iWasHere.Domain.Service
             try
             {
                 _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi stearsa.";
+            }
+        }
+
+
+
+        public string AttractionType_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryAttractionType.Single(a => a.AttractionTypeId == id));
                 _dbContext.SaveChanges();
                 return null;
             }
