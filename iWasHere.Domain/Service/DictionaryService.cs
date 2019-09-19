@@ -87,12 +87,16 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCity.Count();
         }
-        public List<DictionaryCity> GetDictionaryCityFilterPage(int page, int pageSize, string txtboxCityName)
+        public List<DictionaryCity> GetDictionaryCityFilterPage(int page, int pageSize, string txtboxCityName, int cmbboxCountyId)
         {
             IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity.Include(c=>c.County);
             if (!string.IsNullOrWhiteSpace(txtboxCityName))
             {
                 queryable = queryable.Where(a => a.CityName.Contains(txtboxCityName));
+            }
+            if (cmbboxCountyId>0)
+            {
+                queryable = queryable.Where(a => a.County.CountyId==(cmbboxCountyId));
             }
             queryable = queryable.Select(a => new DictionaryCity()
             {
@@ -101,6 +105,18 @@ namespace iWasHere.Domain.Service
                 CountyId = a.CountyId,
                 County = a.County
             }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+        public List<DictionaryCounty> GetCmbCounty()
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            });
 
             return queryable.ToList();
         }
@@ -252,7 +268,21 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
             return _dbContext.SaveChanges();
         }
-        //Metode DictionaryLandmarkType
+
+        public string Currency_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
+        }
+
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()

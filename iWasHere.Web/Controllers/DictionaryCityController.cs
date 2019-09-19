@@ -20,13 +20,18 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult City_Read([DataSourceRequest] DataSourceRequest request,string txtboxCityName)
+        public ActionResult City_Read([DataSourceRequest] DataSourceRequest request,string txtboxCityName, int cmbboxCountyName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
 
             tempDataSourceResult.Total =_dictionaryService.GetDictionaryCityCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCityFilterPage(request.Page,request.PageSize, txtboxCityName);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCityFilterPage(request.Page,request.PageSize, txtboxCityName, cmbboxCountyName);
             return Json(tempDataSourceResult);
+        }
+
+        public ActionResult cmbCounty([DataSourceRequest] DataSourceRequest request, string cmbCountyName)
+        {
+            return Json(_dictionaryService.GetCmbCounty());
         }
 
         public IActionResult City()
