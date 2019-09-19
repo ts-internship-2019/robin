@@ -319,6 +319,20 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryAttractionType.Count();
         }
+
+        public string LandmarkType_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
+        }
     }
 
 }
