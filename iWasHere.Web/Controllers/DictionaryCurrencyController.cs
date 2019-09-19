@@ -25,7 +25,7 @@ namespace iWasHere.Web.Controllers
             DataSourceResult tempDataSourceResult = new DataSourceResult();
 
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryCurrencyCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCurrencyFilterPage(request.Page, request.PageSize, txtboxCurrencyName);
+            //tempDataSourceResult.Data = _dictionaryService.GetDictionaryCurrencyFilterPage(request.Page, request.PageSize, txtboxCurrencyName);
             return Json(tempDataSourceResult);
 
 
