@@ -31,6 +31,7 @@
     columns.Bound(c => c.CityId);
     columns.Bound(c => c.CityName);
     columns.Bound(c => c.CountyId);
+    columns.Bound(c => c.County.CountyName);
     })
     .HtmlAttributes(new { id="cityGrid", style = "height: 550px;" })
     .Scrollable()
