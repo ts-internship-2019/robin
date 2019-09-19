@@ -69,7 +69,7 @@ namespace iWasHere.Domain.Service
         }
         public List<DictionaryCity> GetDictionaryCityFilterPage(int page, int pageSize,string txtboxCityName)
         {
-            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity.Include(c=>c.County);
             if (!string.IsNullOrWhiteSpace(txtboxCityName))
             {
                 queryable = queryable.Where(a => a.CityName.Contains(txtboxCityName));
@@ -78,7 +78,8 @@ namespace iWasHere.Domain.Service
             {
                 CityId = a.CityId,
                 CityName = a.CityName,
-                CountyId = a.CountyId
+                CountyId = a.CountyId,
+                County = a.County
             }).Skip((page - 1) * pageSize).Take(pageSize);
 
             return queryable.ToList();
@@ -214,9 +215,6 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-
-
-
         public int GetDictionaryLandmarkTypeCount()
         {
             return _dbContext.DictionaryLandmarkType.Count();
@@ -242,7 +240,6 @@ namespace iWasHere.Domain.Service
                 CountryId = a.CountryId,
                 Country = a.Country
             }).Skip((page - 1) * pageSize).Take(pageSize);
-            //queryableCounty = queryableCounty.Include(c => c.Country/*"CountryName"/*b => b.Country.CountryName).Where(b=>b.CountryId==a.CountryId*/);
 
             return queryableCounty.ToList();
         }
