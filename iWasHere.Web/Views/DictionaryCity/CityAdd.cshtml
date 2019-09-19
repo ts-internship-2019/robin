@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Oras</title>
+
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="row">
+        <div class="col-xl-6 col-sm-10 offset-sm-3">
+            <div class="card">
+                <div class="card-block">
+                    <form class="k-form">
+                        <fieldset>
+                            <p id="cityAddTitle">Test</p>
+
+                            <label class="k-form-field">
+                                <span>Nume oras: </span>
+                                @(Html.Kendo().TextBox()
+                                 .Name("inputCityName")
+                                 .HtmlAttributes(new { id = "textBoxCityName", type = "textbox" })
+                                )
+                            </label>
+                            <label class="k-form-field">
+                                <span>Judet</span>
+                                @(Html.Kendo().TextBox()
+                                    .Name("inputCountyId")
+                                    .HtmlAttributes(new { id = "textBoxCountyId", type = "textbox" })
+                                )
+
+                            </label>
+                        </fieldset>
+
+                        <div class="text-right">
+                            <button type="button" class="k-button k-primary">Anuleaza</button>
+                            <button type="button" class="k-button">Salveaza</button>
+                            <button type="button" class="k-button">Salveaza si nou</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var c = url.searchParams.get("Id");
+        // alert(c); // alert pentru verificarea id-ului
+        //c ia valoarea id-ului
+        if (c == 0) {
+            var test = document.getElementById("cityAddTitle").innerHTML = "Adauga un oras nou";
+
+        } else {
+            var test = document.getElementById("cityAddTitle").innerHTML = "Editeaza oras";
+
+            $("#textBoxCityName").val(c);
+
+        }
+    </script>
+</body>
+</html>

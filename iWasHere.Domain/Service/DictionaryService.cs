@@ -94,6 +94,20 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+
+        public string City_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest oras nu poate fi sters.";
+            }
+        }
         public List<DictionaryCounty> GetCmbCounty()
         {
             IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;

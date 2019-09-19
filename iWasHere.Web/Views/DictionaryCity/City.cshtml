@@ -1,60 +1,85 @@
-﻿@(Html.Kendo().Button()
-        .Name("iconTextButton")
-        .Tag("a")
-        .Icon("filter")
-        .Content("Filtreaza")
-        .HtmlAttributes(new { id = "btnFilter", type = "button" })
-        .Events(e => e.Click("refresh"))
-)
+﻿<!DOCTYPE html>
+<head>
 
-@(Html.Kendo().Button()
-        .Name("kendoIconTextButton")
-        .Tag("a")
-        .Icon("filter-clear")
-        .Content("Sterge filtru")
-        .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
-        .Events(e => e.Click("removeFilter"))
-)
-
-@(Html.Kendo().TextBox()
-    .Name("inputCityNameFilter")
-    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
-)
-
-@(Html.Kendo().ComboBox()
-          .Name("countyFilter")
-          .DataTextField("CountyName")
-          .DataValueField("CountyId")
-          .DataSource(source =>
-              {
-                  source.Read(read =>
-                  {
-                      read.Action("cmbCounty", "DictionaryCity");
-              });
-          })
-          .HtmlAttributes(new { id="cmbCountyFilter"/*, style = "width: 100%" */})
-)
-<br /><br />
-@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCity>
-    ()
-    .Name("CityGrid")
-    .Pageable()
-    .Columns(columns =>
-    {
-    columns.Bound(c => c.CityId);
-    columns.Bound(c => c.CityName);
-    columns.Bound(c => c.CountyId);
-    columns.Bound(c => c.County.CountyName);
-    })
-    .HtmlAttributes(new { id = "cityGrid", style = "height: 550px;" })
-    .Scrollable()
-    .DataSource(dataSource => dataSource
-    .Ajax()
-    .Read(read => read.Action("City_Read", "DictionaryCity").Data("getFilter"))
-    .PageSize(20)
+    <meta name="viewport" content="width=device-width" />
+    <title>Oras</title>
+    <style>
+        p {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+    <p>
+    Nume oras:
+    @(Html.Kendo().TextBox()
+        .Name("inputCityNameFilter")
+        .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
-)
+    </p>
 
+    <p>
+        Nume judet:
+        @(Html.Kendo().ComboBox()
+                  .Name("countyFilter")
+                  .DataTextField("CountyName")
+                  .DataValueField("CountyId")
+                  .DataSource(source =>
+                      {
+                          source.Read(read =>
+                          {
+                              read.Action("cmbCounty", "DictionaryCity");
+                      });
+                  })
+                  .HtmlAttributes(new { id = "cmbCountyFilter"/*, style = "width: 100%" */})
+        )
+
+    </p>
+
+    @(Html.Kendo().Button()
+            .Name("iconTextButton")
+            .Tag("a")
+            .Icon("filter")
+            .Content("Filtreaza")
+            .HtmlAttributes(new { id = "btnFilter", type = "button" })
+            .Events(e => e.Click("refresh"))
+    )
+
+    @(Html.Kendo().Button()
+            .Name("kendoIconTextButton")
+            .Tag("a")
+            .Icon("filter-clear")
+            .Content("Sterge filtru")
+            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+            .Events(e => e.Click("removeFilter"))
+    )
+    <br />
+    <br />
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCity>
+        ()
+        .Name("CityGrid")
+        .Pageable()
+        .Columns(columns =>
+        {
+        columns.Bound(c => c.CityId);
+        columns.Bound(c => c.CityName).Title("Oras");
+        columns.Bound(c => c.CountyId);
+        columns.Bound(c => c.County.CountyName).Title("Judet");
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+        })
+        .HtmlAttributes(new { id = "cityGrid", style = "height: 550px;" })
+        .Scrollable()
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Model(model => model.Id(p => p.CityId))
+        .Read(read => read.Action("City_Read", "DictionaryCity").Data("getFilter"))
+        //.Update(update => update.Action("LandmarkType_Update", "DictionaryLandmarkType"))
+        .Destroy(destroy => destroy.Action("City_Destroy", "DictionaryCity"))
+        .PageSize(20)
+        )
+    )
+</body>
 <script>
 
     getFilter = function () {
@@ -75,4 +100,12 @@
         $("#cityGrid").data("kendoGrid").dataSource.page(1);
     }
 
+    saveChanges = function () {
+            grid = $("#CityGrid").data("kendoGrid");
+            grid.removeRow($(element).closest("tr"));
+            grid.dataSource.sync();
+        }
+
 </script>
+
+</html>
