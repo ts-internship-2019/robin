@@ -203,20 +203,40 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public List<DictionaryTicketType> GetDictionaryTicketTypeById(string txtTicketTypeId)
+        public DictionaryTicketType GetDictionaryTicketTypeById(int txtTicketTypeId)
         {
             IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
-            queryable = queryable.Where(a => a.TicketTypeId.Equals(Convert.ToInt32(txtTicketTypeId)));
+            queryable = queryable.Where(a => a.TicketTypeId.Equals(txtTicketTypeId));
             queryable = queryable.Select(a => new DictionaryTicketType()
+           
             {
                 TicketTypeId = a.TicketTypeId,
                 TicketCode = a.TicketCode,
                 TicketName = a.TicketName
             });
-
-            return queryable.ToList();
+          
+            return queryable.FirstOrDefault();
+        }
+        public int UpdateTicketType(DictionaryTicketType dictType)
+        {
+        
+             _dbContext.DictionaryTicketType.Update(dictType);
+            return _dbContext.SaveChanges();
         }
 
+        public string UpdateTicketTypeId(int id)
+        {
+            try
+            {
+                _dbContext.Update(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
+        }
 
         #endregion
         public List<DictionaryCurrency> GetDictionaryCurrency()
@@ -268,6 +288,12 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
             return _dbContext.SaveChanges();
         }
+
+        //public int ModificaValuta(DictionaryCurrency ValutaModificata)
+        //{
+        //    _dbContext.DictionaryCurrency.Update(ValutaModificata);
+        //    return _dbContext.SaveChanges();
+        //}
 
         public string Currency_DestroyId(int id)
         {
@@ -346,6 +372,14 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryLandmarkType.Count();
         }
+
+
+         public int AddNewLandmarkDetails(DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            _dbContext.DictionaryLandmarkType.Add(dictionaryLandmarkType);
+            return _dbContext.SaveChanges();
+        }
+
 
         //Metode DictionaryAvailability
        
@@ -427,6 +461,30 @@ namespace iWasHere.Domain.Service
         public int GetDictionaryAttractionTypeCount()
         {
             return _dbContext.DictionaryAttractionType.Count();
+        }
+
+
+        public int AddNewAttractionType(DictionaryAttractionType dictionaryAttractionType)
+        {
+            _dbContext.DictionaryAttractionType.Add(dictionaryAttractionType);
+            return _dbContext.SaveChanges();
+        }
+
+
+
+
+        public string LandmarkType_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi stearsa.";
+            }
         }
 
         public string AttractionType_DestroyId(int id)

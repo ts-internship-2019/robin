@@ -1,74 +1,58 @@
-﻿<!DOCTYPE html>
+﻿
+@model iWasHere.Domain.Models.DictionaryAttractionType
+@*--modelul pentru pagian este de tipul DictionaryCurrency*@
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Detalii Atractie</title>
+@{
+    ViewData["Title"] = "Adauga Atractie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-</head>
-<body>
-    <h1>@ViewData["Title"]</h1>
 
-    <div class="row">
-        <div class="col-xl-6 col-sm-10 offset-sm-3">
-            <div class="card">
-                <div class="card-block">
-                    <form class="k-form">
-                        <fieldset>
-                            <legend>Adauga un tip de atractie</legend>
+@using (Html.BeginForm("AddAttractionType", "DictionaryAttractionType", FormMethod.Post))
+//                --tot ce urmeaza aici, cand trimit post(pagina inapoi), se duce in actiunea AddValuta
+{
 
-                            <label class="k-form-field">
-                                <span>Tipul de atractie: </span>
-                                <input class="k-textbox" placeholder="Denumirea Tipului de Atractie" />
-                            </label>
-                            <label class="k-form-field">
-                                <span>Codul tipului de atractie: </span>
-                                <input class="k-textbox" value="nimic" placeholder="Codul Tip Atractie" />
-                            </label>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Detalii</legend>
-                            <label class="k-form-field">
-                                <span>Selecteaza ceva</span>
-                                @(Html.Kendo().ComboBox()
-                                    .Name("fabric")
-                                    .Filter("contains")
-                                    .Placeholder("Select fabric...")
-                                    .DataTextField("Text")
-                                    .DataValueField("Value")
-                                    .BindTo(new List<SelectListItem>() {
-                                        new SelectListItem() {
-                                          Text = "Aici", Value = "1"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Trebuie", Value = "2"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Legatura Cu", Value = "3"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Baza", Value = "4"
-                                        }
-                                    })
-                                    .SelectedIndex(3)
-                                    .Suggest(true)
-                                    .HtmlAttributes(new { style = "width:100%;" })
+    //    <!--<a href="/">modificat doar pentru un model, IEnumerable era pentru o lista de modele </a> -->
 
-                                )
-                            </label>
-                        </fieldset>
 
-                        <div class="text-right">
-                            <button type="button" class="k-button k-primary">Anuleaza</button>
-                            <button type="button" class="k-button">Salveaza</button>
-                            <button type="button" class="k-button">Salveaza si nou</button>
+    <h1>Adauga</h1>
 
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-</body>
-</html>
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.AttractionCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AttractionName)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+
+                <td>
+
+                    @Html.EditorFor(model => model.AttractionCode, new { htmlAttributes = new { @class = "form-control" } })
+
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.AttractionName, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="Salveaza Detalii" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+
+

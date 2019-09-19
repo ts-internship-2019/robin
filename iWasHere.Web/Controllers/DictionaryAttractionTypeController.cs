@@ -57,9 +57,22 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        public IActionResult AddAttractionType()
+
+        [HttpGet]
+        public IActionResult Add()
         {
-            return View();
+
+            return View("AddAttractionType");
         }
+
+
+
+        [HttpPost]
+        public IActionResult AddAttractionType(DictionaryAttractionType newAttractionType)
+        {
+            var result = _dictionaryService.AddNewAttractionType(newAttractionType);
+            return View("AttractionType");
+        }
+
     }
 }
