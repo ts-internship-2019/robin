@@ -26,6 +26,7 @@ namespace iWasHere.Domain.Service
 
             return dictionaryLandmarkTypeModels;
         }
+        // Metode DictionaryCountry
         public List<DictionaryCountry> GetDictionaryCountry()
         {
             List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
@@ -56,7 +57,7 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
-
+        //Metode DictionaryCity
         public List<DictionaryCity> GetDictionaryCity()
         {
             List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
@@ -89,7 +90,30 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+        //Metode DictionaryCounty
+        public int GetDictionaryCountyCount()
+        {
+            return _dbContext.DictionaryCounty.Count();
+        }
 
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
+        {
+            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
+
+            if (!string.IsNullOrWhiteSpace(txtboxCountyName))
+            {
+                queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
+            }
+            queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId,
+                Country = a.Country
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryableCounty.ToList();
+        }
         public List<DictionaryCounty> GetDictionaryCounty()
         {
             List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
@@ -208,6 +232,7 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+        //Metode DictionaryLandmarkType
 
         public int AdaugaValuta(DictionaryCurrency ValutaAdaugata)
         {
@@ -279,30 +304,8 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryLandmarkType.Count();
         }
 
-        public int GetDictionaryCountyCount()
-        {
-            return _dbContext.DictionaryCounty.Count();
-        }
-
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
-        {
-            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
-
-            if (!string.IsNullOrWhiteSpace(txtboxCountyName))
-            {
-                queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
-            }
-            queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
-            {
-                CountyId = a.CountyId,
-                CountyName = a.CountyName,
-                CountryId = a.CountryId,
-                Country = a.Country
-            }).Skip((page - 1) * pageSize).Take(pageSize);
-
-            return queryableCounty.ToList();
-        }
-
+        //Metode DictionaryAvailability
+       
         public List<DictionaryAvailability> GetDictionaryAvailabilityFilterPage(int page, int pageSize, string txtboxAvailabilityName)
         {
             IQueryable<DictionaryAvailability> queryable = _dbContext.DictionaryAvailability;
@@ -335,6 +338,7 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryAvailability.Count();
         }
+        //Metode DictionaryAttractionType
         public List<DictionaryAttractionType> GetDictionaryAttractionTypeFilterPage(int page, int pageSize, string txtboxAttractionName)
         {
             IQueryable<DictionaryAttractionType> queryable = _dbContext.DictionaryAttractionType;
@@ -373,6 +377,22 @@ namespace iWasHere.Domain.Service
             try
             {
                 _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi stearsa.";
+            }
+        }
+
+
+
+        public string AttractionType_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryAttractionType.Single(a => a.AttractionTypeId == id));
                 _dbContext.SaveChanges();
                 return null;
             }

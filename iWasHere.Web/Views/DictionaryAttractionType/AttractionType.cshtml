@@ -41,15 +41,24 @@
         columns.Bound(c => c.AttractionTypeId);
         columns.Bound(c => c.AttractionCode);
         columns.Bound(c => c.AttractionName);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
         })
         .HtmlAttributes(new { id = "AttractionTypeGrid", style = "height: 550px;" })
         .Scrollable()
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
         .Ajax()
+        .Model(model => model.Id(p => p.AttractionTypeId))
+        //CRUD
         .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
+        .Create(create => create.Action("AttractionType_Create", "DictionaryAttractionType"))
+        .Update(update => update.Action("AttractionType_Update", "DictionaryAttractionType"))
+        .Destroy(destroy => destroy.Action("AttractionType_Destroy", "DictionaryAttractionType"))
+
         .PageSize(20)
         )
     )
+    <p align="right"> <a href='/DictionaryAttractionType/AddAttractionType' class="k-button k-primary">Adauga un nou tip de atracție</a></p>
 
     <script>
 

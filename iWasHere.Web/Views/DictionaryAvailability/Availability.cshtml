@@ -36,10 +36,11 @@
     .Scrollable()
     .DataSource(dataSource => dataSource
     .Ajax()
-    .Read(read => read.Action("Availability_Read", "AvailabilityCity").Data("getFilter"))
+    .Read(read => read.Action("Availability_Read", "DictionaryAvailability").Data("getFilter"))
     .PageSize(20)
     )
 )
+<p align="right"> <a href='/DictionaryAvailability/AddAvailability' class="k-button k-primary">Adauga un nou program</a></p>
 
 <script>
 
