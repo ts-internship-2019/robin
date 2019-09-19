@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace iWasHere.Domain.Models
 {
@@ -14,7 +13,7 @@ namespace iWasHere.Domain.Models
         public string CityName { get; set; }
         public int CountyId { get; set; }
 
-        public virtual DictionaryCounty City { get; set; }
+        public virtual DictionaryCounty County { get; set; }
         public virtual ICollection<Landmark> Landmark { get; set; }
     }
 }

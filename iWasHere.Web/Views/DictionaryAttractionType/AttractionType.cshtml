@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Country</title>
+
+</head>
+<body>
+    <h1>@ViewData["AttractionType"]</h1>
+    @(Html.Kendo().Button()
+            .Name("iconTextButton")
+            .Tag("a")
+            .Icon("filter")
+            .Content("Filtreaza")
+            .HtmlAttributes(new { id = "btnFilter", type = "button" })
+            .Events(e => e.Click("refresh"))
+    )
+
+    @(Html.Kendo().Button()
+            .Name("kendoIconTextButton")
+            .Tag("a")
+            .Icon("filter-clear")
+            .Content("Sterge filtru")
+            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+            .Events(e => e.Click("removeFilter"))
+    )
+
+    @(Html.Kendo().TextBox()
+        .Name("inputAttractionNameFilter")
+        .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+    )
+
+
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>
+        ()
+        .Name("AttractionTypeGrid")
+        .Pageable()
+        .Columns(columns =>
+        {
+        columns.Bound(c => c.AttractionTypeId);
+        columns.Bound(c => c.AttractionCode);
+        columns.Bound(c => c.AttractionName);
+        })
+        .HtmlAttributes(new { id = "AttractionTypeGrid", style = "height: 550px;" })
+        .Scrollable()
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
+        .PageSize(20)
+        )
+    )
+    <p align="right"> <a href='/DictionaryAttractionType/AddAttractionType' class="k-button k-primary">Adauga un nou tip de atracție</a></p>
+
+    <script>
+
+        getFilter = function () {
+            var model = {};
+            model["txtboxAttractionName"] = $("#inputTextbox").val();
+            return model;
+        }
+
+        removeFilter = function () {
+            $("#inputTextbox").val("");
+            refresh();
+        }
+
+        refresh = function () {
+            $("#AttractionTypeGrid").data("kendoGrid").dataSource.read();
+            $("#AttractionTypeGrid").data("kendoGrid").dataSource.page(1);
+        }
+
+    </script>
+</body>
+</html>

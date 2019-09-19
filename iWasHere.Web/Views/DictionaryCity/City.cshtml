@@ -1,18 +1,63 @@
-﻿@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCity>()
-        .Name("CityGrid")
-        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
-        .Pageable()
-        .Columns(columns =>
-        {
-            columns.Bound(c => c.CityId);
-            columns.Bound(c => c.CityName);
-            columns.Bound(c => c.CountyId);
-        })
-        .HtmlAttributes(new { style = "height: 550px;" })
-        .Scrollable()
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read(read => read.Action("City_Read", "DictionaryCity"))
-            .PageSize(20)
+﻿@(Html.Kendo().Button()
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new {id="btnFilter", type = "button"})
+        .Events(e=>e.Click("refresh"))
         )
+
+@(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("filter-clear")
+        .Content("Sterge filtru")
+        .HtmlAttributes(new {id="btnResetFilter", type = "button"})
+        .Events(e=>e.Click("removeFilter"))
+        )
+
+@(Html.Kendo().TextBox()
+    .Name("inputCityNameFilter")
+    .HtmlAttributes(new {id="inputTextbox", type = "textbox"})
 )
+
+
+@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCity>
+    ()
+    .Name("CityGrid")
+    .Pageable()
+    .Columns(columns =>
+    {
+    columns.Bound(c => c.CityId);
+    columns.Bound(c => c.CityName);
+    columns.Bound(c => c.CountyId);
+    columns.Bound(c => c.County.CountyName);
+    })
+    .HtmlAttributes(new { id="cityGrid", style = "height: 550px;" })
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .Read(read => read.Action("City_Read", "DictionaryCity").Data("getFilter"))
+    .PageSize(20)
+    )
+    )
+
+    <script>
+
+        getFilter = function () {
+            var model = {};
+            model["txtboxCityName"] = $("#inputTextbox").val();
+            return model;
+        }
+
+        removeFilter = function () {
+            $("#inputTextbox").val("");
+            refresh();
+        }
+
+        refresh = function () {
+            $("#cityGrid").data("kendoGrid").dataSource.read();
+            $("#cityGrid").data("kendoGrid").dataSource.page(1);
+        }
+
+    </script>

@@ -23,12 +23,19 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        public ActionResult TicketTypeRead([DataSourceRequest] DataSourceRequest request)
+        public ActionResult TicketTypeRead([DataSourceRequest] DataSourceRequest request, string txtTicketTypeCode)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryTicketTypeCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryTicketTypePage(request.Page, request.PageSize);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryTicketTypeFilterPage(request.Page, request.PageSize, txtTicketTypeCode);
 
+            return Json(tempDataSourceResult);
+        }
+
+        public  ActionResult TicketTypeGetById([DataSourceRequest] DataSourceRequest request, string txtTicketTypeId)
+        {
+            DataSourceResult tempDataSourceResult = new DataSourceResult();
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryTicketTypeById(txtTicketTypeId);
             return Json(tempDataSourceResult);
         }
         public IActionResult TicketAdd()

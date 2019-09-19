@@ -8,14 +8,39 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
+    <p>
+        Cod Bilet :
+        @(Html.Kendo().TextBox()
+          .Name("inputTicketTypeCodeFilter")
+          .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox" })
+        )
+        @(Html.Kendo().Button()
+            .Name("iconTextButton")
+            .Tag("a")
+            .Icon("filter")
+            .Content("Filtreaza")
+            .HtmlAttributes(new { id = "btnFilter", type = "button" })
+            .Events(e => e.Click("refresh"))
+        )
+
+        @(Html.Kendo().Button()
+                .Name("kendoIconTextButton")
+                .Tag("a")
+                .Icon("filter-clear")
+                .Content("Sterge filtre")
+                .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+                .Events(e => e.Click("removeFilter"))
+        )
+
+    </p>
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryTicketType>()
-        .Name("grid")
+        .Name("ticketgrid")
         .Columns(columns =>
         {
             columns.Bound(c => c.TicketCode).Title("Cod bilet");
             columns.Bound(c => c.TicketName).Title("Denumire bilet");
-            columns.Template("<a class='k-button' href='/Ticket/TicketAdd'>Editeaza</a>").Width(150);
+            columns.Template("<a  class='k-button' href='/Ticket/TicketAdd?Id=#=TicketTypeId# '> Editeaza </a>").Width(150);
             columns.Template("<a class='k-button k-primary' href='/Home/Index'>Sterge</a>").Width(150);
             })
             .HtmlAttributes(new { style = "height: 550px;" })
@@ -29,12 +54,31 @@
             .DataSource(dataSource => dataSource
             .Ajax()
             .PageSize(20)
-            .Read(read => read.Action("TicketTypeRead", "Ticket"))
+            .Read(read => read.Action("TicketTypeRead", "Ticket").Data("getFilter"))
 
         )
     )
+ 
+    <script>
 
-<p align="right"> <a href='/Ticket/TicketAdd' class="k-button k-primary">Adauga un nou tip de bilet</a></p>
+        getFilter = function () {
+            var model = {};
+            model["txtTicketTypeCode"] = $("#textBoxTicketTypeCode").val();
+            return model;
+        }
 
+        removeFilter = function () {
+            $("#textBoxTicketTypeCode").val("");
+            refresh();
+        }
+
+        refresh = function () {
+            $("#ticketgrid").data("kendoGrid").dataSource.read();
+            $("#ticketgrid").data("kendoGrid").dataSource.page(1);
+        }
+
+    </script>
+    <p align="right"> <a href='/Ticket/TicketAdd?Id=0' class="k-button k-primary">Adauga un nou tip de bilet</a></p>
+   
 </body>
 </html>

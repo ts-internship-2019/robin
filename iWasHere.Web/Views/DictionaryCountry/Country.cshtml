@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Country</title>
+
+</head>
+<body>
+    <h1>@ViewData["Country"]</h1>
+    @(Html.Kendo().Button()
+            .Name("iconTextButton")
+            .Tag("a")
+            .Icon("filter")
+            .Content("Filtreaza")
+            .HtmlAttributes(new { id = "btnFilter", type = "button" })
+            .Events(e => e.Click("refresh"))
+    )
+
+    @(Html.Kendo().Button()
+            .Name("kendoIconTextButton")
+            .Tag("a")
+            .Icon("filter-clear")
+            .Content("Sterge filtru")
+            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+            .Events(e => e.Click("removeFilter"))
+    )
+
+    @(Html.Kendo().TextBox()
+        .Name("inputCountryNameFilter")
+        .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+    )
+
+
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCountry>
+        ()
+        .Name("CountryGrid")
+        .Pageable()
+        .Columns(columns =>
+        {
+        columns.Bound(c => c.CountryId);
+        columns.Bound(c => c.CountryName);
+        })
+        .HtmlAttributes(new { id = "CountryGrid", style = "height: 550px;" })
+        .Scrollable()
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .Read(read => read.Action("Country_Read", "DictionaryCountry").Data("getFilter"))
+        .PageSize(20)
+        )
+    )
+    <p align="right"> <a href='/DictionaryCountry/AddCountry' class="k-button k-primary">Adauga o noua tara</a></p>
+
+    <script>
+
+        getFilter = function () {
+            var model = {};
+            model["txtboxCountryName"] = $("#inputTextbox").val();
+            return model;
+        }
+
+        removeFilter = function () {
+            $("#inputTextbox").val("");
+            refresh();
+        }
+
+        refresh = function () {
+            $("#CountryGrid").data("kendoGrid").dataSource.read();
+            $("#CountryGrid").data("kendoGrid").dataSource.page(1);
+        }
+
+    </script>
+</body>
+</html>

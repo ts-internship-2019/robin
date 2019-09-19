@@ -1,5 +1,6 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace iWasHere.Domain.Service
 
             return dictionaryLandmarkTypeModels;
         }
+        // Metode DictionaryCountry
         public List<DictionaryCountry> GetDictionaryCountry()
         {
             List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
@@ -40,17 +42,22 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCountry.Count();
         }
 
-        public List<DictionaryCountry> GetDictionaryCountryPage(int page, int pageSize)
+        public List<DictionaryCountry> GetDictionaryCountryFilterPage(int page, int pageSize, string txtboxCountryName)
         {
-            List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
+            IQueryable<DictionaryCountry> queryable = _dbContext.DictionaryCountry;
+            if (!string.IsNullOrWhiteSpace(txtboxCountryName))
+            {
+                queryable = queryable.Where(a => a.CountryName.Contains(txtboxCountryName));
+            }
+            queryable = queryable.Select(a => new DictionaryCountry()
             {
                 CountryId = a.CountryId,
-                CountryName = a.CountryName
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                CountryName = a.CountryName,
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCountry;
+            return queryable.ToList();
         }
-
+        //Metode DictionaryCity
         public List<DictionaryCity> GetDictionaryCity()
         {
             List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
@@ -66,17 +73,46 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCity.Count();
         }
-
-        public List<DictionaryCity> GetDictionaryCityPage(int page,int pageSize)
+        public List<DictionaryCity> GetDictionaryCityFilterPage(int page, int pageSize, string txtboxCityName)
         {
-            List<DictionaryCity> dictionaryCity = _dbContext.DictionaryCity.Select(a => new DictionaryCity()
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity.Include(c=>c.County);
+            if (!string.IsNullOrWhiteSpace(txtboxCityName))
+            {
+                queryable = queryable.Where(a => a.CityName.Contains(txtboxCityName));
+            }
+            queryable = queryable.Select(a => new DictionaryCity()
             {
                 CityId = a.CityId,
                 CityName = a.CityName,
-                CountyId = a.CountyId
-            }).Skip((page-1) * pageSize).Take(pageSize).ToList();
+                CountyId = a.CountyId,
+                County = a.County
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCity;
+            return queryable.ToList();
+        }
+        //Metode DictionaryCounty
+        public int GetDictionaryCountyCount()
+        {
+            return _dbContext.DictionaryCounty.Count();
+        }
+
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
+        {
+            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
+
+            if (!string.IsNullOrWhiteSpace(txtboxCountyName))
+            {
+                queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
+            }
+            queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId,
+                Country = a.Country
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryableCounty.ToList();
         }
         public List<DictionaryCounty> GetDictionaryCounty()
         {
@@ -89,8 +125,8 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCounty;
         }
-    
-            public List<DictionaryTicketType> GetDictionaryTicketType()
+        #region tickettype
+        public List<DictionaryTicketType> GetDictionaryTicketType()
             {
                 List<DictionaryTicketType> dictionaryTickeTypeModel = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
                 {
@@ -100,8 +136,8 @@ namespace iWasHere.Domain.Service
                 
                 }).ToList();
 
-                return dictionaryTickeTypeModel;
-            }
+            return dictionaryTickeTypeModel;
+        }
         public int GetDictionaryTicketTypeCount()
         {
             return _dbContext.DictionaryTicketType.Count();
@@ -111,14 +147,48 @@ namespace iWasHere.Domain.Service
         {
             List<DictionaryTicketType> dictionaryTicketType = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
             {
-               TicketTypeId=a.TicketTypeId,
-               TicketCode=a.TicketCode,
-               TicketName=a.TicketName
+                TicketTypeId = a.TicketTypeId,
+                TicketCode = a.TicketCode,
+                TicketName = a.TicketName
             }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             return dictionaryTicketType;
         }
 
+          public List<DictionaryTicketType> GetDictionaryTicketTypeFilterPage(int page, int pageSize,string txtTicketTypeCode)
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            if (!string.IsNullOrWhiteSpace(txtTicketTypeCode))
+            {
+                queryable = queryable.Where(a => a.TicketCode.Contains(txtTicketTypeCode));
+            }
+           
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+               TicketTypeId=a.TicketTypeId,
+               TicketCode=a.TicketCode,
+               TicketName=a.TicketName
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+
+        public List<DictionaryTicketType> GetDictionaryTicketTypeById(string txtTicketTypeId)
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            queryable = queryable.Where(a => a.TicketTypeId.Equals(Convert.ToInt32(txtTicketTypeId)));
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+                TicketTypeId = a.TicketTypeId,
+                TicketCode = a.TicketCode,
+                TicketName = a.TicketName
+            });
+
+            return queryable.ToList();
+        }
+
+
+        #endregion
         public List<DictionaryCurrency> GetDictionaryCurrency()
         {
             List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
@@ -146,6 +216,30 @@ namespace iWasHere.Domain.Service
             return dictionaryCurrency;
         }
 
+        public List<DictionaryCurrency> GetDictionaryCurrencyFilterPage(int page, int pageSize, string txtboxCurrencyName)
+        {
+            IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+            if (!string.IsNullOrWhiteSpace(txtboxCurrencyName))
+            {
+                queryable = queryable.Where(a => a.CurrencyName.Contains(txtboxCurrencyName));
+            }
+            queryable = queryable.Select(a => new DictionaryCurrency()
+            {
+                CurrencyId = a.CurrencyId,
+                CurrencyCode = a.CurrencyCode,
+                CurrencyName = a.CurrencyName
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+        //Metode DictionaryLandmarkType
+
+        public int AdaugaValuta(DictionaryCurrency ValutaAdaugata)
+        {
+            _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
+            return _dbContext.SaveChanges();
+        }
+
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
@@ -159,17 +253,36 @@ namespace iWasHere.Domain.Service
             return dictionaryLandmarkType;
         }
 
-        public List<DictionaryLandmarkType> GetDictionaryLandmarkTypePage(int page, int pageSize)
+        //public List<DictionaryLandmarkType> GetDictionaryLandmarkTypePage(int page, int pageSize)
+        //{
+        //    List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+        //    {
+        //        ItemId = a.ItemId,
+        //        ItemCode = a.ItemCode,
+        //        ItemName = a.ItemName,
+        //        Description = a.Description
+        //    }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+        //    return dictionaryLandmarkType;
+
+        //}
+
+        public List<DictionaryLandmarkType> GetDictionaryLandmarkTypeFilterPage(int page, int pageSize, string txtboxItemName)
         {
-            List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
+            IQueryable<DictionaryLandmarkType> queryable = _dbContext.DictionaryLandmarkType;
+            if (!string.IsNullOrWhiteSpace(txtboxItemName))
+            {
+                queryable = queryable.Where(a => a.ItemName.Contains(txtboxItemName));
+            }
+            queryable = queryable.Select(a => new DictionaryLandmarkType()
             {
                 ItemId = a.ItemId,
                 ItemCode = a.ItemCode,
                 ItemName = a.ItemName,
                 Description = a.Description
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryLandmarkType;
+            return queryable.ToList();
         }
 
         public int GetDictionaryLandmarkTypeCount()
@@ -177,21 +290,86 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryLandmarkType.Count();
         }
 
-        public int GetDictionaryCountyCount()
+        //Metode DictionaryAvailability
+       
+        public List<DictionaryAvailability> GetDictionaryAvailabilityFilterPage(int page, int pageSize, string txtboxAvailabilityName)
         {
-            return _dbContext.DictionaryCounty.Count();
+            IQueryable<DictionaryAvailability> queryable = _dbContext.DictionaryAvailability;
+            if (!string.IsNullOrWhiteSpace(txtboxAvailabilityName))
+            {
+                queryable = queryable.Where(a => a.AvailabilityName.Contains(txtboxAvailabilityName));
+            }
+            queryable = queryable.Select(a => new DictionaryAvailability()
+            {
+                AvailabilityId = a.AvailabilityId,
+                AvailabilityName = a.AvailabilityName,
+                Schedule = a.Schedule
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+        public List<DictionaryAvailability> GetDictionaryAvailability()
+        {
+            List<DictionaryAvailability> dictionaryAvailability = _dbContext.DictionaryAvailability.Select(a => new DictionaryAvailability()
+            {
+                AvailabilityId = a.AvailabilityId,
+                AvailabilityName = a.AvailabilityName,
+                Schedule = a.Schedule
+            }).ToList();
+
+            return dictionaryAvailability;
+
+        }
+        public int GetDictionaryAvailabilityCount()
+        {
+            return _dbContext.DictionaryAvailability.Count();
+        }
+        //Metode DictionaryAttractionType
+        public List<DictionaryAttractionType> GetDictionaryAttractionTypeFilterPage(int page, int pageSize, string txtboxAttractionName)
+        {
+            IQueryable<DictionaryAttractionType> queryable = _dbContext.DictionaryAttractionType;
+            if (!string.IsNullOrWhiteSpace(txtboxAttractionName))
+            {
+                queryable = queryable.Where(a => a.AttractionName.Contains(txtboxAttractionName));
+            }
+            queryable = queryable.Select(a => new DictionaryAttractionType()
+            {
+                AttractionTypeId = a.AttractionTypeId,
+                AttractionCode = a.AttractionCode,
+                AttractionName = a.AttractionName
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+        public List<DictionaryAttractionType> GetDictionaryAttractionType()
+        {
+            List<DictionaryAttractionType> dictionaryAttractionType = _dbContext.DictionaryAttractionType.Select(a => new DictionaryAttractionType()
+            {
+                AttractionTypeId = a.AttractionTypeId,
+                AttractionCode = a.AttractionCode,
+                AttractionName = a.AttractionName
+            }).ToList();
+
+            return dictionaryAttractionType;
+
+        }
+        public int GetDictionaryAttractionTypeCount()
+        {
+            return _dbContext.DictionaryAttractionType.Count();
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize)
+        public string LandmarkType_DestroyId(int id)
         {
-            List<DictionaryCounty> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCounty()
+            try
             {
-                CountyId = a.CountyId,
-                CountyName = a.CountyName,
-                CountryId = a.CountryId
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
-            return dictionaryCounty;
+                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
         }
     }
 
