@@ -1,5 +1,6 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -228,7 +229,7 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
         {
-            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty;
+            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
 
             if (!string.IsNullOrWhiteSpace(txtboxCountyName))
             {
@@ -238,8 +239,10 @@ namespace iWasHere.Domain.Service
             {
                 CountyId = a.CountyId,
                 CountyName = a.CountyName,
-                CountryId = a.CountryId
+                CountryId = a.CountryId,
+                Country = a.Country
             }).Skip((page - 1) * pageSize).Take(pageSize);
+            //queryableCounty = queryableCounty.Include(c => c.Country/*"CountryName"/*b => b.Country.CountryName).Where(b=>b.CountryId==a.CountryId*/);
 
             return queryableCounty.ToList();
         }
