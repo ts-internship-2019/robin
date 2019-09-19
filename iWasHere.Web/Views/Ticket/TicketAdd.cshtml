@@ -1,4 +1,4 @@
-﻿
+﻿@model iWasHere.Domain.Models.DictionaryTicketType
 <!DOCTYPE html>
 
 <html>
@@ -9,47 +9,51 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
+    @*@{ using (Html.BeginForm("TicketType_Update", "Ticket", FormMethod.Post))}*@
+        <div class="row">
+            <div class="col-xl-6 col-sm-10 offset-sm-3">
+                <div class="card">
+                    <div class="card-block">
+                        <form class="k-form">
+                            <fieldset>
+                                <p id="ticketAddTitle">Test</p>
+                                @*//start*@
 
-    <div class="row">
-        <div class="col-xl-6 col-sm-10 offset-sm-3">
-            <div class="card">
-                <div class="card-block">
-                    <form class="k-form">
-                        <fieldset>
-                            <p id="ticketAddTitle">Test</p>
 
-                            <label class="k-form-field">
-                                <span>Nume Tipului de Bilet: </span>
-                                @(Html.Kendo().TextBox()
-                                 .Name("inputTicketTypeCode")
-                                 .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox" })
-                                )
-                            </label>
+                                @*end*@
                             <label class="k-form-field">
                                 <span>Codul tipului de Bilet: </span>
                                 @(Html.Kendo().TextBox()
-                                    .Name("inputTicketTypeName")
-                                    .HtmlAttributes(new { id = "textBoxTicketTypeName", type = "textbox" })
+                                .Name("inputTicketTypeCode")
+                                .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox" })
                                 )
 
                             </label>
-                        </fieldset>
+                                <label class="k-form-field">
+                                    <span>Numele tipului de Bilet: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputTicketTypeName")
+                                .HtmlAttributes(new { id = "textBoxTicketTypeName", type = "textbox" })
+                                    )
 
-                        <div class="text-right">
-                            <button type="button" class="k-button k-primary">Anuleaza</button>
-                            <button type="button" class="k-button">Salveaza</button>
-                            <button type="button" class="k-button">Salveaza si nou</button>
-
-                        </div>
-                    </form>
+                                </label>
+                            </fieldset>
+                         
+                            <div class="text-right">
+                                <button type="button" class="k-button k-primary">Anuleaza</button>
+                                <button type="button" id="btnSaveEdit" class="k-button">Salveaza</button>
+                                <button type="button" id="btnSaveNew" class="k-button">Salveaza si nou</button>
+                             
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
+   
 
-
-    <script type="text/javascript">
+        <script type="text/javascript">
         var currentURL = window.location.href;
         var url = new URL(currentURL);
         var c = url.searchParams.get("Id");
@@ -60,10 +64,28 @@
 
         } else {
             var test = document.getElementById("ticketAddTitle").innerHTML = "Editeaza bilet";
-
+            document.getElementById("btnSaveNew").style.display = "none";
             $("#textBoxTicketTypeCode").val(c);
+            var data = $.ajax({
+                type: 'GET',
+                url: '/Ticket/TicketTypeGetById',
+                data: { txtTicketTypeId: c },
+                cache: false,
+                success: function (result) {
+                    if (data.responseJSON != null) {
+                        document.getElementById("textBoxTicketTypeCode").value = data.responseJSON.TicketCode;
+                        
+                        document.getElementById("textBoxTicketTypeName").value = data.responseJSON.TicketName;        
+                    } else //id-ul nu este gasit in db
+                    {
+                 
+                        window.location.href = "/Ticket/TicketAdd?Id=0";
+                    }
+                    return result;
+                }
+            });
 
         }
-    </script>
+        </script>
 </body>
 </html>

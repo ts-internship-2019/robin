@@ -149,20 +149,40 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public List<DictionaryTicketType> GetDictionaryTicketTypeById(string txtTicketTypeId)
+        public DictionaryTicketType GetDictionaryTicketTypeById(int txtTicketTypeId)
         {
             IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
-            queryable = queryable.Where(a => a.TicketTypeId.Equals(Convert.ToInt32(txtTicketTypeId)));
+            queryable = queryable.Where(a => a.TicketTypeId.Equals(txtTicketTypeId));
             queryable = queryable.Select(a => new DictionaryTicketType()
+           
             {
                 TicketTypeId = a.TicketTypeId,
                 TicketCode = a.TicketCode,
                 TicketName = a.TicketName
             });
-
-            return queryable.ToList();
+          
+            return queryable.FirstOrDefault();
+        }
+        public int UpdateTicketType(DictionaryTicketType dictType)
+        {
+        
+             _dbContext.DictionaryTicketType.Update(dictType);
+            return _dbContext.SaveChanges();
         }
 
+        public string UpdateTicketTypeId(int id)
+        {
+            try
+            {
+                _dbContext.Update(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
+        }
 
         #endregion
         public List<DictionaryCurrency> GetDictionaryCurrency()
