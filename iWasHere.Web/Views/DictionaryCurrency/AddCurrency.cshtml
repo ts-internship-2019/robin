@@ -1,0 +1,60 @@
+
+@model iWasHere.Domain.Models.DictionaryCurrency
+@*--modelul pentru pagian este de tipul DictionaryCurrency*@
+
+@{
+    ViewData["Title"] = "Adauga Valuta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("AddValuta", "DictionaryCurrency", FormMethod.Post))
+//                --tot ce urmeaza aici, cand trimit post(pagina inapoi), se duce in actiunea AddValuta
+{
+
+    //    <!--<a href="/">modificat doar pentru un model, IEnumerable era pentru o lista de modele </a> -->
+
+
+    <h1>Adauga</h1>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.CurrencyCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CurrencyName)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+
+                <td>
+
+                    @Html.EditorFor(model => model.CurrencyCode, new { htmlAttributes = new { @class = "form-control" } })
+                    <!--<a href="/">//afiseaza si valoarea</a> -->
+
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.CurrencyName, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" value="Valuta Noua" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+
+@*//GET - Vreau sa imi dai anumite informatii (Serverul ), da-mi Currency cu un anume Id
+    //POSt -  o Informatie pe care o trimit la server
+    //PAtch - un fel de Post, tratat diferit*@

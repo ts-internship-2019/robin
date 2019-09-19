@@ -20,11 +20,11 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult Country_Read([DataSourceRequest] DataSourceRequest request)
+        public ActionResult Country_Read([DataSourceRequest] DataSourceRequest request, string txtboxCountryName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryCountryCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountryPage(request.Page, request.PageSize);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountryFilterPage(request.Page, request.PageSize, txtboxCountryName);
             return Json(tempDataSourceResult);
         }
         public IActionResult Country()
