@@ -54,8 +54,10 @@ namespace iWasHere.Web.Controllers
                     return Json(ModelState.ToDataSourceResult());
                 }
             }
-            else if (dictionaryLandmarkType != null)
-            { }
+            else if (dictionaryLandmarkType == null)
+            {
+
+            }
 
                 return Json(ModelState.ToDataSourceResult());
         }

@@ -3,18 +3,20 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Country</title>
+    <title>Ticket</title>
 
 </head>
 <body>
-    <h1>@ViewData["AttractionType"]</h1>
+    <h1>@ViewData["Title"]</h1>
+
+
     @(Html.Kendo().Button()
-            .Name("iconTextButton")
-            .Tag("a")
-            .Icon("filter")
-            .Content("Filtreaza")
-            .HtmlAttributes(new { id = "btnFilter", type = "button" })
-            .Events(e => e.Click("refresh"))
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
     )
 
     @(Html.Kendo().Button()
@@ -26,30 +28,62 @@
             .Events(e => e.Click("removeFilter"))
     )
 
+    @(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("save-changes")
+        .Content("Salvare modificari")
+        .HtmlAttributes(new { id = "btnSave", type = "button" })
+        .Events(e => e.Click("saveChanges"))
+    )
+
+
     @(Html.Kendo().TextBox()
-        .Name("inputAttractionNameFilter")
+        .Name("inputAttractionFilter")
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
 
-    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>
-        ()
+
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>()
         .Name("AttractionTypeGrid")
-        .Pageable()
         .Columns(columns =>
         {
-        columns.Bound(c => c.AttractionTypeId);
-        columns.Bound(c => c.AttractionCode);
-        columns.Bound(c => c.AttractionName);
+            columns.Bound(c => c.AttractionTypeId);
+            columns.Bound(c => c.AttractionCode);
+            columns.Bound(c => c.AttractionName);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+
         })
         .HtmlAttributes(new { id = "AttractionTypeGrid", style = "height: 550px;" })
         .Scrollable()
-        .DataSource(dataSource => dataSource
-        .Ajax()
-        .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
-        .PageSize(20)
+        //.Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+            .ToolBar(toolbar =>
+                    {
+            toolbar.Create();
+            toolbar.Save();
+})
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model => model.Id(p => p.AttractionTypeId))
+
+            //CRUD
+            .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
+            .Create(create => create.Action("AttractionType_Create", "DictionaryAttractionType"))
+            .Update(update => update.Action("AttractionType_Update", "DictionaryAttractionType"))
+            .Destroy(destroy => destroy.Action("AttractionType_Destroy", "DictionaryAttractionType"))
+
+            .PageSize(20)
         )
     )
+
+    <p align="right"> <a href='/DictionaryAttractionType/AddAttractionType' class="k-button k-primary">Adauga un nou tip de atractie</a></p>
 
     <script>
 
@@ -69,6 +103,15 @@
             $("#AttractionTypeGrid").data("kendoGrid").dataSource.page(1);
         }
 
+        saveChanges = function () {
+            grid = $("#AttractionTypeGrid").data("kendoGrid");
+            grid.removeRow($(element).closest("tr"));
+            grid.dataSource.sync();
+        }
+
     </script>
+
+
 </body>
 </html>
+l>
