@@ -57,6 +57,20 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+
+        public string Country_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCountry.Single(a => a.CountryId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta tara nu poate fi stearsa.";
+            }
+        }
         //Metode DictionaryCity
         public List<DictionaryCity> GetDictionaryCity()
         {
@@ -73,12 +87,16 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCity.Count();
         }
-        public List<DictionaryCity> GetDictionaryCityFilterPage(int page, int pageSize, string txtboxCityName)
+        public List<DictionaryCity> GetDictionaryCityFilterPage(int page, int pageSize, string txtboxCityName, int cmbboxCountyId)
         {
             IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity.Include(c=>c.County);
             if (!string.IsNullOrWhiteSpace(txtboxCityName))
             {
                 queryable = queryable.Where(a => a.CityName.Contains(txtboxCityName));
+            }
+            if (cmbboxCountyId>0)
+            {
+                queryable = queryable.Where(a => a.County.CountyId==(cmbboxCountyId));
             }
             queryable = queryable.Select(a => new DictionaryCity()
             {
@@ -87,6 +105,18 @@ namespace iWasHere.Domain.Service
                 CountyId = a.CountyId,
                 County = a.County
             }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+        public List<DictionaryCounty> GetCmbCounty()
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            });
 
             return queryable.ToList();
         }
@@ -173,20 +203,40 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public List<DictionaryTicketType> GetDictionaryTicketTypeById(string txtTicketTypeId)
+        public DictionaryTicketType GetDictionaryTicketTypeById(int txtTicketTypeId)
         {
             IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
-            queryable = queryable.Where(a => a.TicketTypeId.Equals(Convert.ToInt32(txtTicketTypeId)));
+            queryable = queryable.Where(a => a.TicketTypeId.Equals(txtTicketTypeId));
             queryable = queryable.Select(a => new DictionaryTicketType()
+           
             {
                 TicketTypeId = a.TicketTypeId,
                 TicketCode = a.TicketCode,
                 TicketName = a.TicketName
             });
-
-            return queryable.ToList();
+          
+            return queryable.FirstOrDefault();
+        }
+        public int UpdateTicketType(DictionaryTicketType dictType)
+        {
+        
+             _dbContext.DictionaryTicketType.Update(dictType);
+            return _dbContext.SaveChanges();
         }
 
+        public string UpdateTicketTypeId(int id)
+        {
+            try
+            {
+                _dbContext.Update(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
+        }
 
         #endregion
         public List<DictionaryCurrency> GetDictionaryCurrency()
@@ -232,12 +282,25 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
-        //Metode DictionaryLandmarkType
 
         public int AdaugaValuta(DictionaryCurrency ValutaAdaugata)
         {
             _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
             return _dbContext.SaveChanges();
+        }
+
+        public string Currency_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceasta atractie nu poate fi stearsa.";
+            }
         }
 
         public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
@@ -283,6 +346,20 @@ namespace iWasHere.Domain.Service
             }).Skip((page - 1) * pageSize).Take(pageSize);
 
             return queryable.ToList();
+        }
+
+        public string LandmarkType_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi stearsa.";
+            }
         }
 
         public int GetDictionaryLandmarkTypeCount()
@@ -331,6 +408,20 @@ namespace iWasHere.Domain.Service
         public int GetDictionaryAvailabilityCount()
         {
             return _dbContext.DictionaryAvailability.Count();
+        }
+
+        public string Availability_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryAvailability.Single(a => a.AvailabilityId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Aceast program nu poate fi sters.";
+            }
         }
         //Metode DictionaryAttractionType
         public List<DictionaryAttractionType> GetDictionaryAttractionTypeFilterPage(int page, int pageSize, string txtboxAttractionName)
@@ -389,8 +480,6 @@ namespace iWasHere.Domain.Service
                 return "Acest Landmark nu poate fi stearsa.";
             }
         }
-
-
 
         public string AttractionType_DestroyId(int id)
         {
