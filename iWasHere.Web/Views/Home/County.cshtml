@@ -1,4 +1,27 @@
-﻿
+﻿@(Html.Kendo().Button()
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
+)
+
+@(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("filter-clear")
+        .Content("Sterge filtru")
+        .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+        .Events(e => e.Click("removeFilter"))
+)
+
+@(Html.Kendo().TextBox()
+    .Name("inputCountyNameFilter")
+    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+)
+
+
 @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
         .Name("CountyGrid")
         .Columns(columns =>
@@ -6,6 +29,7 @@
             columns.Bound(c => c.CountyId);
             columns.Bound(c => c.CountyName);
             columns.Bound(c => c.CountryId);
+            columns.Bound(c => c.Country.CountryName);
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
@@ -15,7 +39,27 @@
         .Pageable()
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Read(read => read.Action("County_Read", "DictionaryCounty"))
+            .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
             .PageSize(20)
         )
 )
+
+<script>
+
+        getFilter = function () {
+            var model = {};
+            model["txtboxCountyName"] = $("#inputTextbox").val();
+            return model;
+        }
+
+        removeFilter = function () {
+            $("#inputTextbox").val("");
+            refresh();
+        }
+
+        refresh = function () {
+            $("#CountyGrid").data("kendoGrid").dataSource.read();
+            $("#CountyGrid").data("kendoGrid").dataSource.page(1);
+        }
+
+</script>
