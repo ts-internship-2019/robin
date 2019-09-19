@@ -31,6 +31,8 @@
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
+    <input type="button" value="Adaugare Atractie" onclick="location.href='@Url.Action("Add", "DictionaryAttrationType")'" />
+
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>
         ()
@@ -49,6 +51,7 @@
         .DataSource(dataSource => dataSource
         .Ajax()
         .Model(model => model.Id(p => p.AttractionTypeId))
+
         //CRUD
         .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
         .Create(create => create.Action("AttractionType_Create", "DictionaryAttractionType"))

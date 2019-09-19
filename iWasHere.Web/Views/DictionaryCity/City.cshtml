@@ -3,25 +3,38 @@
         .Tag("a")
         .Icon("filter")
         .Content("Filtreaza")
-        .HtmlAttributes(new {id="btnFilter", type = "button"})
-        .Events(e=>e.Click("refresh"))
-        )
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
+)
 
 @(Html.Kendo().Button()
         .Name("kendoIconTextButton")
         .Tag("a")
         .Icon("filter-clear")
         .Content("Sterge filtru")
-        .HtmlAttributes(new {id="btnResetFilter", type = "button"})
-        .Events(e=>e.Click("removeFilter"))
-        )
+        .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+        .Events(e => e.Click("removeFilter"))
+)
 
 @(Html.Kendo().TextBox()
     .Name("inputCityNameFilter")
-    .HtmlAttributes(new {id="inputTextbox", type = "textbox"})
+    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
 )
 
-
+@(Html.Kendo().ComboBox()
+          .Name("countyFilter")
+          .DataTextField("CountyName")
+          .DataValueField("CountyId")
+          .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("cmbCounty", "DictionaryCity");
+              });
+          })
+          .HtmlAttributes(new { id="cmbCountyFilter"/*, style = "width: 100%" */})
+)
+<br /><br />
 @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCity>
     ()
     .Name("CityGrid")
@@ -33,31 +46,33 @@
     columns.Bound(c => c.CountyId);
     columns.Bound(c => c.County.CountyName);
     })
-    .HtmlAttributes(new { id="cityGrid", style = "height: 550px;" })
+    .HtmlAttributes(new { id = "cityGrid", style = "height: 550px;" })
     .Scrollable()
     .DataSource(dataSource => dataSource
     .Ajax()
     .Read(read => read.Action("City_Read", "DictionaryCity").Data("getFilter"))
     .PageSize(20)
     )
-    )
+)
 
-    <script>
+<script>
 
-        getFilter = function () {
-            var model = {};
-            model["txtboxCityName"] = $("#inputTextbox").val();
-            return model;
-        }
+    getFilter = function () {
+        var model = {};
+        model["txtboxCityName"] = $("#inputTextbox").val();
+        model["cmbboxCountyName"] = $("#cmbCountyFilter").val();
+        return model;
+    }
 
-        removeFilter = function () {
-            $("#inputTextbox").val("");
-            refresh();
-        }
+    removeFilter = function () {
+        $("#inputTextbox").val("");
+        $("#cmbCountyFilter").data("kendoComboBox").value("");
+        refresh();
+    }
 
-        refresh = function () {
-            $("#cityGrid").data("kendoGrid").dataSource.read();
-            $("#cityGrid").data("kendoGrid").dataSource.page(1);
-        }
+    refresh = function () {
+        $("#cityGrid").data("kendoGrid").dataSource.read();
+        $("#cityGrid").data("kendoGrid").dataSource.page(1);
+    }
 
-    </script>
+</script>
