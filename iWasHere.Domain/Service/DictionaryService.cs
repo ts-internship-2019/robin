@@ -101,16 +101,16 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCounty;
         }
-
+        #region tickettype
         public List<DictionaryTicketType> GetDictionaryTicketType()
-        {
-            List<DictionaryTicketType> dictionaryTickeTypeModel = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
             {
-                TicketTypeId = a.TicketTypeId,
-                TicketCode = a.TicketCode,
-                TicketName = a.TicketName
-
-            }).ToList();
+                List<DictionaryTicketType> dictionaryTickeTypeModel = _dbContext.DictionaryTicketType.Select(a => new DictionaryTicketType()
+                {
+                    TicketTypeId = a.TicketTypeId,
+                    TicketCode = a.TicketCode,
+                    TicketName = a.TicketName
+                
+                }).ToList();
 
             return dictionaryTickeTypeModel;
         }
@@ -131,6 +131,40 @@ namespace iWasHere.Domain.Service
             return dictionaryTicketType;
         }
 
+          public List<DictionaryTicketType> GetDictionaryTicketTypeFilterPage(int page, int pageSize,string txtTicketTypeCode)
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            if (!string.IsNullOrWhiteSpace(txtTicketTypeCode))
+            {
+                queryable = queryable.Where(a => a.TicketCode.Contains(txtTicketTypeCode));
+            }
+           
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+               TicketTypeId=a.TicketTypeId,
+               TicketCode=a.TicketCode,
+               TicketName=a.TicketName
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+
+        public List<DictionaryTicketType> GetDictionaryTicketTypeById(string txtTicketTypeId)
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            queryable = queryable.Where(a => a.TicketTypeId.Equals(Convert.ToInt32(txtTicketTypeId)));
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+                TicketTypeId = a.TicketTypeId,
+                TicketCode = a.TicketCode,
+                TicketName = a.TicketName
+            });
+
+            return queryable.ToList();
+        }
+
+
+        #endregion
         public List<DictionaryCurrency> GetDictionaryCurrency()
         {
             List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
