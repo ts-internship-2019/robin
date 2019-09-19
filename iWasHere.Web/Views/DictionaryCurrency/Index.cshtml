@@ -25,6 +25,9 @@
 
 
 
+<input type="button" value="Valuta Noua" onclick="location.href='@Url.Action("Add", "DictionaryCurrency")'" />
+
+
 
 @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>()
         .Name("CurrencyGrid")
@@ -36,14 +39,14 @@
             columns.Bound(c => c.CurrencyCode).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
             columns.Bound(c => c.CurrencyName).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
         })
-        .HtmlAttributes(new {id="CurrencyGrid", style = "height: 550px;" })
+        .HtmlAttributes(new { id = "CurrencyGrid", style = "height: 550px;" })
         .Scrollable()
        // .Groupable()
        // .Sortable()
        // .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Read(read => read.Action("Currency_Read", "DictionaryCurrency"))
+            .Read(read => read.Action("Currency_Read", "DictionaryCurrency").Data("getFilter"))
             .PageSize(20)
         )
 )
@@ -53,20 +56,20 @@
 
 <script>
 
-        getFilter = function () {
-            var model = {};
-            model["txtboxCurrencyName"] = $("#inputTextbox").val();
-            return model;
-        }
+    getFilter = function () {
+        var model = {};
+        model["txtboxCurrencyName"] = $("#inputTextbox").val();
+        return model;
+    }
 
-        removeFilter = function () {
-            $("#inputTextbox").val("");
-            refresh();
-        }
+    removeFilter = function () {
+        $("#inputTextbox").val("");
+        refresh();
+    }
 
-        refresh = function () {
-            $("#CurrencyGrid").data("kendoGrid").dataSource.read();
-            $("#CurrencyGrid").data("kendoGrid").dataSource.page(1);
-        }
+    refresh = function () {
+        $("#CurrencyGrid").data("kendoGrid").dataSource.read();
+        $("#CurrencyGrid").data("kendoGrid").dataSource.page(1);
+    }
 
 </script>
