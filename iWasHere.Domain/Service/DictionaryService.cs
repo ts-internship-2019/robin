@@ -290,30 +290,7 @@ namespace iWasHere.Domain.Service
         }
 
         //Metode DictionaryAvailability
-        public int GetDictionaryCountyCount()
-        {
-            return _dbContext.DictionaryCounty.Count();
-        }
-
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
-        {
-            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
-
-            if (!string.IsNullOrWhiteSpace(txtboxCountyName))
-            {
-                queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
-            }
-            queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
-            {
-                CountyId = a.CountyId,
-                CountyName = a.CountyName,
-                CountryId = a.CountryId,
-                Country = a.Country
-            }).Skip((page - 1) * pageSize).Take(pageSize);
-
-            return queryableCounty.ToList();
-        }
-
+       
         public List<DictionaryAvailability> GetDictionaryAvailabilityFilterPage(int page, int pageSize, string txtboxAvailabilityName)
         {
             IQueryable<DictionaryAvailability> queryable = _dbContext.DictionaryAvailability;
