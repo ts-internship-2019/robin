@@ -98,7 +98,7 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
         {
-            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty;
+            IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
 
             if (!string.IsNullOrWhiteSpace(txtboxCountyName))
             {
@@ -108,7 +108,8 @@ namespace iWasHere.Domain.Service
             {
                 CountyId = a.CountyId,
                 CountyName = a.CountyName,
-                CountryId = a.CountryId
+                CountryId = a.CountryId,
+                Country = a.Country
             }).Skip((page - 1) * pageSize).Take(pageSize);
 
             return queryableCounty.ToList();
