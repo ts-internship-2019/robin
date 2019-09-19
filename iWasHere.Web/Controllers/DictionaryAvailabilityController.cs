@@ -55,5 +55,9 @@ namespace iWasHere.Web.Controllers
         {
             return View();
         }
+        public IActionResult AddAvailability()
+        {
+            return View();
+        }
     }
 }

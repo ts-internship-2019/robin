@@ -56,5 +56,10 @@ namespace iWasHere.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult AddAttractionType()
+        {
+            return View();
+        }
     }
 }
