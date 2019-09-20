@@ -423,7 +423,7 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception ex)
             {
-                return "Acest Landmark nu poate fi stearsa.";
+                return "Acest Landmark nu poate fi sters.";
             }
         }
 
@@ -529,22 +529,6 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-
-
-
-        public string LandmarkType_DestroyId(int id)
-        {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest Landmark nu poate fi stearsa.";
-            }
-        }
 
         public string AttractionType_DestroyId(int id)
         {
