@@ -56,5 +56,9 @@ namespace iWasHere.Web.Controllers
         {
             return View();
         }
+        public IActionResult AddCountry()
+        {
+            return View();
+        }
     }
 }

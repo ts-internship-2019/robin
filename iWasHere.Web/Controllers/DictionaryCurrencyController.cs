@@ -37,7 +37,7 @@ namespace iWasHere.Web.Controllers
 
         }
 
-       
+
 
         [HttpGet]
         public IActionResult Add()
@@ -46,6 +46,8 @@ namespace iWasHere.Web.Controllers
 
             return View("AddCurrency");
         }
+
+
         [HttpPost]
         public IActionResult AddValuta(DictionaryCurrency modelValuta)
         {
@@ -78,3 +80,21 @@ namespace iWasHere.Web.Controllers
 
     }
 }
+
+//    [HttpGet]
+//    public IActionResult Update()
+//    {
+
+
+//        return View("AddCurrency");
+//    }
+
+
+//    [HttpPost]
+//    public IActionResult ModificaValuta(DictionaryCurrency modelValuta)
+//    {
+//        var result = _dictionaryService.ModificaValuta(modelValuta);
+
+//        return View("Index");
+//    }
+//}
