@@ -54,8 +54,10 @@ namespace iWasHere.Web.Controllers
                     return Json(ModelState.ToDataSourceResult());
                 }
             }
-            else if (dictionaryLandmarkType != null)
-            { }
+            else if (dictionaryLandmarkType == null)
+            {
+
+            }
 
                 return Json(ModelState.ToDataSourceResult());
         }
@@ -67,9 +69,20 @@ namespace iWasHere.Web.Controllers
         }
 
 
-        public IActionResult AddLandmarkDetails()
+        [HttpGet]
+        public IActionResult Add()
         {
-            return View();
+
+            return View("AddLandmarkDetails");
+        }
+
+
+
+        [HttpPost]
+        public IActionResult AddLandmarkDetails(DictionaryLandmarkType newLandmarkType)
+        {
+            var result = _dictionaryService.AddNewLandmarkDetails(newLandmarkType);
+            return View("LandmarkDetails");
         }
     }
 }

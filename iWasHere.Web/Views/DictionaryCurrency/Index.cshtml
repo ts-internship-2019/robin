@@ -22,11 +22,9 @@
 )
 
 
-
-
-
 <input type="button" value="Valuta Noua" onclick="location.href='@Url.Action("Add", "DictionaryCurrency")'" />
 
+<input type="button" value="Editeaza" onclick="location.href='@Url.Action("Add", "DictionaryCurrency")'" />
 
 
 @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>()
@@ -35,18 +33,22 @@
         .Pageable()
         .Columns(columns =>
         {
-            columns.Bound(c => c.CurrencyId).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false))).Width(225);
-            columns.Bound(c => c.CurrencyCode).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
-            columns.Bound(c => c.CurrencyName).Width(500).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+            //columns.Bound(c => c.CurrencyId).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false))).Width(225);
+            
+            //latimea coloanelor din Grid:
+            columns.Bound(c => c.CurrencyCode).Title("Codul Valutei").Width(300).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+            columns.Bound(c => c.CurrencyName).Title("Numele Valutei").Width(350).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
         })
         .HtmlAttributes(new { id = "CurrencyGrid", style = "height: 550px;" })
         .Scrollable()
-       // .Groupable()
-       // .Sortable()
-       // .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+        .Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
             .Ajax()
+            .Model(model => model.Id(p => p.CurrencyId))
             .Read(read => read.Action("Currency_Read", "DictionaryCurrency").Data("getFilter"))
+            .Destroy(destroy => destroy.Action("Currency_Destroy", "DictionaryCurrency"))
             .PageSize(20)
         )
 )

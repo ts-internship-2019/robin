@@ -37,7 +37,7 @@ namespace iWasHere.Web.Controllers
 
         }
 
-       
+
 
         [HttpGet]
         public IActionResult Add()
@@ -46,6 +46,8 @@ namespace iWasHere.Web.Controllers
 
             return View("AddCurrency");
         }
+
+
         [HttpPost]
         public IActionResult AddValuta(DictionaryCurrency modelValuta)
         {
@@ -53,5 +55,46 @@ namespace iWasHere.Web.Controllers
 
             return View("Index");
         }
+
+        public ActionResult Currency_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCurrency dictionaryCurrency)
+        {
+            if (dictionaryCurrency != null)
+            {
+                string CurrencyType = _dictionaryService.Currency_DestroyId(dictionaryCurrency.CurrencyId);
+
+                if (string.IsNullOrWhiteSpace(CurrencyType))
+                {
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", CurrencyType);
+                    return Json(ModelState.ToDataSourceResult());
+                }
+            }
+            else if (dictionaryCurrency != null)
+            { }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
     }
 }
+
+//    [HttpGet]
+//    public IActionResult Update()
+//    {
+
+
+//        return View("AddCurrency");
+//    }
+
+
+//    [HttpPost]
+//    public IActionResult ModificaValuta(DictionaryCurrency modelValuta)
+//    {
+//        var result = _dictionaryService.ModificaValuta(modelValuta);
+
+//        return View("Index");
+//    }
+//}

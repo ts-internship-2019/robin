@@ -43,6 +43,7 @@
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
+    <input type="button" value="Adaugare Detalii Atractie" onclick="location.href='@Url.Action("Add", "DictionaryLandmarkType")'" />
 
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryLandmarkType>()
@@ -60,7 +61,7 @@
         })
         .HtmlAttributes(new { id = "landmarkTypeGrid", style = "height: 550px;" })
         .Scrollable()
-          .Groupable()
+        //.Groupable()
         .Sortable()
         .Pageable(pageable => pageable
             .Refresh(true)

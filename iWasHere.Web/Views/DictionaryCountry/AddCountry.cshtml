@@ -15,19 +15,19 @@
                 <div class="card-block">
                     <form class="k-form">
                         <fieldset>
-                            <legend>Adauga tip de bilet</legend>
+                            <legend>Adauga o tara</legend>
 
                             <label class="k-form-field">
-                                <span>Nume Tipului de Bilet: </span>
-                                <input class="k-textbox" placeholder="Numele Biletului" />
+                                <span>Nume tara: </span>
+                                <input class="k-textbox" placeholder="Numele tarii" />
                             </label>
                             <label class="k-form-field">
-                                <span>Codul tipului de bilet: </span>
-                                <input class="k-textbox" value="nimic" placeholder="Codul Biletului" />
-                            </label>
+                                <span>Id-ul tarii: </span>
+                                <input class="k-textbox" value="nimic" placeholder="Id-ul tarii" />
+                            </label> 
                         </fieldset>
                         <fieldset>
-                            <legend>PlaceHolder pentru COMBOBOX</legend>
+                            <legend>Detalii</legend>
                             <label class="k-form-field">
                                 <span>Selecteaza ceva</span>
                                 @(Html.Kendo().ComboBox()
@@ -54,7 +54,7 @@
                                     .Suggest(true)
                                     .HtmlAttributes(new { style = "width:100%;" })
 
-                                )
+                                                        )
                             </label>
                         </fieldset>
 
