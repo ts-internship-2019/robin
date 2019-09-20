@@ -40,6 +40,23 @@ namespace iWasHere.Domain.Service
             return dictionaryCountry;
         }
 
+        public List<DictionaryCountry> GetCmbCountry()
+        {           
+            IQueryable<DictionaryCountry> queryable = _dbContext.DictionaryCountry;
+            queryable = queryable.Select(a => new DictionaryCountry()       
+            {
+                CountryId = a.CountryId,
+                CountryName = a.CountryName
+            });
+            
+                return queryable.ToList();                      
+        }
+
+        public int GetDictionaryCountryCount()
+        {
+            return _dbContext.DictionaryCountry.Count();
+        }
+
         public List<DictionaryCountry> GetDictionaryCountryFilterPage(int page, int pageSize, string txtboxCountryName)
         {
             IQueryable<DictionaryCountry> queryable = _dbContext.DictionaryCountry;
@@ -223,13 +240,17 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCounty.Count();
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName, int cmbboxCountryId)
         {
             IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
 
             if (!string.IsNullOrWhiteSpace(txtboxCountyName))
             {
                 queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
+            }
+            if (cmbboxCountryId > 0)
+            {
+                queryableCounty = queryableCounty.Where(a => a.Country.CountryId == (cmbboxCountryId));
             }
             queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
             {
@@ -253,9 +274,74 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
         }
 
-        #endregion
+        public int AddNewCounty(DictionaryCounty dictionaryCounty)
+        {
+            _dbContext.DictionaryCounty.Add(dictionaryCounty);
+            return _dbContext.SaveChanges();
+        }
 
-        #region Landmark
+        public string County_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest judet nu poate fi stearsa.";
+            }
+        }
+
+        public string County_UpdateId(DictionaryCounty dictionaryCounty)
+        {
+            try
+            {
+                var target = (_dbContext.DictionaryCounty.Single(a => a.CountyId == dictionaryCounty.CountyId));
+
+                target.CountyName = dictionaryCounty.CountyName;
+                target.CountryId = dictionaryCounty.CountryId;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest judet nu poate fi modificat.";
+            }
+        }
+
+        public int AddCounty(DictionaryCounty modelCounty)
+        {
+            _dbContext.DictionaryCounty.Add(modelCounty);
+            return _dbContext.SaveChanges();
+        }
+
+        public DictionaryCounty GetDictionaryCountyById(int txtCountyId)
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Where(a => a.CountyId.Equals(txtCountyId));
+            queryable = queryable.Select(a => new DictionaryCounty()
+
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+
+        public void UpdateCounty(DictionaryCounty modelCounty)
+        {
+            _dbContext.Update(modelCounty);
+            _dbContext.SaveChanges();
+        }
+
         public int GetLandmarkCount()
         {
             return _dbContext.Landmark.Count();
@@ -399,6 +485,17 @@ namespace iWasHere.Domain.Service
         {
             _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
             _dbContext.SaveChanges();
+        }
+        public List<DictionaryTicketType> GetCmbTicketType()
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+                TicketTypeId = a.TicketTypeId,
+                TicketName = a.TicketName
+            });
+
+            return queryable.ToList();
         }
         #endregion
 
