@@ -9,37 +9,39 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-    @*@{ using (Html.BeginForm("TicketType_Update", "Ticket", FormMethod.Post))}*@
         <div class="row">
             <div class="col-xl-6 col-sm-10 offset-sm-3">
                 <div class="card">
                     <div class="card-block">
                         <form class="k-form">
                             <fieldset>
-                                <p id="ticketAddTitle">Test</p>
-                                @*//start*@
-
-
-                                @*end*@
-                            <label class="k-form-field">
-                                <span>Codul tipului de Bilet: </span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputTicketTypeCode")
-                                .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox",  maxlength="10"})
-                                )
-
-                            </label>
-                                <label class="k-form-field">
-                                    <span>Numele tipului de Bilet: </span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputTicketTypeName")
-                                .HtmlAttributes(new { id = "textBoxTicketTypeName", type = "textbox",  maxlength="200"})
-                                    )
-
-                                </label>
+                                <p id="ticketAddTitle">Adaugare tip de bilet</p>
+                                <table>
+                                    <tr>
+                                        <td> 
+                                            <span>Codul tipului de Bilet: </span>
+                                        </td>
+                                        <td>
+                                            @(Html.Kendo().TextBox()
+                                                .Name("inputTicketTypeCode")
+                                                .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox", maxlength = "10" })
+                                             )
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                          <td> 
+                                             <span>Numele tipului de Bilet: </span>
+                                          </td>
+                                          <td>
+                                               @(Html.Kendo().TextBox()
+                                                 .Name("inputTicketTypeName")
+                                                 .HtmlAttributes(new { id = "textBoxTicketTypeName", type = "textbox", maxlength = "200" })
+                                                )
+                                          </td>
+                                    </tr>
+                                </table>
                             </fieldset>
-                         
-                            <div class="text-right">
+                            <div class="text-right"><br />
                                 <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
                                 <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
                                 <button type="button" id="btnSaveNew" class="k-button"onclick="editFunction(2)">Salveaza si nou</button>
@@ -67,7 +69,7 @@
             var data = $.ajax({
                 type: 'GET',
                 url: '/Ticket/TicketTypeGetById', //numecontroller, fara controller / nume metoda
-                data: { txtTicketTypeId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                data: { txtTicketTypeId: modelId }, //parametri din metoda cu  numele exact: variabila din javascript ce ii da valoarea
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
