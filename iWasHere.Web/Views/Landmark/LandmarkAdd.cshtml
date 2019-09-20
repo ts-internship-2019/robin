@@ -9,7 +9,6 @@
                     <!--#region tabel informatii obiectiv -->
                     <fieldset>
                         <h4> <p id="LandmarkAddTitle">Adaugare obiectiv nou</p></h4>
-
                         <table align="center">
                             <tr>
                                 <td>
@@ -103,14 +102,14 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                              .Name("countyFilter1")
-                                              .DataTextField("CountyName")
-                                              .DataValueField("CountyId")
+                                              .Name("TicketType")
+                                              .DataTextField("TicketName")
+                                              .DataValueField("TicketTypeId")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
                                                       {
-                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                          read.Action("CmbTicketType", "Ticket");
                                                   });
                                               })
                                               .HtmlAttributes(new { id = "cmbTicketType"/*, style = "width: 100%" */})
@@ -265,7 +264,7 @@
                     <div class="text-right">
                         <br />
                         <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
-                        <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                        <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction()">Salveaza</button>
                     </div>
                 </form>
             </div>
@@ -306,6 +305,11 @@
           document.getElementById("trTicketCost3").style.position = "static";
       }
 }
-
-
+    function cancel() {
+                 window.location.href = "/Landmark/Landmark";
+            }
+    function editFunction() {
+        alert("Obiectiv salvat cu succes!");
+                 window.location.href = "/Landmark/Landmark";
+            }
   </script>

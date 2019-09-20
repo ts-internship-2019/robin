@@ -349,6 +349,17 @@ namespace iWasHere.Domain.Service
             _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
             _dbContext.SaveChanges();
         }
+        public List<DictionaryTicketType> GetCmbTicketType()
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+                TicketTypeId = a.TicketTypeId,
+                TicketName = a.TicketName
+            });
+
+            return queryable.ToList();
+        }
         #endregion
 
         #region dictionarycurrency

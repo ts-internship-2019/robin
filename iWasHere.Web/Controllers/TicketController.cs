@@ -75,6 +75,10 @@ namespace iWasHere.Web.Controllers
             }
             return Json(ModelState.ToDataSourceResult());
         }
+        public ActionResult CmbTicketType([DataSourceRequest] DataSourceRequest request, string cmbTicketTypeName)
+        {
+            return Json(_dictionaryService.GetCmbTicketType());
+        }
 
         public IActionResult TicketAdd()
         {
