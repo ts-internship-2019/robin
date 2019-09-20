@@ -434,6 +434,38 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryLandmarkType.Add(dictionaryLandmarkType);
             return _dbContext.SaveChanges();
         }
+
+               public DictionaryLandmarkType GetDictionaryLandmarkTypeById(int txtLandmarkTypeId)
+        {
+            IQueryable<DictionaryLandmarkType> queryable = _dbContext.DictionaryLandmarkType;
+            queryable = queryable.Where(a => a.ItemId.Equals(txtLandmarkTypeId));
+            queryable = queryable.Select(a => new DictionaryLandmarkType()
+           
+            {
+                ItemId = a.ItemId,
+                ItemCode = a.ItemCode,
+                ItemName = a.ItemName,
+                Description = a.Description
+            });
+          
+            return queryable.FirstOrDefault();
+        }
+
+
+
+        public int UpdateLandmarkType(DictionaryLandmarkType lmkType)
+        {
+
+            _dbContext.DictionaryLandmarkType.Update(lmkType);
+            return _dbContext.SaveChanges();
+        }
+
+        public void UpdateLandmarkTypeId(DictionaryLandmarkType lmkType)
+        {
+            _dbContext.DictionaryLandmarkType.Update(lmkType);
+            _dbContext.SaveChanges();
+        }
+
         #endregion
 
         #region dictionaryavailability

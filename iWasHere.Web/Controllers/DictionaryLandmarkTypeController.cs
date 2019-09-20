@@ -36,15 +36,32 @@ namespace iWasHere.Web.Controllers
 
 
 
- 
-        public ActionResult LandmarkType_Update([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
+
+        //public ActionResult LandmarkType_Update([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
+        //{
+        //    if (dictionaryLandmarkType != null && ModelState.IsValid)
+        //    {
+        //        _dictionaryService.LandmarkType_UpdateId(dictionaryLandmarkType);
+        //    }
+
+        //    return Json(new[] { dictionaryLandmarkType }.ToDataSourceResult(request, ModelState));
+        //}
+
+
+        public ActionResult LandmarkType_Update(int id, string code, string name, string description)
         {
-            if (dictionaryLandmarkType != null && ModelState.IsValid)
+            DictionaryLandmarkType dictionaryLandmarkType = new DictionaryLandmarkType();
+            dictionaryLandmarkType.ItemId = id;
+            dictionaryLandmarkType.ItemName = name;
+            dictionaryLandmarkType.ItemCode = code;
+            dictionaryLandmarkType.Description = description;
+
+            if (dictionaryLandmarkType != null)
             {
-                _dictionaryService.LandmarkType_UpdateId(dictionaryLandmarkType);
+                _dictionaryService.UpdateLandmarkTypeId(dictionaryLandmarkType);
             }
 
-            return Json(new[] { dictionaryLandmarkType }.ToDataSourceResult(request, ModelState));
+            return Json(ModelState.ToDataSourceResult());
         }
 
         public ActionResult LandmarkType_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
@@ -70,12 +87,38 @@ namespace iWasHere.Web.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult AddNewLandmarkType(string code, string name, string description)
+        {
+            DictionaryLandmarkType dictionaryLandmarkType = new DictionaryLandmarkType
+            {
+                ItemCode = code,
+                ItemName = name,
+                Description = description
+            };
+            _dictionaryService.AddNewLandmarkDetails(dictionaryLandmarkType);
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
 
         [HttpPost]
         public IActionResult AddLandmarkDetails(DictionaryLandmarkType newLandmarkType)
         {
             var result = _dictionaryService.AddNewLandmarkDetails(newLandmarkType);
             return View("LandmarkDetails");
+        }
+
+        public ActionResult LandmarkTypeGetById(int txtLandmarkTypeId)
+        {
+
+            return Json(_dictionaryService.GetDictionaryLandmarkTypeById(txtLandmarkTypeId));
+        }
+
+
+        public IActionResult AddLandmarkDetails()
+        {
+            return View();
         }
     }
 }

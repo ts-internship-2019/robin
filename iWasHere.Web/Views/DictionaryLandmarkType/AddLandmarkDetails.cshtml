@@ -1,76 +1,17 @@
 ﻿
+
 @model iWasHere.Domain.Models.DictionaryLandmarkType
-@*--modelul pentru pagian este de tipul DictionaryCurrency*@
-
-@*@{
-        ViewData["Title"] = "Adauga Detalii Atractie";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }*@
-
-@*@using (Html.BeginForm("AddLandmarkDetails", "DictionaryLandmarkType", FormMethod.Post))
-    //                --tot ce urmeaza aici, cand trimit post(pagina inapoi), se duce in actiunea AddValuta
-    {
-
-        //    <!--<a href="/">modificat doar pentru un model, IEnumerable era pentru o lista de modele </a> -->
-
-
-        <h1>Adauga</h1>
-
-
-        <table class="table">
-            <thead>
-                <tr>
-
-                    <th>
-                        @Html.DisplayNameFor(model => model.ItemCode)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ItemName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-
-                    <td>
-
-                        @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control" } })
-
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                    </td>
-
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <input type="submit" value="Salveaza Detalii" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    }*@
-
-
 <!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Ticket</title>
+    <title>Detalii Atractie</title>
 
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-    @*@{ using (Html.BeginForm("LandmarkType_UpdateId", "LandmarkType", FormMethod.Post))}*@
+   
     <div class="row">
         <div class="col-xl-6 col-sm-10 offset-sm-3">
             <div class="card">
@@ -83,35 +24,38 @@
 
                             @*end*@
                             <label class="k-form-field">
-                                <span>Cod detalii atractie: </span>
+                                <span>Cod detaliu atractie: </span>
                                 @(Html.Kendo().TextBox()
                                 .Name("inputLandmarkTypeCode")
-                                .HtmlAttributes(new { id = "textBoxLandmarkTypeCode", type = "textbox" })
+                                .HtmlAttributes(new { id = "textBoxLandmarkTypeCode", type = "textbox", maxlength = "10" })
                                 )
 
                             </label>
                             <label class="k-form-field">
-                                <span>Nume detalii atractie: </span>
+                                <span>Nume detaliu atractie: </span>
                                 @(Html.Kendo().TextBox()
                                 .Name("inputLandmarkTypeName")
-                                .HtmlAttributes(new { id = "textBoxLandmarkTypeName", type = "textbox" })
+                                .HtmlAttributes(new { id = "textBoxLandmarkTypeName", type = "textbox", maxlength = "200" })
                                 )
+
+                            </label>
 
                             </label>
                             <label class="k-form-field">
-                                <span>Descriere detalii atractie: </span>
+                                <span>Descriere detaliu atractie: </span>
                                 @(Html.Kendo().TextBox()
                                 .Name("inputLandmarkTypeDescription")
-                                .HtmlAttributes(new { id = "textBoxLandmarkTypeDescription", type = "textbox" })
+                                .HtmlAttributes(new { id = "textBoxLandmarkTypeDescription", type = "textbox", maxlength = "200" })
                                 )
 
                             </label>
+
                         </fieldset>
 
                         <div class="text-right">
                             <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
-                            <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction()">Salveaza</button>
-                            <button type="button" id="btnSaveNew" class="k-button">Salveaza si nou</button>
+                            <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                            <button type="button" id="btnSaveNew" class="k-button" onclick="editFunction(2)">Salveaza si nou</button>
 
                         </div>
                     </form>
@@ -121,62 +65,89 @@
     </div>
 
     <script type="text/javascript">
-            var currentURL = window.location.href;
-            var url = new URL(currentURL);
-            var modelId = url.searchParams.get("Id");
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var modelId = url.searchParams.get("Id");
 
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
         if (modelId == 0) {
             document.getElementById("landmarkTypeAddTitle").innerHTML = "Adauga detalii noi atractie";//pageTitle
+
         } else {
             document.getElementById("landmarkTypeAddTitle").innerHTML = "Editeaza detalii atractie";
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
-
             var data = $.ajax({
                 type: 'GET',
-                url: '/Ticket/TicketTypeGetById',
-                data: { txtTicketTypeId: modelId },
+                url: '/DictionaryLandmarkType/LandmarkTypeGetById', //numecontroller, fara controller / nume metoda
+                data: { txtLandmarkTypeId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
-                        document.getElementById("textBoxLandmarkTypeCode").value = data.responseJSON.TicketCode;
-                        document.getElementById("textBoxLandmarkTypeName").value = data.responseJSON.TicketName;
-                        document.getElementById("textBoxLandmarkTypeDescription").value = data.responseJSON.TicketName;
+                        document.getElementById("textBoxLandmarkTypeCode").value = data.responseJSON.LandmarkTypeCode;
+                        document.getElementById("textBoxLandmarkTypeName").value = data.responseJSON.LandmarkTypeName;
+                        document.getElementById("textBoxLandmarkTypeDescription").value = data.responseJSON.LandmarkTypeDescription;
                     }
                     else //id-ul nu este gasit in db
                     {
                         alert("Inregistrarea nu a fost gasita in baza de date!")
-                        window.location.href = "/Ticket/Ticket";
+                        window.location.href = "/DictionaryLandmarkType/LandmarkDetails";
                     }
                     return result;
-                    }
-                });
-            function editFunction() {
-                code = document.getElementById('textBoxTicketTypeCode').value;
-                name = document.getElementById('textBoxTicketTypeName').value;
-                description = document.getElementById('textBoxTicketTypeName').value;
-                if (code == "" || name == "") {
-                    alert("Campuri necompletate!");
                 }
-                else {
-                    $.ajax({
-                            type: 'POST',
-                            url: '/Ticket/TicketType_Update',
-                            data: { id: modelId , code: code,name:name},
-                            cache: false,
-                            success: function (result) {
-                                alert("Editat cu succes"); return result;
-                            }
-                        })
-                        window.location.href = "/Ticket/Ticket";
-                }
-            }
+            });
+        }
+        function cancel() {
+            window.location.href = "/DictionaryLandmarkType/LandmarkDetails";
+        }
+        var eventType;
 
+        function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
+            code = document.getElementById('textBoxLandmarkTypeCode').value;
+            name = document.getElementById('textBoxLandmarkTypeName').value;
+            description = document.getElementById('textBoxLandmarkTypeDescription').value;
+            if (code == "" || name == "" || description == "") {
+                alert("Campuri necompletate!");
+            } else {
+                if (modelId != 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryLandmarkType/LandmarkType_Update',
+                        data: { id: modelId, code: code, name: name, description: description },
+                        cache: false,
+                        success: function (result) {
+                            alert("Editat cu succes"); return result;
+                        }
+                    })
+
+                    window.location.href = "/DictionaryLandmarkType/LandmarkDetails"; //redirect
+
+                } else if (modelId == 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryLandmarkType/AddNewLandmarkType',
+                        data: { code: code, name: name, description: description },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryLandmarkType/LandmarkDetails";
+
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryLandmarkType/AddNewLandmarkType',
+                        data: { code: code, name: name, description: description },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryLandmarkType/AddLandmarkDetails?Id=0";
+                }
             }
-             function cancel() {
-                 window.location.href = "/Ticket/Ticket";
-            }
+        }
     </script>
 </body>
 </html>
