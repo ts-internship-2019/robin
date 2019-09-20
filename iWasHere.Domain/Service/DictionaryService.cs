@@ -501,6 +501,31 @@ namespace iWasHere.Domain.Service
             _dbContext.SaveChanges();
         }
 
+
+        public string LandmarkType_QuickUpdateId(DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            try
+            {
+
+                var target = (_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == dictionaryLandmarkType.ItemId));
+
+                target.ItemCode = dictionaryLandmarkType.ItemCode;
+                target.ItemName = dictionaryLandmarkType.ItemName;
+                target.Description = dictionaryLandmarkType.Description;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi modificat.";
+            }
+        }
+
+
         #endregion
 
         #region dictionaryavailability
