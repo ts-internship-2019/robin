@@ -250,6 +250,7 @@ namespace iWasHere.Domain.Service
 
             return dictionaryLandmark;
         }
+        #endregion
 
         #region tickettype
         public List<DictionaryTicketType> GetDictionaryTicketType()
@@ -430,20 +431,11 @@ namespace iWasHere.Domain.Service
 
 
 
-    public string LandmarkType_DestroyId(int id)
+        public void LandmarkType_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest Landmark nu poate fi stearsa.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+            _dbContext.SaveChanges();
         }
-
 
     public int GetDictionaryLandmarkTypeCount()
         {
@@ -565,7 +557,6 @@ namespace iWasHere.Domain.Service
         {
             try
             {
-
                 var target = (_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == dictionaryLandmarkType.ItemId));
 
                 target.ItemCode = dictionaryLandmarkType.ItemCode;

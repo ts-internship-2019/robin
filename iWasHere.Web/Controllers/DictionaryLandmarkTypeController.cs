@@ -47,33 +47,14 @@ namespace iWasHere.Web.Controllers
             return Json(new[] { dictionaryLandmarkType }.ToDataSourceResult(request, ModelState));
         }
 
-
-
-
         public ActionResult LandmarkType_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
         {
             if (dictionaryLandmarkType != null)
             {
-                string ldmType = _dictionaryService.LandmarkType_DestroyId(dictionaryLandmarkType.ItemId);
-
-                if(string.IsNullOrWhiteSpace(ldmType))
-                {
-                    return Json(ModelState.ToDataSourceResult());
-                }
-                else
-                {
-                    ModelState.AddModelError("Error", ldmType);
-                    return Json(ModelState.ToDataSourceResult());
-                }
+                _dictionaryService.LandmarkType_DestroyId(dictionaryLandmarkType.ItemId);
             }
-            else if (dictionaryLandmarkType == null)
-            {
-
-            }
-
-                return Json(ModelState.ToDataSourceResult());
+            return Json(ModelState.ToDataSourceResult());
         }
-
 
         public IActionResult LandmarkDetails()
         {
