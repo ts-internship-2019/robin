@@ -81,7 +81,7 @@
             //CRUD
             .Read(read => read.Action("LandmarkType_Read", "DictionaryLandmarkType").Data("getFilter"))
             .Create(create => create.Action("LandmarkType_Create", "DictionaryLandmarkType"))
-            .Update(update => update.Action("LandmarkType_Update", "DictionaryLandmarkType"))
+            .Update(update => update.Action("LandmarkType_QuickUpdate", "DictionaryLandmarkType"))
             .Destroy(destroy => destroy.Action("LandmarkType_Destroy", "DictionaryLandmarkType"))
 
             .PageSize(20)
