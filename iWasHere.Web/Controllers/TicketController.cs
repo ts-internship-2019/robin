@@ -66,6 +66,16 @@ namespace iWasHere.Web.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
+
+        public ActionResult TicketType_Destroy(DictionaryTicketType dictionaryTicketType)
+        {
+            if (dictionaryTicketType != null)
+            {
+                _dictionaryService.TicketType_DestroyId(dictionaryTicketType.TicketTypeId);
+            }
+            return Json(ModelState.ToDataSourceResult());
+        }
+
         public IActionResult TicketAdd()
         {
             return View();
