@@ -32,12 +32,35 @@ namespace iWasHere.Web.Controllers
             return Json(tempDataSourceResult);
         }
 
-        public  ActionResult TicketTypeGetById([DataSourceRequest] DataSourceRequest request, string txtTicketTypeId)
+        public ActionResult TicketTypeGetById(int txtTicketTypeId)
         {
-            DataSourceResult tempDataSourceResult = new DataSourceResult();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryTicketTypeById(txtTicketTypeId);
-            return Json(tempDataSourceResult);
+      
+            return Json(_dictionaryService.GetDictionaryTicketTypeById(txtTicketTypeId));
         }
+
+        [HttpPost]
+        public ActionResult TicketType_Update([DataSourceRequest] DataSourceRequest request, DictionaryTicketType dictionaryTicketType)
+        {
+            if (dictionaryTicketType != null)
+            {
+                string ldmType = _dictionaryService.UpdateTicketTypeId(dictionaryTicketType.TicketTypeId);
+
+                if (string.IsNullOrWhiteSpace(ldmType))
+                {
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", ldmType);
+                    return Json(ModelState.ToDataSourceResult());
+                }
+            }
+            else if (dictionaryTicketType == null)
+            { }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
         public IActionResult TicketAdd()
         {
             return View();

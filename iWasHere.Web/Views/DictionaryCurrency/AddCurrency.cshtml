@@ -1,6 +1,6 @@
 
 @model iWasHere.Domain.Models.DictionaryCurrency
-@*--modelul pentru pagian este de tipul DictionaryCurrency*@
+@*--modelul pentru pagina este de tipul DictionaryCurrency*@
 
 @{
     ViewData["Title"] = "Adauga Valuta";
@@ -35,7 +35,6 @@
             <tr>
 
                 <td>
-
                     @Html.EditorFor(model => model.CurrencyCode, new { htmlAttributes = new { @class = "form-control" } })
                     <!--<a href="/">//afiseaza si valoarea</a> -->
 
@@ -49,10 +48,24 @@
                 <td colspan="3">
                     <input type="submit" value="Valuta Noua" />
                 </td>
+                
+            <td colspan="3">
+                <a href="" class="go_back"> Anuleaza </a>
+            </td>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('.go_back').click(function (e) {
+                                e.preventDefault();
+                                history.go(-1);
+                            });
+                        });
+                    </script>
             </tr>
         </tbody>
     </table>
 }
+
+
 
 
 @*//GET - Vreau sa imi dai anumite informatii (Serverul ), da-mi Currency cu un anume Id

@@ -3,18 +3,20 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Country</title>
+    <title>Ticket</title>
 
 </head>
 <body>
-    <h1>@ViewData["Country"]</h1>
+    <h1>@ViewData["Title"]</h1>
+
+
     @(Html.Kendo().Button()
-            .Name("iconTextButton")
-            .Tag("a")
-            .Icon("filter")
-            .Content("Filtreaza")
-            .HtmlAttributes(new { id = "btnFilter", type = "button" })
-            .Events(e => e.Click("refresh"))
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
     )
 
     @(Html.Kendo().Button()
@@ -26,29 +28,60 @@
             .Events(e => e.Click("removeFilter"))
     )
 
+    @(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("save-changes")
+        .Content("Salvare modificari")
+        .HtmlAttributes(new { id = "btnSave", type = "button" })
+        .Events(e => e.Click("saveChanges"))
+    )
+
+
     @(Html.Kendo().TextBox()
-        .Name("inputCountryNameFilter")
+        .Name("inputCountryFilter")
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
 
-    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCountry>
-        ()
+
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCountry>()
         .Name("CountryGrid")
-        .Pageable()
         .Columns(columns =>
         {
-        columns.Bound(c => c.CountryId);
-        columns.Bound(c => c.CountryName);
+            columns.Bound(c => c.CountryId);;
+            columns.Bound(c => c.CountryName);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+
         })
         .HtmlAttributes(new { id = "CountryGrid", style = "height: 550px;" })
         .Scrollable()
-        .DataSource(dataSource => dataSource
-        .Ajax()
-        .Read(read => read.Action("Country_Read", "DictionaryCountry").Data("getFilter"))
-        .PageSize(20)
+        //.Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+            .ToolBar(toolbar =>
+                    {
+            toolbar.Create();
+            toolbar.Save();
+})
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model => model.Id(p => p.CountryId))
+
+            //CRUD
+            .Read(read => read.Action("Country_Read", "DictionaryCountry").Data("getFilter"))
+            .Create(create => create.Action("Country_Create", "DictionaryCountry"))
+            .Update(update => update.Action("Country_Update", "DictionaryCountry"))
+            .Destroy(destroy => destroy.Action("Country_Destroy", "DictionaryCountry"))
+
+            .PageSize(20)
         )
     )
+
     <p align="right"> <a href='/DictionaryCountry/AddCountry' class="k-button k-primary">Adauga o noua tara</a></p>
 
     <script>
@@ -69,6 +102,14 @@
             $("#CountryGrid").data("kendoGrid").dataSource.page(1);
         }
 
+        saveChanges = function () {
+            grid = $("#CountryGrid").data("kendoGrid");
+            grid.removeRow($(element).closest("tr"));
+            grid.dataSource.sync();
+        }
+
     </script>
+
+
 </body>
 </html>
