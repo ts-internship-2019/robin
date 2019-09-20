@@ -1,14 +1,13 @@
 ﻿
-@model iWasHere.Domain.Models.DictionaryAttractionType
+@model iWasHere.Domain.Models.DictionaryLandmarkType
 @*--modelul pentru pagian este de tipul DictionaryCurrency*@
 
 @{
-    ViewData["Title"] = "Adauga Atractie";
+    ViewData["Title"] = "Modifica Detalii Atractie";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-@using (Html.BeginForm("AddAttraction", "DictionaryAttractionType", FormMethod.Post))
+@using (Html.BeginForm("AddLandmarkDetails", "DictionaryLandmarkType", FormMethod.Post))
 //                --tot ce urmeaza aici, cand trimit post(pagina inapoi), se duce in actiunea AddValuta
 {
 
@@ -23,10 +22,13 @@
             <tr>
 
                 <th>
-                    @Html.DisplayNameFor(model => model.AttractionCode)
+                    @Html.DisplayNameFor(model => model.ItemCode)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AttractionName)
+                    @Html.DisplayNameFor(model => model.ItemName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
                 </th>
 
             </tr>
@@ -37,11 +39,14 @@
 
                 <td>
 
-                    @Html.EditorFor(model => model.AttractionCode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control" } })
 
                 </td>
                 <td>
-                    @Html.EditorFor(model => model.AttractionName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                 </td>
 
             </tr>
@@ -53,6 +58,4 @@
         </tbody>
     </table>
 }
-
-
 
