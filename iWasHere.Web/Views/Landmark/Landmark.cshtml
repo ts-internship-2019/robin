@@ -1,0 +1,66 @@
+﻿<h1>Lista obiective</h1>
+@(Html.Kendo().Button()
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
+)
+
+@(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("filter-clear")
+        .Content("Sterge filtru")
+        .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+        .Events(e => e.Click("removeFilter"))
+)
+
+@(Html.Kendo().TextBox()
+    .Name("inputLandmarkNameFilter")
+    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+)
+
+
+@(Html.Kendo().Grid<iWasHere.Domain.Models.Landmark>()
+        .Name("LandmarkGrid")
+        .Columns(columns =>
+        {
+            columns.Bound(c => c.LandmarkName).Title("Atractie");
+            columns.Bound(c => c.LandmarkShortDescription).Title("Descriere").ToString();
+            columns.Bound(c => c.DictionaryCity.CityName).Title("Oras");
+            columns.Bound(c => c.DictionaryAttractionType.AttractionName).Title("TipAtractie");
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Scrollable()
+        //.Groupable()
+        //.Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+        .Sortable()
+        .Pageable()
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Landmark_Read", "Landmark").Data("getFilter"))
+            .PageSize(20)
+        )
+)
+
+<script>
+
+    getFilter = function () {
+        var model = {};
+        model["txtboxLandmarkName"] = $("#inputTextbox").val();
+        return model;
+    }
+
+    removeFilter = function () {
+        $("#inputTextbox").val("");
+        refresh();
+    }
+
+    refresh = function () {
+        $("#LandmarkGrid").data("kendoGrid").dataSource.read();
+        $("#LandmarkGrid").data("kendoGrid").dataSource.page(1);
+    }
+
+</script>

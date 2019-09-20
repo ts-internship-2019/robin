@@ -1,4 +1,5 @@
-﻿@(Html.Kendo().Button()
+﻿<h1>Lista judete</h1>
+@(Html.Kendo().Button()
         .Name("iconTextButton")
         .Tag("a")
         .Icon("filter")
@@ -26,10 +27,10 @@
         .Name("CountyGrid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.CountyId);
-            columns.Bound(c => c.CountyName);
-            columns.Bound(c => c.CountryId);
-            columns.Bound(c => c.Country.CountryName);
+            //columns.Bound(c => c.CountyId);
+            columns.Bound(c => c.CountyName).Title("Judet");
+            //columns.Bound(c => c.CountryId);
+            columns.Bound(c => c.Country.CountryName).Title("Tara");
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()

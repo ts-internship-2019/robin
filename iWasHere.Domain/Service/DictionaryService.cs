@@ -125,6 +125,65 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCounty;
         }
+
+        public int GetLandmarkCount()
+        {
+            return _dbContext.Landmark.Count();
+        }
+
+        public List<Landmark> GetLandmarkPage(int page, int pageSize, string txtboxLendmarkName)
+        {
+            IQueryable<Landmark> queryable = _dbContext.Landmark.Include(c => c.DictionaryCity).Include(d=>d.DictionaryAttractionType).Include(e => e.DictionaryAvailability).Include(f => f.DictionaryItem).Include(g => g.Ticket);
+            
+            if (!string.IsNullOrWhiteSpace(txtboxLendmarkName))
+            {
+                queryable = queryable.Where(a => a.LandmarkName.Contains(txtboxLendmarkName));
+            }
+            queryable = queryable.Select(a => new Landmark()            
+            {
+                LandmarkId = a.LandmarkId,
+                LandmarkName = a.LandmarkName,
+                LandmarkShortDescription = a.LandmarkShortDescription,
+                TicketId = a.TicketId,
+                DictionaryAvailabilityId = a.DictionaryAvailabilityId,
+                DictionaryItemId = a.DictionaryItemId,
+                DateAdded = a.DateAdded,
+                DictionaryAttractionTypeId = a.DictionaryAttractionTypeId,
+                Longitude = a.Longitude,
+                Latitude = a.Latitude,
+                DictionaryCityId = a.DictionaryCityId,
+                DictionaryCity = a.DictionaryCity,
+                DictionaryAttractionType = a.DictionaryAttractionType,
+                DictionaryAvailability = a.DictionaryAvailability,
+                DictionaryItem= a.DictionaryItem,
+                Ticket=a.Ticket
+
+            }).Skip((page-1)*pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+
+        public List<Landmark> GetLandmark()
+        {
+            List<Landmark> dictionaryLandmark = _dbContext.Landmark.Select(a => new Landmark()
+            {
+                LandmarkId = a.LandmarkId,
+                LandmarkName = a.LandmarkName,
+                LandmarkShortDescription = a.LandmarkShortDescription,
+                TicketId = a.TicketId,
+                DictionaryAvailabilityId = a.DictionaryAvailabilityId,
+                DictionaryItemId = a.DictionaryItemId,
+                DateAdded = a.DateAdded,
+                DictionaryAttractionTypeId = a.DictionaryAttractionTypeId,
+                Longitude = a.Longitude,
+                Latitude = a.Latitude,
+                DictionaryCityId = a.DictionaryCityId
+
+            }).ToList();
+
+            return dictionaryLandmark;
+        }
+
         #region tickettype
         public List<DictionaryTicketType> GetDictionaryTicketType()
             {
