@@ -79,11 +79,6 @@ namespace iWasHere.Domain.Service
             _dbContext.SaveChanges();
         }
 
-        public int GetDictionaryCountryCount()
-        {
-            return _dbContext.DictionaryCountry.Count();
-        }
-
         public int AddNewCountry(DictionaryCountry dictionaryCountry)
         {
             _dbContext.DictionaryCountry.Add(dictionaryCountry);
