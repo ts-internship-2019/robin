@@ -11,6 +11,8 @@ namespace iWasHere.Domain.Service
     public class DictionaryService
     {
         private readonly RobinContext _dbContext;
+        private static bool UpdateDatabase = false;
+
         public DictionaryService(RobinContext databaseContext)
         {
             _dbContext = databaseContext;
@@ -413,7 +415,9 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public string LandmarkType_DestroyId(int id)
+
+
+    public string LandmarkType_DestroyId(int id)
         {
             try
             {
@@ -423,11 +427,12 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception ex)
             {
-                return "Acest Landmark nu poate fi sters.";
+                return "Acest Landmark nu poate fi stearsa.";
             }
         }
 
-        public int GetDictionaryLandmarkTypeCount()
+
+    public int GetDictionaryLandmarkTypeCount()
         {
             return _dbContext.DictionaryLandmarkType.Count();
         }
@@ -543,6 +548,30 @@ namespace iWasHere.Domain.Service
                 return "Aceasta atractie nu poate fi stearsa.";
             }
         }
+
+        public string LandmarkType_UpdateId(DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            try
+            {
+
+                var target = (_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == dictionaryLandmarkType.ItemId));
+
+                target.ItemCode = dictionaryLandmarkType.ItemCode;
+                target.ItemName = dictionaryLandmarkType.ItemName;
+                target.Description = dictionaryLandmarkType.Description;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi modificat.";
+            }
+        }
     }
 
 }
+
