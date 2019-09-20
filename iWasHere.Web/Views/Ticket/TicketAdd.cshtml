@@ -25,7 +25,7 @@
                                 <span>Codul tipului de Bilet: </span>
                                 @(Html.Kendo().TextBox()
                                 .Name("inputTicketTypeCode")
-                                .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox" })
+                                .HtmlAttributes(new { id = "textBoxTicketTypeCode", type = "textbox",  maxlength="10"})
                                 )
 
                             </label>
@@ -33,7 +33,7 @@
                                     <span>Numele tipului de Bilet: </span>
                                 @(Html.Kendo().TextBox()
                                 .Name("inputTicketTypeName")
-                                .HtmlAttributes(new { id = "textBoxTicketTypeName", type = "textbox" })
+                                .HtmlAttributes(new { id = "textBoxTicketTypeName", type = "textbox",  maxlength="200"})
                                     )
 
                                 </label>
@@ -41,8 +41,8 @@
                          
                             <div class="text-right">
                                 <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
-                                <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction()">Salveaza</button>
-                                <button type="button" id="btnSaveNew" class="k-button">Salveaza si nou</button>
+                                <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                                <button type="button" id="btnSaveNew" class="k-button"onclick="editFunction(2)">Salveaza si nou</button>
                              
                             </div>
                         </form>
@@ -58,20 +58,20 @@
 
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
-        if (modelId == 0) {
-            document.getElementById("ticketAddTitle").innerHTML = "Adauga un tip nou de bilet";//pageTitle
+            if (modelId == 0) {
+                document.getElementById("ticketAddTitle").innerHTML = "Adauga un tip nou de bilet";//pageTitle
+
         } else {
             document.getElementById("ticketAddTitle").innerHTML = "Editeaza bilet";
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
-
             var data = $.ajax({
                 type: 'GET',
-                url: '/Ticket/TicketTypeGetById',
-                data: { txtTicketTypeId: modelId },
+                url: '/Ticket/TicketTypeGetById', //numecontroller, fara controller / nume metoda
+                data: { txtTicketTypeId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
-                        document.getElementById("textBoxTicketTypeCode").value = data.responseJSON.TicketCode;
+                        document.getElementById("textBoxTicketTypeCode").value = data.responseJSON.TicketCode; 
                         document.getElementById("textBoxTicketTypeName").value = data.responseJSON.TicketName;
                     }
                     else //id-ul nu este gasit in db
@@ -82,29 +82,56 @@
                     return result;
                     }
                 });
-            function editFunction() {
+            }
+             function cancel() {
+                 window.location.href = "/Ticket/Ticket";
+            }
+            var eventType;
+
+            function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
                 code = document.getElementById('textBoxTicketTypeCode').value;
                 name = document.getElementById('textBoxTicketTypeName').value;
                 if (code == "" || name == "") {
                     alert("Campuri necompletate!");
-                }
-                else {
-                    $.ajax({
-                            type: 'POST',
-                            url: '/Ticket/TicketType_Update',
-                            data: { id: modelId , code: code,name:name},
-                            cache: false,
-                            success: function (result) {
-                                alert("Editat cu succes"); return result;
-                            }
-                        })
-                        window.location.href = "/Ticket/Ticket";
-                }
-            }
+                } else {
+                    if (modelId != 0 && eventType == 1) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Ticket/TicketType_Update',
+                                data: { id: modelId, code: code, name: name },
+                                cache: false,
+                                success: function (result) {
+                                    alert("Editat cu succes"); return result;
+                                }
+                            })
 
-            }
-             function cancel() {
-                 window.location.href = "/Ticket/Ticket";
+                            window.location.href = "/Ticket/Ticket"; //redirect
+
+                    } else if (modelId == 0 && eventType == 1) {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Ticket/AddNewTicketType',
+                                data: { code: code, name: name },
+                                cache: false,
+                                success: function (result) {
+                                    alert("Adaugat cu Success"); return result;
+                                }
+                            })
+                            window.location.href = "/Ticket/Ticket";
+
+                    } else {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Ticket/AddNewTicketType',
+                                data: { code: code, name: name },
+                                cache: false,
+                                success: function (result) {
+                                    alert("Adaugat cu Success"); return result;
+                                }
+                            })
+                            window.location.href = "/Ticket/TicketAdd?Id=0";
+                    }
+                }
             }
         </script>
 </body>
