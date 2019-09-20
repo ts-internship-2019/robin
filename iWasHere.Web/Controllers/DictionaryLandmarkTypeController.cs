@@ -34,9 +34,21 @@ namespace iWasHere.Web.Controllers
             return Json(tempDataSourceResult);
         }
 
-       
 
-        
+
+ 
+        public ActionResult LandmarkType_Update([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            if (dictionaryLandmarkType != null && ModelState.IsValid)
+            {
+                _dictionaryService.LandmarkType_UpdateId(dictionaryLandmarkType);
+            }
+
+            return Json(new[] { dictionaryLandmarkType }.ToDataSourceResult(request, ModelState));
+        }
+
+
+
 
         public ActionResult LandmarkType_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
         {

@@ -39,24 +39,17 @@ namespace iWasHere.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult TicketType_Update([DataSourceRequest] DataSourceRequest request, DictionaryTicketType dictionaryTicketType)
+        public ActionResult TicketType_Update(int id,string code,string name)
         {
+            DictionaryTicketType dictionaryTicketType = new DictionaryTicketType();
+            dictionaryTicketType.TicketTypeId = id;
+            dictionaryTicketType.TicketName = name;
+            dictionaryTicketType.TicketCode = code;
+
             if (dictionaryTicketType != null)
             {
-                string ldmType = _dictionaryService.UpdateTicketTypeId(dictionaryTicketType.TicketTypeId);
-
-                if (string.IsNullOrWhiteSpace(ldmType))
-                {
-                    return Json(ModelState.ToDataSourceResult());
-                }
-                else
-                {
-                    ModelState.AddModelError("Error", ldmType);
-                    return Json(ModelState.ToDataSourceResult());
-                }
+                _dictionaryService.UpdateTicketTypeId(dictionaryTicketType);
             }
-            else if (dictionaryTicketType == null)
-            { }
 
             return Json(ModelState.ToDataSourceResult());
         }

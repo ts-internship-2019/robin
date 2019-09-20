@@ -40,8 +40,8 @@
                             </fieldset>
                          
                             <div class="text-right">
-                                <button type="button" class="k-button k-primary">Anuleaza</button>
-                                <button type="button" id="btnSaveEdit" class="k-button">Salveaza</button>
+                                <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
+                                <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction()">Salveaza</button>
                                 <button type="button" id="btnSaveNew" class="k-button">Salveaza si nou</button>
                              
                             </div>
@@ -51,41 +51,61 @@
             </div>
         </div>
 
-   
-
         <script type="text/javascript">
-        var currentURL = window.location.href;
-        var url = new URL(currentURL);
-        var c = url.searchParams.get("Id");
+            var currentURL = window.location.href;
+            var url = new URL(currentURL);
+            var modelId = url.searchParams.get("Id");
+
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
-        if (c == 0) {
-            var test = document.getElementById("ticketAddTitle").innerHTML = "Adauga un tip nou de bilet";
-
+        if (modelId == 0) {
+            document.getElementById("ticketAddTitle").innerHTML = "Adauga un tip nou de bilet";//pageTitle
         } else {
-            var test = document.getElementById("ticketAddTitle").innerHTML = "Editeaza bilet";
-            document.getElementById("btnSaveNew").style.display = "none";
-            $("#textBoxTicketTypeCode").val(c);
+            document.getElementById("ticketAddTitle").innerHTML = "Editeaza bilet";
+            document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
+
             var data = $.ajax({
                 type: 'GET',
                 url: '/Ticket/TicketTypeGetById',
-                data: { txtTicketTypeId: c },
+                data: { txtTicketTypeId: modelId },
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
                         document.getElementById("textBoxTicketTypeCode").value = data.responseJSON.TicketCode;
-                        
-                        document.getElementById("textBoxTicketTypeName").value = data.responseJSON.TicketName;        
-                    } else //id-ul nu este gasit in db
+                        document.getElementById("textBoxTicketTypeName").value = data.responseJSON.TicketName;
+                    }
+                    else //id-ul nu este gasit in db
                     {
-                 
-                        window.location.href = "/Ticket/TicketAdd?Id=0";
+                        alert("Inregistrarea nu a fost gasita in baza de date!")
+                        window.location.href = "/Ticket/Ticket";
                     }
                     return result;
+                    }
+                });
+            function editFunction() {
+                code = document.getElementById('textBoxTicketTypeCode').value;
+                name = document.getElementById('textBoxTicketTypeName').value;
+                if (code == "" || name == "") {
+                    alert("Campuri necompletate!");
                 }
-            });
+                else {
+                    $.ajax({
+                            type: 'POST',
+                            url: '/Ticket/TicketType_Update',
+                            data: { id: modelId , code: code,name:name},
+                            cache: false,
+                            success: function (result) {
+                                alert("Editat cu succes"); return result;
+                            }
+                        })
+                        window.location.href = "/Ticket/Ticket";
+                }
+            }
 
-        }
+            }
+             function cancel() {
+                 window.location.href = "/Ticket/Ticket";
+            }
         </script>
 </body>
 </html>

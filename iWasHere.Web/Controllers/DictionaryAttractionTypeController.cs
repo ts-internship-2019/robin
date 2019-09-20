@@ -61,16 +61,14 @@ namespace iWasHere.Web.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-
             return View("AddAttractionType");
         }
 
-
-
         [HttpPost]
-        public IActionResult AddAttractionType(DictionaryAttractionType newAttractionType)
+        public IActionResult AddAttraction(DictionaryAttractionType modelValuta)
         {
-            var result = _dictionaryService.AddNewAttractionType(newAttractionType);
+            var result = _dictionaryService.AddNewAttractionType(modelValuta);
+
             return View("AttractionType");
         }
 

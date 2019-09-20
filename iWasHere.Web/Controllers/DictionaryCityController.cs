@@ -34,6 +34,25 @@ namespace iWasHere.Web.Controllers
             return Json(_dictionaryService.GetCmbCounty());
         }
 
+        public ActionResult City_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCity dictionaryCity)
+        {
+            if (dictionaryCity != null)
+            {
+                string messageDestroyCity = _dictionaryService.City_DestroyId(dictionaryCity.CityId);
+
+                if (string.IsNullOrWhiteSpace(messageDestroyCity))
+                {
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                else
+                {
+                    ModelState.AddModelError("Acest oras nu poate fi sters", messageDestroyCity);
+                    return Json(ModelState.ToDataSourceResult());
+                }
+            }
+            return Json(ModelState.ToDataSourceResult());
+        }
+
         public IActionResult City()
         {
             return View();
