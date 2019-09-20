@@ -1,0 +1,137 @@
+﻿<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-xl-6 col-sm-10 offset-sm-3">
+        <div class="card">
+            <div class="card-block">
+                <form class="k-form">
+                    <fieldset>
+                        <p id="LandmarkAddTitle">Adaugare obiecti nou</p>
+                        <table>
+                            <tr>
+
+                                <td>
+                                    <span>Codul tipului de Bilet: </span>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().TextBox()
+                            .Name("inputLandmarkName")
+                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                                    )
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td>  <span>Numele tipului de Bilet: </span></td>
+                                <td>
+                                    @(Html.Kendo().TextBox()
+                                .Name("inputLandmarkShortDescription")
+                                .HtmlAttributes(new { id = "textBoxLandmarkShortDesc", type = "textbox", maxlength = "200" })
+                                    )
+
+                                </td>
+                            </tr>
+
+                        </table>
+                        <label>
+                        @(Html.Kendo().CheckBox()
+                               .Name("eq1")
+                               .Checked(true)
+                               .Label("Cu bilet de intrare"))
+                               </label>
+                        <label class="k-form-field">
+                            <span>Cost Bilet: </span>
+                            @(Html.Kendo().TextBox()
+                            .Name("inputLandmarkName")
+                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                            )
+
+                        </label>
+                        <p>
+                            Tip de atractie:
+                            @(Html.Kendo().ComboBox()
+                                      .Name("countyFilter1")
+                                      .DataTextField("CountyName")
+                                      .DataValueField("CountyId")
+                                      .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("cmbCounty", "DictionaryCity");
+                                          });
+                                      })
+                                      .HtmlAttributes(new { id = "cmbCountyFilter2"/*, style = "width: 100%" */})
+                            )
+
+                        </p>
+                        <p>
+                            Interval de vizitare:
+                            @(Html.Kendo().ComboBox()
+                                      .Name("countyFilter2")
+                                      .DataTextField("CountyName")
+                                      .DataValueField("CountyId")
+                                      .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("cmbCounty", "DictionaryCity");
+                                          });
+                                      })
+                                      .HtmlAttributes(new { id = "cmbCountyFilter3"/*, style = "width: 100%" */})
+                            )
+
+                        </p>
+                        <p>
+                            Tara:
+                            @(Html.Kendo().ComboBox()
+                                      .Name("countyFilter")
+                                      .DataTextField("CountyName")
+                                      .DataValueField("CountyId")
+                                      .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("cmbCounty", "DictionaryCity");
+                                          });
+                                      })
+                                      .HtmlAttributes(new { id = "cmbCountyFilter"/*, style = "width: 100%" */})
+                            )
+
+                        </p>
+
+
+
+                    </fieldset>
+                    <fieldset>
+
+                        <p>Coordonate</p>
+                        <label class="k-form-field">
+                            <span>Longitudine </span>
+                            @(Html.Kendo().TextBox()
+                            .Name("inputLandmarkName")
+                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                            )
+
+                        </label>
+                        <label class="k-form-field">
+                            <span>Latitudine </span>
+                            @(Html.Kendo().TextBox()
+                            .Name("inputLandmarkName")
+                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                            )
+
+                        </label>
+                    </fieldset>
+
+                    <div class="text-right">
+                        <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
+                        <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                       
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

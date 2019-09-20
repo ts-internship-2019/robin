@@ -34,5 +34,10 @@ namespace iWasHere.Web.Controllers
             List<Domain.Models.Landmark> landmarks = _dictionaryService.GetLandmark();
             return View(landmarks);
         }
+
+        public IActionResult LandmarkAdd()
+        {
+            return View();
+        }
     }
 }
