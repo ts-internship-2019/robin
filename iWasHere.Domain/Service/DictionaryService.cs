@@ -304,12 +304,16 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public void UpdateTicketTypeId(DictionaryTicketType model)
+        public void UpdateTicketTypeId(DictionaryTicketType dictType)
         {
-            _dbContext.Update(model);
+            _dbContext.Update(dictType);
             _dbContext.SaveChanges();
         }
-
+        public int AddTicketType(DictionaryTicketType dictType)
+        {
+            _dbContext.DictionaryTicketType.Add(dictType);
+            return _dbContext.SaveChanges();
+        }
         #endregion
 
         #region dictionarycurrency

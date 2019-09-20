@@ -54,6 +54,18 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
         }
 
+        [HttpPost]
+        public ActionResult AddNewTicketType( string code, string name)
+        {
+            DictionaryTicketType dictionaryTicketType = new DictionaryTicketType
+            {
+                TicketName = name,
+                TicketCode = code
+            };
+            _dictionaryService.AddTicketType(dictionaryTicketType);
+
+            return Json(ModelState.ToDataSourceResult());
+        }
         public IActionResult TicketAdd()
         {
             return View();
