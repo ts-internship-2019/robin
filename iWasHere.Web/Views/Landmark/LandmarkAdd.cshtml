@@ -5,133 +5,219 @@
         <div class="card">
             <div class="card-block">
                 <form class="k-form">
+                    <!--#region tabel informatii obiectiv -->
                     <fieldset>
-                        <p id="LandmarkAddTitle">Adaugare obiecti nou</p>
+                        <p id="LandmarkAddTitle">Adaugare obiectiv nou</p>
                         <table>
                             <tr>
-
                                 <td>
-                                    <span>Codul tipului de Bilet: </span>
+                                    <span>Numele atractiei : </span>
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
-                            .Name("inputLandmarkName")
-                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                                        .Name("inputLandmarkName")
+                                        .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
                                     )
                                 </td>
+                            </tr>
+                            <tr>
+                                <td>  <span>Descrierea atractiei : </span></td>
+                                <td>
+                                    @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "100", id = "textAreaLandmarkShortDesc" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><p>Placeholder imagine+buton</p></td>
+                            </tr>
 
+                            <tr>
+                                <td>
+                                    @(Html.Kendo().CheckBox()
+                                           .Name("eq1")
+                                           .Checked(true)
+                                           .Label("Cu bilet de intrare")
+                                           .HtmlAttributes(new { id = "checkTicket", onclick = "myFunction()" })
+                                    )
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p id="paragTicketCost">Costul biletului de acces: </p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().TextBox()
+                                    .Name("inputLandmarkName")
+                                    .HtmlAttributes(new { id = "textBoxTicketCost", type = "textbox", maxlength = "100" })
+                                    )
+                                </td>
 
                             </tr>
                             <tr>
-                                <td>  <span>Numele tipului de Bilet: </span></td>
                                 <td>
-                                    @(Html.Kendo().TextBox()
-                                .Name("inputLandmarkShortDescription")
-                                .HtmlAttributes(new { id = "textBoxLandmarkShortDesc", type = "textbox", maxlength = "200" })
+                                    <p id="paragTicketCost2">Tip de valuta</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                              .Name("cmbCurrency")
+                                              .DataTextField("CountyName")
+                                              .DataValueField("CountyId")
+                                              .DataSource(source =>
+                                                  {
+                                                      source.Read(read =>
+                                                      {
+                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                  });
+                                              })
+                                              .HtmlAttributes(new { id = "cmbCurrency"})
                                     )
-
                                 </td>
                             </tr>
-
+                            <tr>
+                                <td>
+                                    <p id="paragTicketCost3">Tip de bilet</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                              .Name("countyFilter1")
+                                              .DataTextField("CountyName")
+                                              .DataValueField("CountyId")
+                                              .DataSource(source =>
+                                                  {
+                                                      source.Read(read =>
+                                                      {
+                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                  });
+                                              })
+                                              .HtmlAttributes(new { id = "cmbTicketType"/*, style = "width: 100%" */})
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Tip de atractie:</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                              .Name("countyFilter1")
+                                              .DataTextField("CountyName")
+                                              .DataValueField("CountyId")
+                                              .DataSource(source =>
+                                                  {
+                                                      source.Read(read =>
+                                                      {
+                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                  });
+                                              })
+                                              .HtmlAttributes(new { id = "cmbCountyFilter2"/*, style = "width: 100%" */})
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Interval vizitare:</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                              .Name("countyFilter1")
+                                              .DataTextField("CountyName")
+                                              .DataValueField("CountyId")
+                                              .DataSource(source =>
+                                                  {
+                                                      source.Read(read =>
+                                                      {
+                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                  });
+                                              })
+                                                 .HtmlAttributes(new { id = "cmbCountyFilter12"/*, style = "width: 100%" */})
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Tara :</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                           .Name("countyFilter1")
+                                           .DataTextField("CountyName")
+                                           .DataValueField("CountyId")
+                                           .DataSource(source =>
+                                               {
+                                                   source.Read(read =>
+                                                   {
+                                                       read.Action("cmbCounty", "DictionaryCity");
+                                               });
+                                           })
+                                           .HtmlAttributes(new { id = "cmbCountyFilter23"/*, style = "width: 100%" */})
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Longitudine</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().TextBox()
+                                            .Name("inputLandmarkName")
+                                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Latitudine </p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().TextBox()
+                                            .Name("inputLandmarkName")
+                                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                                    )
+                                </td>
+                            </tr>
                         </table>
-                        <label>
-                        @(Html.Kendo().CheckBox()
-                               .Name("eq1")
-                               .Checked(true)
-                               .Label("Cu bilet de intrare"))
-                               </label>
-                        <label class="k-form-field">
-                            <span>Cost Bilet: </span>
-                            @(Html.Kendo().TextBox()
-                            .Name("inputLandmarkName")
-                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
-                            )
-
-                        </label>
-                        <p>
-                            Tip de atractie:
-                            @(Html.Kendo().ComboBox()
-                                      .Name("countyFilter1")
-                                      .DataTextField("CountyName")
-                                      .DataValueField("CountyId")
-                                      .DataSource(source =>
-                                          {
-                                              source.Read(read =>
-                                              {
-                                                  read.Action("cmbCounty", "DictionaryCity");
-                                          });
-                                      })
-                                      .HtmlAttributes(new { id = "cmbCountyFilter2"/*, style = "width: 100%" */})
-                            )
-
-                        </p>
-                        <p>
-                            Interval de vizitare:
-                            @(Html.Kendo().ComboBox()
-                                      .Name("countyFilter2")
-                                      .DataTextField("CountyName")
-                                      .DataValueField("CountyId")
-                                      .DataSource(source =>
-                                          {
-                                              source.Read(read =>
-                                              {
-                                                  read.Action("cmbCounty", "DictionaryCity");
-                                          });
-                                      })
-                                      .HtmlAttributes(new { id = "cmbCountyFilter3"/*, style = "width: 100%" */})
-                            )
-
-                        </p>
-                        <p>
-                            Tara:
-                            @(Html.Kendo().ComboBox()
-                                      .Name("countyFilter")
-                                      .DataTextField("CountyName")
-                                      .DataValueField("CountyId")
-                                      .DataSource(source =>
-                                          {
-                                              source.Read(read =>
-                                              {
-                                                  read.Action("cmbCounty", "DictionaryCity");
-                                          });
-                                      })
-                                      .HtmlAttributes(new { id = "cmbCountyFilter"/*, style = "width: 100%" */})
-                            )
-
-                        </p>
-
-
-
                     </fieldset>
-                    <fieldset>
-
-                        <p>Coordonate</p>
-                        <label class="k-form-field">
-                            <span>Longitudine </span>
-                            @(Html.Kendo().TextBox()
-                            .Name("inputLandmarkName")
-                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
-                            )
-
-                        </label>
-                        <label class="k-form-field">
-                            <span>Latitudine </span>
-                            @(Html.Kendo().TextBox()
-                            .Name("inputLandmarkName")
-                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
-                            )
-
-                        </label>
-                    </fieldset>
-
+                    <!--#endregion -->
                     <div class="text-right">
+                        <br />
                         <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
                         <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
-                       
-
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    var currentURL = window.location.href;
+    var url = new URL(currentURL);
+    var landmarkId = url.searchParams.get("Id");
+    if (landmarkId == 0) {
+        document.getElementById("LandmarkAddTitle").innerHTML = "Adauga un nou  obiectiv";//pageTitle
+
+    } else {
+        document.getElementById("LandmarkAddTitle").innerHTML = "Editeaza obiectiv";
+    }
+    function myFunction() {
+      // Get the checkbox
+      var checkBox = document.getElementById("checkTicket");
+        var textBoxTicketCost = document.getElementById("textBoxTicketCost");
+  
+      if (checkBox.checked == false){
+          textBoxTicketCost.style.visibility = "hidden";
+          document.getElementById("textBoxTicketCost").value = "";
+          document.getElementById("paragTicketCost").style.visibility = "hidden";
+          document.getElementById("paragTicketCost2").style.visibility = "hidden";
+          document.getElementById("paragTicketCost3").style.visibility = "hidden";
+   
+
+      } else {
+          textBoxTicketCost.style.visibility = "visible";
+          document.getElementById("paragTicketCost").style.visibility = "visible";
+          document.getElementById("paragTicketCost2").style.visibility = "visible";
+          document.getElementById("paragTicketCost3").style.visibility = "visible";
+      }
+}
+
+
+  </script>
