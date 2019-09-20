@@ -184,7 +184,7 @@ namespace iWasHere.Domain.Models
 
                 entity.Property(e => e.AvailabilityName).HasMaxLength(255);
 
-                entity.Property(e => e.Schedule).HasColumnType("datetime");
+                entity.Property(e => e.Schedule).HasColumnType("string");
             });
 
             modelBuilder.Entity<DictionaryCity>(entity =>

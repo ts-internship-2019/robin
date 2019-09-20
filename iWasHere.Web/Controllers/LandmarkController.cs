@@ -39,5 +39,10 @@ namespace iWasHere.Web.Controllers
         {
             return View();
         }
+
+        public IActionResult LandmarkViewDetails()
+        {
+            return View();
+        }
     }
 }

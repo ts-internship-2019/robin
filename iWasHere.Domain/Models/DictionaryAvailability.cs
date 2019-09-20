@@ -12,7 +12,7 @@ namespace iWasHere.Domain.Models
 
         public int AvailabilityId { get; set; }
         public string AvailabilityName { get; set; }
-        public DateTime? Schedule { get; set; }
+        public string Schedule { get; set; }
 
         public virtual ICollection<Landmark> Landmark { get; set; }
     }
