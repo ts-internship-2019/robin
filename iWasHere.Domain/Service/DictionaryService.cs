@@ -138,6 +138,32 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+
+        public DictionaryCity GetDictionaryCityById(int txtCityId)
+        {
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            queryable = queryable.Where(a => a.CityId.Equals(txtCityId));
+            queryable = queryable.Select(a => new DictionaryCity()
+
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+        public void UpdateCity(DictionaryCity modelCity)
+        {
+            _dbContext.Update(modelCity);
+            _dbContext.SaveChanges();
+        }
+
+        public int AddCity(DictionaryCity modelCity)
+        {
+            _dbContext.DictionaryCity.Add(modelCity);
+            return _dbContext.SaveChanges();
+        }
         #endregion
 
         #region dictionaryCounty
