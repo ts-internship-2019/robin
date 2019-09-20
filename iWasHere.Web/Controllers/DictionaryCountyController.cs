@@ -20,23 +20,28 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult County_Read([DataSourceRequest] DataSourceRequest request, string txtboxCountyName)
+        public ActionResult County_Read([DataSourceRequest] DataSourceRequest request, string txtboxCountyName,int cmbboxCountryName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryCountyCount();
-            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize, txtboxCountyName);
+            tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize, txtboxCountyName, cmbboxCountryName);
 
             return Json(tempDataSourceResult);
 
             //return Json(_dictionaryService.GetDictionaryCounty().ToDataSourceResult(request));
         }
 
+        public ActionResult cmbCountry([DataSourceRequest] DataSourceRequest request, string cmbCountryName)
+        {
+            return Json(_dictionaryService.GetCmbCountry());
+        }
+
         public IActionResult County()
         {
-            List<Domain.Models.DictionaryCounty> dictionaryCounty = _dictionaryService.GetDictionaryCounty();
+            //List<Domain.Models.DictionaryCounty> dictionaryCounty = _dictionaryService.GetDictionaryCounty();
 
-            return View(dictionaryCounty);
-            //return View();
+            //return View(dictionaryCounty);
+            return View();
         }
     }
 }

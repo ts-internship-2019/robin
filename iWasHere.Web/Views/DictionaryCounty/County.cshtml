@@ -22,7 +22,21 @@
     .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
 )
 
-
+@(Html.Kendo().ComboBox()
+          .Name("countryFilter")
+          .DataTextField("CountryName")
+          .DataValueField("CountryId")
+          .DataSource(source =>
+                  {
+                      source.Read(read =>
+                      {
+                          read.Action("cmbCountry", "DictionaryCounty");
+              });
+          })
+          .HtmlAttributes(new { id = "cmbCountryFilter"/*, style = "width: 100%" */})
+)
+<br />
+<br />
 @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
         .Name("CountyGrid")
         .Columns(columns =>
@@ -47,20 +61,22 @@
 
 <script>
 
-        getFilter = function () {
-            var model = {};
-            model["txtboxCountyName"] = $("#inputTextbox").val();
-            return model;
-        }
+    getFilter = function () {
+        var model = {};
+        model["txtboxCountyName"] = $("#inputTextbox").val();
+        model["cmbboxCountryName"] = $("#cmbCountryFilter").val();
+        return model;
+    }
 
-        removeFilter = function () {
-            $("#inputTextbox").val("");
-            refresh();
-        }
+    removeFilter = function () {
+        $("#inputTextbox").val("");
+        $("#cmbCountryFilter").data("kendoComboBox").value("");
+        refresh();
+    }
 
-        refresh = function () {
-            $("#CountyGrid").data("kendoGrid").dataSource.read();
-            $("#CountyGrid").data("kendoGrid").dataSource.page(1);
-        }
+    refresh = function () {
+        $("#CountyGrid").data("kendoGrid").dataSource.read();
+        $("#CountyGrid").data("kendoGrid").dataSource.page(1);
+    }
 
 </script>

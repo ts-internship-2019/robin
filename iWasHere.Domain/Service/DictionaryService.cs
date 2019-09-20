@@ -37,6 +37,19 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountry;
         }
+
+        public List<DictionaryCountry> GetCmbCountry()
+        {           
+            IQueryable<DictionaryCountry> queryable = _dbContext.DictionaryCountry;
+            queryable = queryable.Select(a => new DictionaryCountry()       
+            {
+                CountryId = a.CountryId,
+                CountryName = a.CountryName
+            });
+            
+                return queryable.ToList();                      
+        }
+
         public int GetDictionaryCountryCount()
         {
             return _dbContext.DictionaryCountry.Count();
@@ -126,13 +139,17 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCounty.Count();
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName, int cmbboxCountryId)
         {
             IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
 
             if (!string.IsNullOrWhiteSpace(txtboxCountyName))
             {
                 queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
+            }
+            if (cmbboxCountryId > 0)
+            {
+                queryableCounty = queryableCounty.Where(a => a.Country.CountryId == (cmbboxCountryId));
             }
             queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
             {
