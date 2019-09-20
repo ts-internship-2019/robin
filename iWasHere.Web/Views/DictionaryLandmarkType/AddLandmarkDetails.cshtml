@@ -2,60 +2,181 @@
 @model iWasHere.Domain.Models.DictionaryLandmarkType
 @*--modelul pentru pagian este de tipul DictionaryCurrency*@
 
-@{
-    ViewData["Title"] = "Adauga Detalii Atractie";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+@*@{
+        ViewData["Title"] = "Adauga Detalii Atractie";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
 
-@using (Html.BeginForm("AddLandmarkDetails", "DictionaryLandmarkType", FormMethod.Post))
-//                --tot ce urmeaza aici, cand trimit post(pagina inapoi), se duce in actiunea AddValuta
-{
+@*@using (Html.BeginForm("AddLandmarkDetails", "DictionaryLandmarkType", FormMethod.Post))
+    //                --tot ce urmeaza aici, cand trimit post(pagina inapoi), se duce in actiunea AddValuta
+    {
 
-    //    <!--<a href="/">modificat doar pentru un model, IEnumerable era pentru o lista de modele </a> -->
-
-
-    <h1>Adauga</h1>
+        //    <!--<a href="/">modificat doar pentru un model, IEnumerable era pentru o lista de modele </a> -->
 
 
-    <table class="table">
-        <thead>
-            <tr>
+        <h1>Adauga</h1>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.ItemCode)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ItemName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
 
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table">
+            <thead>
+                <tr>
 
-            <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
 
-                <td>
+                </tr>
+            </thead>
+            <tbody>
 
-                    @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control" } })
+                <tr>
 
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                </td>
+                    <td>
 
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <input type="submit" value="Salveaza Detalii" />
-                </td>
-            </tr>
-        </tbody>
-    </table>
-}
+                        @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control" } })
 
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="submit" value="Salveaza Detalii" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }*@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ticket</title>
+
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+    @*@{ using (Html.BeginForm("LandmarkType_UpdateId", "LandmarkType", FormMethod.Post))}*@
+    <div class="row">
+        <div class="col-xl-6 col-sm-10 offset-sm-3">
+            <div class="card">
+                <div class="card-block">
+                    <form class="k-form">
+                        <fieldset>
+                            <p id="landmarkTypeAddTitle">Test</p>
+                            @*//start*@
+
+
+                            @*end*@
+                            <label class="k-form-field">
+                                <span>Cod detalii atractie: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputLandmarkTypeCode")
+                                .HtmlAttributes(new { id = "textBoxLandmarkTypeCode", type = "textbox" })
+                                )
+
+                            </label>
+                            <label class="k-form-field">
+                                <span>Nume detalii atractie: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputLandmarkTypeName")
+                                .HtmlAttributes(new { id = "textBoxLandmarkTypeName", type = "textbox" })
+                                )
+
+                            </label>
+                            <label class="k-form-field">
+                                <span>Descriere detalii atractie: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputLandmarkTypeDescription")
+                                .HtmlAttributes(new { id = "textBoxLandmarkTypeDescription", type = "textbox" })
+                                )
+
+                            </label>
+                        </fieldset>
+
+                        <div class="text-right">
+                            <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
+                            <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction()">Salveaza</button>
+                            <button type="button" id="btnSaveNew" class="k-button">Salveaza si nou</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+            var currentURL = window.location.href;
+            var url = new URL(currentURL);
+            var modelId = url.searchParams.get("Id");
+
+        // alert(c); // alert pentru verificarea id-ului
+        //c ia valoarea id-ului
+        if (modelId == 0) {
+            document.getElementById("landmarkTypeAddTitle").innerHTML = "Adauga detalii noi atractie";//pageTitle
+        } else {
+            document.getElementById("landmarkTypeAddTitle").innerHTML = "Editeaza detalii atractie";
+            document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
+
+            var data = $.ajax({
+                type: 'GET',
+                url: '/Ticket/TicketTypeGetById',
+                data: { txtTicketTypeId: modelId },
+                cache: false,
+                success: function (result) {
+                    if (data.responseJSON != null) {
+                        document.getElementById("textBoxLandmarkTypeCode").value = data.responseJSON.TicketCode;
+                        document.getElementById("textBoxLandmarkTypeName").value = data.responseJSON.TicketName;
+                        document.getElementById("textBoxLandmarkTypeDescription").value = data.responseJSON.TicketName;
+                    }
+                    else //id-ul nu este gasit in db
+                    {
+                        alert("Inregistrarea nu a fost gasita in baza de date!")
+                        window.location.href = "/Ticket/Ticket";
+                    }
+                    return result;
+                    }
+                });
+            function editFunction() {
+                code = document.getElementById('textBoxTicketTypeCode').value;
+                name = document.getElementById('textBoxTicketTypeName').value;
+                description = document.getElementById('textBoxTicketTypeName').value;
+                if (code == "" || name == "") {
+                    alert("Campuri necompletate!");
+                }
+                else {
+                    $.ajax({
+                            type: 'POST',
+                            url: '/Ticket/TicketType_Update',
+                            data: { id: modelId , code: code,name:name},
+                            cache: false,
+                            success: function (result) {
+                                alert("Editat cu succes"); return result;
+                            }
+                        })
+                        window.location.href = "/Ticket/Ticket";
+                }
+            }
+
+            }
+             function cancel() {
+                 window.location.href = "/Ticket/Ticket";
+            }
+    </script>
+</body>
+</html>
