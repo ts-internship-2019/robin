@@ -16,35 +16,41 @@
                     <form class="k-form">
                         <fieldset>
                             <p id="cityAddTitle">Test</p>
-                            @*//start*@
+                            <table>
+                                <tr>
+                                    <td>
+                                    <span>Nume oras:</span>
+                                    </td>
+                                    <td>
 
+                                        @(Html.Kendo().TextBox()
+                                        .Name("inputCityName")
+                                        .HtmlAttributes(new { id = "textBoxCityName", type = "textbox", maxlength = "10" })
+                                        )
 
-                            @*end*@
-                            <label class="k-form-field">
-                                <span>Nume oras:</span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputCityName")
-                                .HtmlAttributes(new { id = "textBoxCityName", type = "textbox", maxlength = "10" })
-                                )
-
-                            </label>
-                            <label class="k-form-field">
-                                <span>Nume judet:</span>
-                                @(Html.Kendo().ComboBox()
-                                  .Name("countyEdit")
-                                  .DataTextField("CountyName")
-                                  .DataValueField("CountyId")
-                                  .DataSource(source =>
-                                      {
-                                          source.Read(read =>
-                                          {
-                                              read.Action("cmbCounty", "DictionaryCity");
-                                      });
-                                  })
-                                  .HtmlAttributes(new { id = "cmbCountyId"})
-                                )
-
-                            </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Nume judet:</span>
+                                    </td>
+                                    <td>
+                                        @(Html.Kendo().ComboBox()
+                                          .Name("countyEdit")
+                                          .DataTextField("CountyName")
+                                          .DataValueField("CountyId")
+                                          .DataSource(source =>
+                                              {
+                                                  source.Read(read =>
+                                                  {
+                                                      read.Action("cmbCounty", "DictionaryCity");
+                                              });
+                                          })
+                                          .HtmlAttributes(new { id = "cmbCountyId" })
+                                        )
+                                    </td>
+                                </tr>
+                            </table>
                         </fieldset>
 
                         <div class="text-right">
@@ -60,7 +66,6 @@
     </div>
 
     <script type="text/javascript">
-        debugger;
         var currentURL = window.location.href;
         var url = new URL(currentURL);
         var modelId = url.searchParams.get("Id");
@@ -117,8 +122,8 @@
                 } else if (modelId == 0 && eventType == 1) {
                     $.ajax({
                         type: 'POST',
-                        url: '/DitionaryCity/AddNewCity',
-                        data: { code: code, name: name },
+                        url: '/DictionaryCity/AddNewCity',
+                        data: { cityname: cityname, countyid: countyid },
                         cache: false,
                         success: function (result) {
                             alert("Adaugat cu Success"); return result;

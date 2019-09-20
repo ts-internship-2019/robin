@@ -62,9 +62,9 @@
         .Pageable()
         .Columns(columns =>
         {
-        columns.Bound(c => c.CityId);
+        columns.Bound(c => c.CityId).Hidden();
         columns.Bound(c => c.CityName).Title("Oras");
-        columns.Bound(c => c.CountyId);
+        columns.Bound(c => c.CountyId).Hidden();
         columns.Bound(c => c.County.CountyName).Title("Judet");
         columns.Template("<a  class='k-button' href='/DictionaryCity/CityAdd?Id=#=CityId# '> Editeaza </a>").Width(150);
         columns.Command(command => { command.Destroy(); }).Width(200);
