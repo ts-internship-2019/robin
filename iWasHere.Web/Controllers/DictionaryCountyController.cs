@@ -36,12 +36,59 @@ namespace iWasHere.Web.Controllers
             return Json(_dictionaryService.GetCmbCountry());
         }
 
+        public ActionResult County_Update([DataSourceRequest] DataSourceRequest request, DictionaryCounty dictionaryCounty)
+        {
+            if (dictionaryCounty != null && ModelState.IsValid)
+            {
+                _dictionaryService.County_UpdateId(dictionaryCounty);
+            }
+
+            return Json(new[] { dictionaryCounty }.ToDataSourceResult(request, ModelState));
+        }
+
+        public ActionResult County_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCounty dictionaryCounty)
+        {
+            if (dictionaryCounty != null)
+            {
+                string cnty = _dictionaryService.County_DestroyId(dictionaryCounty.CountyId);
+
+                if (string.IsNullOrWhiteSpace(cnty))
+                {
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                else
+                {
+                    ModelState.AddModelError("Error", cnty);
+                    return Json(ModelState.ToDataSourceResult());
+                }
+            }
+            else if (dictionaryCounty == null)
+            {
+
+            }
+            return Json(ModelState.ToDataSourceResult());
+        }
+
         public IActionResult County()
         {
             //List<Domain.Models.DictionaryCounty> dictionaryCounty = _dictionaryService.GetDictionaryCounty();
 
             //return View(dictionaryCounty);
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View("AddCounty");
+        }
+
+        [HttpPost]
+        public IActionResult AddCounty(DictionaryCounty modelJudet)
+        {
+            var result = _dictionaryService.AddNewCounty(modelJudet);
+
+            return View("County");
         }
     }
 }

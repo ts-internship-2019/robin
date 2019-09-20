@@ -45,9 +45,11 @@
             columns.Bound(c => c.CountyName).Title("Judet");
             //columns.Bound(c => c.CountryId);
             columns.Bound(c => c.Country.CountryName).Title("Tara");
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
         //.Groupable()
         //.Filterable(ftb => ftb.Mode(GridFilterMode.Row))
         .Sortable()
@@ -55,6 +57,9 @@
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
+            .Create(create => create.Action("County_Create", "DictionaryCounty"))
+            .Update(update => update.Action("County_Update", "DictionaryCounty"))
+            .Destroy(destroy => destroy.Action("County_Destroy", "DictionaryCounty"))
             .PageSize(20)
         )
 )
@@ -78,5 +83,11 @@
         $("#CountyGrid").data("kendoGrid").dataSource.read();
         $("#CountyGrid").data("kendoGrid").dataSource.page(1);
     }
+
+        saveChanges = function () {
+            grid = $("#CountyGrid").data("kendoGrid");
+            grid.removeRow($(element).closest("tr"));
+            grid.dataSource.sync();
+        }
 
 </script>

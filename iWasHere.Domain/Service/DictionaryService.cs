@@ -193,6 +193,47 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
         }
 
+        public int AddNewCounty(DictionaryCounty dictionaryCounty)
+        {
+            _dbContext.DictionaryCounty.Add(dictionaryCounty);
+            return _dbContext.SaveChanges();
+        }
+
+        public string County_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest judet nu poate fi stearsa.";
+            }
+        }
+
+        public string County_UpdateId(DictionaryCounty dictionaryCounty)
+        {
+            try
+            {
+                var target = (_dbContext.DictionaryCounty.Single(a => a.CountyId == dictionaryCounty.CountyId));
+
+                target.CountyName = dictionaryCounty.CountyName;
+                target.CountryId = dictionaryCounty.CountryId;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest judet nu poate fi modificat.";
+            }
+        }
+
         public int GetLandmarkCount()
         {
             return _dbContext.Landmark.Count();
