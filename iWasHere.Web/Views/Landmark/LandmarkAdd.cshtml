@@ -41,9 +41,9 @@
 
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="trTicketCost1">
                                 <td>
-                                    <p id="paragTicketCost">Costul biletului de acces: </p>
+                                    <p>Costul biletului de acces: </p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
@@ -53,9 +53,9 @@
                                 </td>
 
                             </tr>
-                            <tr>
+                            <tr id="trTicketCost2">
                                 <td>
-                                    <p id="paragTicketCost2">Tip de valuta</p>
+                                    <p>Tip de valuta</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
@@ -69,13 +69,13 @@
                                                           read.Action("cmbCounty", "DictionaryCity");
                                                   });
                                               })
-                                              .HtmlAttributes(new { id = "cmbCurrency"})
+                                              .HtmlAttributes(new { id = "cmbCurrency" })
                                     )
                                 </td>
                             </tr>
-                            <tr>
+                            <tr id="trTicketCost3">
                                 <td>
-                                    <p id="paragTicketCost3">Tip de bilet</p>
+                                    <p>Tip de bilet</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
@@ -110,6 +110,26 @@
                                                   });
                                               })
                                               .HtmlAttributes(new { id = "cmbCountyFilter2"/*, style = "width: 100%" */})
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Tip zona de atractie</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                              .Name("countyFilter1")
+                                              .DataTextField("CountyName")
+                                              .DataValueField("CountyId")
+                                              .DataSource(source =>
+                                                  {
+                                                      source.Read(read =>
+                                                      {
+                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                  });
+                                              })
+                                              .HtmlAttributes(new { id = "cmbCountyFilter20"/*, style = "width: 100%" */})
                                     )
                                 </td>
                             </tr>
@@ -150,6 +170,46 @@
                                                });
                                            })
                                            .HtmlAttributes(new { id = "cmbCountyFilter23"/*, style = "width: 100%" */})
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Judet :</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                           .Name("countyFilter1")
+                                           .DataTextField("CountyName")
+                                           .DataValueField("CountyId")
+                                           .DataSource(source =>
+                                               {
+                                                   source.Read(read =>
+                                                   {
+                                                       read.Action("cmbCounty", "DictionaryCity");
+                                               });
+                                           })
+                                           .HtmlAttributes(new { id = "cmbCountyFilter23y"/*, style = "width: 100%" */})
+                                    )
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p>Oras :</p>
+                                </td>
+                                <td>
+                                    @(Html.Kendo().ComboBox()
+                                           .Name("countyFilter1")
+                                           .DataTextField("CountyName")
+                                           .DataValueField("CountyId")
+                                           .DataSource(source =>
+                                               {
+                                                   source.Read(read =>
+                                                   {
+                                                       read.Action("cmbCounty", "DictionaryCity");
+                                               });
+                                           })
+                                           .HtmlAttributes(new { id = "cmbCountyFilter2t3"/*, style = "width: 100%" */})
                                     )
                                 </td>
                             </tr>
@@ -201,21 +261,25 @@
     function myFunction() {
       // Get the checkbox
       var checkBox = document.getElementById("checkTicket");
-        var textBoxTicketCost = document.getElementById("textBoxTicketCost");
+      //  var textBoxTicketCost = document.getElementById("textBoxTicketCost");
   
-      if (checkBox.checked == false){
-          textBoxTicketCost.style.visibility = "hidden";
+        if (checkBox.checked == false)
+        {
           document.getElementById("textBoxTicketCost").value = "";
-          document.getElementById("paragTicketCost").style.visibility = "hidden";
-          document.getElementById("paragTicketCost2").style.visibility = "hidden";
-          document.getElementById("paragTicketCost3").style.visibility = "hidden";
-   
-
-      } else {
-          textBoxTicketCost.style.visibility = "visible";
-          document.getElementById("paragTicketCost").style.visibility = "visible";
-          document.getElementById("paragTicketCost2").style.visibility = "visible";
-          document.getElementById("paragTicketCost3").style.visibility = "visible";
+          document.getElementById("trTicketCost1").style.visibility = "hidden";
+          document.getElementById("trTicketCost1").style.position = "absolute";
+          document.getElementById("trTicketCost2").style.visibility = "hidden";
+          document.getElementById("trTicketCost2").style.position = "absolute";
+          document.getElementById("trTicketCost3").style.visibility = "hidden";
+          document.getElementById("trTicketCost3").style.position = "absolute";
+        } else
+        {
+          document.getElementById("trTicketCost1").style.visibility = "visible";
+          document.getElementById("trTicketCost1").style.position = "static";
+          document.getElementById("trTicketCost2").style.visibility = "visible";
+          document.getElementById("trTicketCost2").style.position = "static";
+          document.getElementById("trTicketCost3").style.visibility = "visible";
+          document.getElementById("trTicketCost3").style.position = "static";
       }
 }
 
