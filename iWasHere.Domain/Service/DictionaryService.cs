@@ -260,6 +260,33 @@ namespace iWasHere.Domain.Service
             }
         }
 
+        public int AddCounty(DictionaryCounty modelCounty)
+        {
+            _dbContext.DictionaryCounty.Add(modelCounty);
+            return _dbContext.SaveChanges();
+        }
+
+        public DictionaryCounty GetDictionaryCountyById(int txtCountyId)
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Where(a => a.CountyId.Equals(txtCountyId));
+            queryable = queryable.Select(a => new DictionaryCounty()
+
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+
+        public void UpdateCounty(DictionaryCounty modelCounty)
+        {
+            _dbContext.Update(modelCounty);
+            _dbContext.SaveChanges();
+        }
+
         public int GetLandmarkCount()
         {
             return _dbContext.Landmark.Count();

@@ -35,15 +35,20 @@ namespace iWasHere.Web.Controllers
         {
             return Json(_dictionaryService.GetCmbCountry());
         }
-
-        public ActionResult County_Update([DataSourceRequest] DataSourceRequest request, DictionaryCounty dictionaryCounty)
+        [HttpPost]
+        public ActionResult County_Update(int id, string countyname, int countryid)
         {
-            if (dictionaryCounty != null && ModelState.IsValid)
+            DictionaryCounty dictionaryCounty = new DictionaryCounty();
+            dictionaryCounty.CountyId = id;
+            dictionaryCounty.CountyName = countyname;
+            dictionaryCounty.CountryId = countryid;
+
+            if (dictionaryCounty != null)
             {
-                _dictionaryService.County_UpdateId(dictionaryCounty);
+                _dictionaryService.UpdateCounty(dictionaryCounty);
             }
 
-            return Json(new[] { dictionaryCounty }.ToDataSourceResult(request, ModelState));
+            return Json(ModelState.ToDataSourceResult());
         }
 
         public ActionResult County_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCounty dictionaryCounty)
@@ -77,18 +82,29 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Add()
+        public IActionResult CountyAdd()
         {
-            return View("AddCounty");
+            return View();
+        }
+
+        public ActionResult CountyGetById(int txtCountyId)
+        {
+
+            return Json(_dictionaryService.GetDictionaryCountyById(txtCountyId));
         }
 
         [HttpPost]
-        public IActionResult AddCounty(DictionaryCounty modelJudet)
+        public ActionResult AddNewCounty(string countyname, int countryid)
         {
-            var result = _dictionaryService.AddNewCounty(modelJudet);
+            DictionaryCounty dictionaryCounty = new DictionaryCounty
+            {
+                CountyName = countyname,
+                CountryId = countryid
+            };
+            _dictionaryService.AddCounty(dictionaryCounty);
 
-            return View("County");
+            return Json(ModelState.ToDataSourceResult());
         }
+
     }
 }
