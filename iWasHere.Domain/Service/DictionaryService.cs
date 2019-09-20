@@ -291,7 +291,7 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.Landmark.Count();
         }
-
+        
         public List<Landmark> GetLandmarkPage(int page, int pageSize, string txtboxLendmarkName)
         {
             IQueryable<Landmark> queryable = _dbContext.Landmark.Include(c => c.DictionaryCity).Include(d=>d.DictionaryAttractionType).Include(e => e.DictionaryAvailability).Include(f => f.DictionaryItem).Include(g => g.Ticket);
@@ -313,11 +313,12 @@ namespace iWasHere.Domain.Service
                 Longitude = a.Longitude,
                 Latitude = a.Latitude,
                 DictionaryCityId = a.DictionaryCityId,
-                DictionaryCity = a.DictionaryCity,
-                DictionaryAttractionType = a.DictionaryAttractionType,
+
+                //FK-urile catre tabele
                 DictionaryAvailability = a.DictionaryAvailability,
-                DictionaryItem= a.DictionaryItem,
-                Ticket=a.Ticket
+                DictionaryItem = a.DictionaryItem,
+                DictionaryAttractionType = a.DictionaryAttractionType,
+                DictionaryCity = a.DictionaryCity
 
             }).Skip((page-1)*pageSize).Take(pageSize);
 
@@ -429,6 +430,17 @@ namespace iWasHere.Domain.Service
         {
             _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
             _dbContext.SaveChanges();
+        }
+        public List<DictionaryTicketType> GetCmbTicketType()
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+                TicketTypeId = a.TicketTypeId,
+                TicketName = a.TicketName
+            });
+
+            return queryable.ToList();
         }
         #endregion
 
@@ -550,6 +562,63 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryLandmarkType.Add(dictionaryLandmarkType);
             return _dbContext.SaveChanges();
         }
+
+               public DictionaryLandmarkType GetDictionaryLandmarkTypeById(int txtLandmarkTypeId)
+        {
+            IQueryable<DictionaryLandmarkType> queryable = _dbContext.DictionaryLandmarkType;
+            queryable = queryable.Where(a => a.ItemId.Equals(txtLandmarkTypeId));
+            queryable = queryable.Select(a => new DictionaryLandmarkType()
+           
+            {
+                ItemId = a.ItemId,
+                ItemCode = a.ItemCode,
+                ItemName = a.ItemName,
+                Description = a.Description
+            });
+          
+            return queryable.FirstOrDefault();
+        }
+
+
+
+        public int UpdateLandmarkType(DictionaryLandmarkType lmkType)
+        {
+
+            _dbContext.DictionaryLandmarkType.Update(lmkType);
+            return _dbContext.SaveChanges();
+        }
+
+        public void UpdateLandmarkTypeId(DictionaryLandmarkType lmkType)
+        {
+            _dbContext.DictionaryLandmarkType.Update(lmkType);
+            _dbContext.SaveChanges();
+        }
+
+
+        public string LandmarkType_QuickUpdateId(DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            try
+            {
+
+                var target = (_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == dictionaryLandmarkType.ItemId));
+
+                target.ItemCode = dictionaryLandmarkType.ItemCode;
+                target.ItemName = dictionaryLandmarkType.ItemName;
+                target.Description = dictionaryLandmarkType.Description;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi modificat.";
+            }
+        }
+
+
         #endregion
 
         #region dictionaryavailability
