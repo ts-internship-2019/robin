@@ -1,7 +1,7 @@
 ﻿<h1>@ViewData["Title"]</h1>
 
 <div class="row">
-    <div class="col-xl-5 col-sm-10 offset-sm-3" >
+    <div class="col-xl-5 col-sm-10 offset-sm-3">
         <div class="card">
             <div class="card-block">
                 <form class="k-form">
@@ -27,7 +27,29 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td><p>Placeholder imagine+buton</p></td>
+                                <td colspan="2" align="center"> 
+                                    <div class="box">
+                                        <p><b>Incarcare Imagine</b></p>
+                                       
+                                            @*The Upload is able to upload files out-of-band using the
+                                            HTML5 File API with fallback for legacy browsers.
+                                        
+                                            You need to configure save action that will receive
+                                            the uploaded files.
+                                            An optional remove action is also available.*@
+                                    </div>
+
+                                    <div class="demo-section k-content">
+                                        @(Html.Kendo().Upload()
+                                            .Name("files")
+                                            .Async(a => a
+                                                .Save("Async_Save", "Upload")
+                                                .Remove("Async_Remove", "Upload")
+                                                .AutoUpload(true)
+                                            )
+                                        )
+                                    </div>
+                                </td>
                             </tr>
 
                             <tr>

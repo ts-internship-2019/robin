@@ -202,11 +202,14 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
         }
 
+        #endregion
+
+        #region Landmark
         public int GetLandmarkCount()
         {
             return _dbContext.Landmark.Count();
         }
-
+        
         public List<Landmark> GetLandmarkPage(int page, int pageSize, string txtboxLendmarkName)
         {
             IQueryable<Landmark> queryable = _dbContext.Landmark.Include(c => c.DictionaryCity).Include(d=>d.DictionaryAttractionType).Include(e => e.DictionaryAvailability).Include(f => f.DictionaryItem).Include(g => g.Ticket);
@@ -228,11 +231,12 @@ namespace iWasHere.Domain.Service
                 Longitude = a.Longitude,
                 Latitude = a.Latitude,
                 DictionaryCityId = a.DictionaryCityId,
-                DictionaryCity = a.DictionaryCity,
-                DictionaryAttractionType = a.DictionaryAttractionType,
+
+                //FK-urile catre tabele
                 DictionaryAvailability = a.DictionaryAvailability,
-                DictionaryItem= a.DictionaryItem,
-                Ticket=a.Ticket
+                DictionaryItem = a.DictionaryItem,
+                DictionaryAttractionType = a.DictionaryAttractionType,
+                DictionaryCity = a.DictionaryCity
 
             }).Skip((page-1)*pageSize).Take(pageSize);
 
