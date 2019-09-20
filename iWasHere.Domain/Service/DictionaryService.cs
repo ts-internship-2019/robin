@@ -314,6 +314,11 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryTicketType.Add(dictType);
             return _dbContext.SaveChanges();
         }
+        public void TicketType_DestroyId(int id)
+        {
+            _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
+            _dbContext.SaveChanges();
+        }
         #endregion
 
         #region dictionarycurrency

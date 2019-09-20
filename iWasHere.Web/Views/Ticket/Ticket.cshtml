@@ -41,8 +41,13 @@
             columns.Bound(c => c.TicketCode).Title("Cod bilet");
             columns.Bound(c => c.TicketName).Title("Denumire bilet");
             columns.Template("<a  class='k-button' href='/Ticket/TicketAdd?Id=#=TicketTypeId# '> Editeaza </a>").Width(150);
-            columns.Template("<a class='k-button k-primary' href='/Home/Index'>Sterge</a>").Width(150);
+            columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
             })
+        .Editable(editable =>
+                  {
+                     editable.Mode(GridEditMode.InLine);
+                     editable.DisplayDeleteConfirmation("Sunteti sigur ca doriti stergerea inregistrarii?");
+                  })
             .HtmlAttributes(new { style = "height: 550px;" })
             .Scrollable()
             //< a href = "~/Views/Ticket/Ticket.cshtml" > ~/ Views / Ticket / Ticket.cshtml </ a >
@@ -55,10 +60,10 @@
             .Ajax()
             .PageSize(20)
             .Read(read => read.Action("TicketTypeRead", "Ticket").Data("getFilter"))
+            .Destroy(destroy => destroy.Action("TicketType_Destroy", "Ticket"))
+            )
+            )
 
-        )
-    )
- 
     <script>
 
         getFilter = function () {
@@ -79,6 +84,6 @@
 
     </script>
     <p align="right"> <a href='/Ticket/TicketAdd?Id=0' class="k-button k-primary">Adauga un nou tip de bilet</a></p>
-   
+
 </body>
 </html>
