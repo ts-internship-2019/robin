@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model iWasHere.Domain.Models.DictionaryCity
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -8,7 +9,6 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-
     <div class="row">
         <div class="col-xl-6 col-sm-10 offset-sm-3">
             <div class="card">
@@ -16,28 +16,47 @@
                     <form class="k-form">
                         <fieldset>
                             <p id="cityAddTitle">Test</p>
+                            <table>
+                                <tr>
+                                    <td>
+                                    <span>Nume oras:</span>
+                                    </td>
+                                    <td>
 
-                            <label class="k-form-field">
-                                <span>Nume oras: </span>
-                                @(Html.Kendo().TextBox()
-                                 .Name("inputCityName")
-                                 .HtmlAttributes(new { id = "textBoxCityName", type = "textbox" })
-                                )
-                            </label>
-                            <label class="k-form-field">
-                                <span>Judet</span>
-                                @(Html.Kendo().TextBox()
-                                    .Name("inputCountyId")
-                                    .HtmlAttributes(new { id = "textBoxCountyId", type = "textbox" })
-                                )
+                                        @(Html.Kendo().TextBox()
+                                        .Name("inputCityName")
+                                        .HtmlAttributes(new { id = "textBoxCityName", type = "textbox", maxlength = "10" })
+                                        )
 
-                            </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Nume judet:</span>
+                                    </td>
+                                    <td>
+                                        @(Html.Kendo().ComboBox()
+                                          .Name("countyEdit")
+                                          .DataTextField("CountyName")
+                                          .DataValueField("CountyId")
+                                          .DataSource(source =>
+                                              {
+                                                  source.Read(read =>
+                                                  {
+                                                      read.Action("cmbCounty", "DictionaryCity");
+                                              });
+                                          })
+                                          .HtmlAttributes(new { id = "cmbCountyId" })
+                                        )
+                                    </td>
+                                </tr>
+                            </table>
                         </fieldset>
 
                         <div class="text-right">
-                            <button type="button" class="k-button k-primary">Anuleaza</button>
-                            <button type="button" class="k-button">Salveaza</button>
-                            <button type="button" class="k-button">Salveaza si nou</button>
+                            <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
+                            <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                            <button type="button" id="btnSaveNew" class="k-button" onclick="editFunction(2)">Salveaza si nou</button>
 
                         </div>
                     </form>
@@ -46,22 +65,85 @@
         </div>
     </div>
 
-
-
     <script type="text/javascript">
         var currentURL = window.location.href;
         var url = new URL(currentURL);
-        var c = url.searchParams.get("Id");
-        // alert(c); // alert pentru verificarea id-ului
-        //c ia valoarea id-ului
-        if (c == 0) {
-            var test = document.getElementById("cityAddTitle").innerHTML = "Adauga un oras nou";
+        var modelId = url.searchParams.get("Id");
+
+        if (modelId == 0) {
+            document.getElementById("cityAddTitle").innerHTML = "Adaugare oras";//pageTitle
 
         } else {
-            var test = document.getElementById("cityAddTitle").innerHTML = "Editeaza oras";
+            document.getElementById("cityAddTitle").innerHTML = "Editare oras";
+            document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
+            var data = $.ajax({
+                type: 'GET',
+                url: '/DictionaryCity/CityGetById', //numecontroller, fara controller / nume metoda
+                data: { txtCityId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                cache: false,
+                success: function (result) {
+                    if (data.responseJSON != null) {
+                        document.getElementById("textBoxCityName").value = data.responseJSON.CityName;
+                        document.getElementById("cmbCountyId").value = data.responseJSON.CountyId;
+                    }
+                    else //id-ul nu este gasit in db
+                    {
+                        alert("Inregistrarea nu a fost gasita in baza de date!")
+                        window.location.href = "/DictionaryCity/City";
+                    }
+                    return result;
+                }
+            });
+        }
+        function cancel() {
+            window.location.href = "/DictionaryCity/City";
+        }
+        var eventType;
 
-            $("#textBoxCityName").val(c);
+        function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
+            cityname = document.getElementById('textBoxCityName').value;
+            countyid = document.getElementById('cmbCountyId').value;
+            if (cityname == "" || countyid == "") {
+                alert("Campuri necompletate!");
+            } else {
+                if (modelId != 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryCity/City_Update',
+                        data: { id: modelId, cityname: cityname, countyid: countyid },
+                        cache: false,
+                        success: function (result) {
+                            alert("Editat cu succes"); return result;
+                        }
+                    })
 
+                    window.location.href = "/DictionaryCity/City"; //redirect
+
+                } else if (modelId == 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryCity/AddNewCity',
+                        data: { cityname: cityname, countyid: countyid },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryCity/City";
+
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryCity/AddNewCity',
+                        data: { cityname: cityname, countyid: countyid },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryCity/CityAdd?Id=0";
+                }
+            }
         }
     </script>
 </body>
