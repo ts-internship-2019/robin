@@ -1,58 +1,141 @@
 ﻿
+
 @model iWasHere.Domain.Models.DictionaryAttractionType
-@*--modelul pentru pagian este de tipul DictionaryCurrency*@
+<!DOCTYPE html>
 
-@{
-    ViewData["Title"] = "Adauga Atractie";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Tip de Atractie</title>
 
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
 
-@using (Html.BeginForm("AddAttraction", "DictionaryAttractionType", FormMethod.Post))
-//                --tot ce urmeaza aici, cand trimit post(pagina inapoi), se duce in actiunea AddValuta
-{
-
-    //    <!--<a href="/">modificat doar pentru un model, IEnumerable era pentru o lista de modele </a> -->
-
-
-    <h1>Adauga</h1>
-
-
-    <table class="table">
-        <thead>
-            <tr>
-
-                <th>
-                    @Html.DisplayNameFor(model => model.AttractionCode)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AttractionName)
-                </th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            <tr>
-
-                <td>
-
-                    @Html.EditorFor(model => model.AttractionCode, new { htmlAttributes = new { @class = "form-control" } })
-
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.AttractionName, new { htmlAttributes = new { @class = "form-control" } })
-                </td>
-
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <input type="submit" value="Salveaza Detalii" />
-                </td>
-            </tr>
-        </tbody>
-    </table>
-}
+    <div class="row">
+        <div class="col-xl-6 col-sm-10 offset-sm-3">
+            <div class="card">
+                <div class="card-block">
+                    <form class="k-form">
+                        <fieldset>
+                            <p id="landmarkTypeAddTitle">Test</p>
+                            @*//start*@
 
 
+                            @*end*@
+                            <label class="k-form-field">
+                                <span>Cod tip de atractie: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputAttractionTypeCode")
+                                .HtmlAttributes(new { id = "textBoxAttractionTypeCode", type = "textbox", maxlength = "10" })
+                                )
 
+                            </label>
+                            <label class="k-form-field">
+                                <span>Nume atractie: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputAttractionTypeName")
+                                .HtmlAttributes(new { id = "textBoxAttractionTypeName", type = "textbox", maxlength = "200" })
+                                )
+
+                            </label>
+
+                        </fieldset>
+
+                        <div class="text-right">
+                            <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
+                            <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                            <button type="button" id="btnSaveNew" class="k-button" onclick="editFunction(2)">Salveaza si nou</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var modelId = url.searchParams.get("Id");
+
+        // alert(c); // alert pentru verificarea id-ului
+        //c ia valoarea id-ului
+        if (modelId == 0) {
+            document.getElementById("AttractionTypeAddTitle").innerHTML = "Adauga tipuri de atractii noi";//pageTitle
+
+        } else {
+            document.getElementById("AttractionTypeAddTitle").innerHTML = "Editeaza detalii atractie";
+            document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
+            var data = $.ajax({
+                type: 'GET',
+                url: '/DictionaryAttractionType/AttractionTypeGetById', //numecontroller, fara controller / nume metoda
+                data: { txtAttractionTypeId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                cache: false,
+                success: function (result) {
+                    if (data.responseJSON != null) {
+                        document.getElementById("textBoxAttractionTypeCode").value = data.responseJSON.LandmarkTypeCode;
+                        document.getElementById("textBoxAttractionTypeName").value = data.responseJSON.LandmarkTypeName;
+                    }
+                    else //id-ul nu este gasit in db
+                    {
+                        alert("Inregistrarea nu a fost gasita in baza de date!")
+                        window.location.href = "/DictionaryAttractionType/AttractionType";
+                    }
+                    return result;
+                }
+            });
+        }
+        function cancel() {
+            window.location.href = "/DictionaryAttractionType/AttractionType";
+        }
+        var eventType;
+
+        function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
+            code = document.getElementById('textBoxAttractionTypeCode').value;
+            name = document.getElementById('textBoxAttractionypeName').value;
+            if (code == "" || name == "" || description == "") {
+                alert("Campuri necompletate!");
+            } else {
+                if (modelId != 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryAttractionType/AttractionType_Update',
+                        data: { id: modelId, code: code, name: name},
+                        cache: false,
+                        success: function (result) {
+                            alert("Editat cu succes"); return result;
+                        }
+                    })
+
+                    window.location.href = "/DictionaryAttractionType/Attraction"; //redirect
+
+                } else if (modelId == 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryAttractionType/AddNewAttractionType',
+                        data: { code: code, name: name},
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryAttractionType/AttractionType";
+
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryAttractionType/AddNewAttractionType',
+                        data: { code: code, name: name },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryAttractionType/AddAttractionType?Id=0";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
