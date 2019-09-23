@@ -55,10 +55,6 @@ namespace iWasHere.Web.Controllers
             return Json(new[] { dictionaryCountry }.ToDataSourceResult(request, ModelState));
         }
 
-
-
-
-
         public ActionResult Country_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCountry dictionaryCountry)
         {
             if (dictionaryCountry != null)
@@ -93,7 +89,7 @@ namespace iWasHere.Web.Controllers
         public IActionResult AddCountry(DictionaryCountry dictionaryCountry)
         {
             var result = _dictionaryService.AddNewCountry(dictionaryCountry);
-            return View("Add");
+            return View("AddCountry");
         }
 
         public ActionResult CountryGetById(int txtCountryId)

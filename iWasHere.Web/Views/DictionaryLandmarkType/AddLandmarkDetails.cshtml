@@ -103,9 +103,11 @@
         var eventType;
 
         function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
+
             code = document.getElementById('textBoxLandmarkTypeCode').value;
             name = document.getElementById('textBoxLandmarkTypeName').value;
             description = document.getElementById('textBoxLandmarkTypeDescription').value;
+
             if (code == "" || name == "" || description == "") {
                 alert("Campuri necompletate!");
             } else {

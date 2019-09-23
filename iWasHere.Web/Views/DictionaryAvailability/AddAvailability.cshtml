@@ -32,8 +32,14 @@
                                 )
 
                             </label>
+                            <label class="k-form-field">
+                                <span>Program: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputSchedule")
+                                .HtmlAttributes(new { id = "textBoxSchedule", type = "textbox", maxlength = "200" })
+                                )
 
-                            </label>>
+                            </label>
 
                         </fieldset>
 
@@ -57,10 +63,10 @@
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
         if (modelId == 0) {
-            document.getElementById("AvailabilityAddTitle").innerHTML = "Adauga detalii noi atractie";//pageTitle
+            document.getElementById("AvailabilityAddTitle").innerHTML = "Adauga un program nou";//pageTitle
 
         } else {
-            document.getElementById("AvailabilityAddTitle").innerHTML = "Editeaza detalii atractie";
+            document.getElementById("AvailabilityAddTitle").innerHTML = "Editeaza program";
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
             var data = $.ajax({
                 type: 'GET',
@@ -70,6 +76,7 @@
                 success: function (result) {
                     if (data.responseJSON != null) {
                         document.getElementById("textBoxAvailabilityName").value = data.responseJSON.AvailabilityName;
+                        document.getElementById("textBoxSchedule").value = data.responseJSON.Schedule;
                     }
                     else //id-ul nu este gasit in db
                     {
@@ -87,15 +94,15 @@
 
         function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
             name = document.getElementById('textBoxAvailabilityName').value;
-            description = document.getElementById('textBoxAvailability').value;
-            if (code == "" || name == "" || description == "") {
+            schedule = document.getElementById('textBoxSchedule').value;
+            if (name == "" || schedule == "") {
                 alert("Campuri necompletate!");
             } else {
                 if (modelId != 0 && eventType == 1) {
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/Availability_Update',
-                        data: { id: modelId,  name: name, },
+                        data: { id: modelId,  name: name, schedule: schedule},
                         cache: false,
                         success: function (result) {
                             alert("Editat cu succes"); return result;
@@ -108,7 +115,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/AddNewAvailability',
-                        data: {name: name },
+                        data: {name: name, schedule: schedule },
                         cache: false,
                         success: function (result) {
                             alert("Adaugat cu Success"); return result;
@@ -120,7 +127,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/AddNewAvailability',
-                        data: { name: name },
+                        data: { name: name, schedule: schedule },
                         cache: false,
                         success: function (result) {
                             alert("Adaugat cu Success"); return result;

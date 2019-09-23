@@ -1,5 +1,4 @@
 ﻿
-
 @model iWasHere.Domain.Models.DictionaryCountry
 <!DOCTYPE html>
 
@@ -53,10 +52,10 @@
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
         if (modelId == 0) {
-            document.getElementById("CountryAddTitle").innerHTML = "Adauga detalii noi atractie";//pageTitle
+            document.getElementById("CountryAddTitle").innerHTML = "Adauga o noua tara";//pageTitle
 
         } else {
-            document.getElementById("CountryAddTitle").innerHTML = "Editeaza detalii atractie";
+            document.getElementById("CountryAddTitle").innerHTML = "Editeaza tara";
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
             var data = $.ajax({
                 type: 'GET',
@@ -83,8 +82,7 @@
 
         function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
             name = document.getElementById('textBoxCountryName').value;
-            description = document.getElementById('textBoxCountry').value;
-            if (code == "" || name == "" || description == "") {
+            if ( name == "" ) {
                 alert("Campuri necompletate!");
             } else {
                 if (modelId != 0 && eventType == 1) {
