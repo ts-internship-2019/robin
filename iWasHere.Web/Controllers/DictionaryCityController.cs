@@ -91,9 +91,9 @@ namespace iWasHere.Web.Controllers
         {
             return View();
         }
-    public IActionResult City()
-        {
-            return View();
+        public IActionResult City()
+            {
+                return View();
+            }
         }
-    }
 }
