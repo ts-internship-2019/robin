@@ -14,6 +14,8 @@ namespace iWasHere.Web.Controllers
     public class LandmarkController : Controller
     {
         private readonly DictionaryService _dictionaryService;
+       
+
 
         public LandmarkController(DictionaryService dictionaryService)
         {
@@ -42,6 +44,14 @@ namespace iWasHere.Web.Controllers
         public ActionResult CmbCity()
         {
             return Json(_dictionaryService.GetGmbCity());
+        }
+        public ActionResult CmbCityByCounty(int? county)
+        {
+            return Json(_dictionaryService.Cascading_Get_City(county));
+        }
+        public ActionResult CmbCountyByCountry(int? country)
+        {
+            return Json(_dictionaryService.Cascading_Get_County(country));
         }
         public ActionResult CmbCurrency()
         {
@@ -89,6 +99,28 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
         }
 
+
+        [HttpPost]
+        public ActionResult AddNewLandmark2(string landmarkName, string LandmarkShortDescription, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
+        {
+
+            Landmark landmark = new Landmark
+            {
+                LandmarkName = landmarkName,
+                LandmarkShortDescription = LandmarkShortDescription,
+                DictionaryAvailabilityId = dictionaryAvailability,
+                DictionaryItemId = dictionaryItemId,
+                DictionaryAttractionTypeId = dictionaryAttractionTypeId,
+                DictionaryCityId = cityId,
+                Longitude = longit,
+                Latitude = lat,
+                DateAdded = DateTime.Now
+
+
+            };
+            _dictionaryService.AddLandmark(landmark);
+            return Json(ModelState.ToDataSourceResult());
+        }
         public IActionResult LandmarkViewDetails()
         {
             return View();

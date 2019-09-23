@@ -2,7 +2,7 @@
 
 <div class="row">
 
-    <div class="col-xl-5 col-sm-10 offset-sm-3">
+    <div class="col-xl-7 col-sm-10 offset-sm-3">
         <div class="card">
             <div class="card-block">
                 <form class="k-form">
@@ -17,13 +17,14 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                         .Name("inputLandmarkName")
-                                        .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                                        .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" , style = "width: 100%"  })
                                     )
                                 </td>
+                              
                             </tr>
                             <tr>
                                 <td>  <span>Descrierea atractiei : </span></td>
-                                <td>
+                                <td colspan="2" align="center">
                                     @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "100", id = "textAreaLandmarkShortDesc" })
                                 </td>
                             </tr>
@@ -68,7 +69,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                     .Name("inputLandmarkName")
-                                    .HtmlAttributes(new { id = "textBoxTicketCost", type = "textbox", maxlength = "100" })
+                                    .HtmlAttributes(new { id = "textBoxTicketCost", type = "textbox", maxlength = "100" , style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -81,6 +82,7 @@
                                               .Name("cmbCurrency")
                                               .DataTextField("CurrencyName")
                                               .DataValueField("CurrencyId")
+                                              .Placeholder("Selectati tipul de valuta.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -88,8 +90,8 @@
                                                           read.Action("CmbCurrency", "Landmark");
                                                   });
                                               })
-                                              .SelectedIndex(1)
-                                              .HtmlAttributes(new { id = "cmbCurrency" })
+                                             
+                                              .HtmlAttributes(new { id = "cmbCurrency", style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -102,6 +104,7 @@
                                               .Name("TicketType")
                                               .DataTextField("TicketName")
                                               .DataValueField("TicketTypeId")
+                                              .Placeholder("Selectati tipul de bilet.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -109,8 +112,8 @@
                                                           read.Action("CmbTicketType", "Ticket");
                                                   });
                                               })
-                                               .SelectedIndex(1)
-                                              .HtmlAttributes(new { id = "cmbTicketType"/*, style = "width: 100%" */} )
+                                              
+                                              .HtmlAttributes(new { id = "cmbTicketType", style = "width: 100%" } )
 
                                     )
                                 </td>
@@ -124,6 +127,7 @@
                                               .Name("landmarkDetailFilter")
                                               .DataTextField("ItemName")
                                               .DataValueField("ItemId")
+                                              .Placeholder("Selectati tipul de atractie.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -131,8 +135,8 @@
                                                           read.Action("CmbLandmarkDetail", "Landmark");
                                                   });
                                               })
-                                              .SelectedIndex(1)
-                                              .HtmlAttributes(new { id = "cmbLandmarkDetail"/*, style = "width: 100%" */})
+                                              
+                                              .HtmlAttributes(new { id = "cmbLandmarkDetail", style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -145,6 +149,7 @@
                                               .Name("attractionfilter")
                                               .DataTextField("AttractionName")
                                               .DataValueField("AttractionTypeId")
+                                              .Placeholder("Selectati tipul de zona.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -152,8 +157,8 @@
                                                           read.Action("CmbAttraction", "Landmark");
                                                   });
                                               })
-                                              .SelectedIndex(1)
-                                              .HtmlAttributes(new { id = "cmbAttraction"})
+                                              
+                                              .HtmlAttributes(new { id = "cmbAttraction" , style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -166,6 +171,7 @@
                                               .Name("availabilityFilter")
                                               .DataTextField("AvailabilityName")
                                               .DataValueField("AvailabilityId")
+                                              .Placeholder("Selectati intervalul.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -173,8 +179,7 @@
                                                           read.Action("CmbAvailability", "Landmark");
                                                   });
                                               })
-                                               .SelectedIndex(1)
-                                               .HtmlAttributes(new { id = "cmbAvailability"/*, style = "width: 100%" */})
+                                               .HtmlAttributes(new { id = "cmbAvailability", style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -184,9 +189,10 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                            .Name("countryFilter")
-                                            .DataTextField("CountryName")
-                                            .DataValueField("CountryId")
+                                           .Name("countryFilter")
+                                           .DataTextField("CountryName")
+                                           .DataValueField("CountryId")
+                                           .Placeholder("Selectati tara.")
                                            .DataSource(source =>
                                                {
                                                    source.Read(read =>
@@ -194,8 +200,7 @@
                                                        read.Action("cmbCountry", "DictionaryCounty");
                                                });
                                            })
-                                           .SelectedIndex(1)
-                                           .HtmlAttributes(new { id = "cmbCountyFilter23"/*, style = "width: 100%" */})
+                                           .HtmlAttributes(new { id = "cmbCountry", style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -208,16 +213,28 @@
                                            .Name("countyFilter")
                                            .DataTextField("CountyName")
                                            .DataValueField("CountyId")
+                                           .Placeholder("Selectati judetul.")
                                            .DataSource(source =>
                                                {
                                                    source.Read(read =>
                                                    {
-                                                       read.Action("cmbCounty", "DictionaryCity");
-                                               });
+                                                       read.Action("CmbCountyByCountry", "Landmark").Data("filterCounty");
+
+                                               })  .ServerFiltering(true);
                                            })
-                                            .SelectedIndex(1)
-                                           .HtmlAttributes(new { id = "cmbCountyFilter23y"/*, style = "width: 100%" */})
+                                           .Enable(false)
+                                           .AutoBind(false)
+                                           .NoDataTemplate("Nu s-a gasit nici un judet pentru aceasta tara")
+                                           .CascadeFrom("cmbCountry")
+                                           .HtmlAttributes(new { id = "cmbCounty", style = "width: 100%" })
                                     )
+                                                                        <script>
+                                        function filterCounty() {
+                                            return {
+                                                country: $("#cmbCountry").val()
+                                            };
+                                        }
+                                    </script>
                                 </td>
                             </tr>
                             <tr>
@@ -229,16 +246,28 @@
                                            .Name("cityFilter")
                                            .DataTextField("CityName")
                                            .DataValueField("CityId")
+                                           .Placeholder("Selectati orasul.")
                                            .DataSource(source =>
                                                {
                                                    source.Read(read =>
                                                    {
-                                                       read.Action("CmbCity", "Landmark");
-                                               });
+                                                       read.Action("CmbCityByCounty", "Landmark").Data("filterCity");
+                                               })
+                                                   .ServerFiltering(true);
                                            })
-                                            .SelectedIndex(1)
-                                           .HtmlAttributes(new { id = "cmbCity"/*, style = "width: 100%" */})
+                                           .Enable(false)
+                                           .AutoBind(false)
+                                           .NoDataTemplate("Nu s-a gasit nici un oras pentru acest judet")
+                                           .CascadeFrom("cmbCounty")
+                                           .HtmlAttributes(new { id = "cmbCity" , style = "width: 100%" })
                                     )
+                                    <script>
+                                        function filterCity() {
+                                            return {
+                                                county: $("#cmbCounty").val()
+                                            };
+                                        }
+                                    </script>
                                 </td>
                             </tr>
                             <tr>
@@ -248,7 +277,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                             .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLong", type = "textbox", maxlength = "100" })
+                                            .HtmlAttributes(new { id = "textBoxLong", type = "textbox", maxlength = "100" , style = "width: 100%"  })
                                     )
                                 </td>
                             </tr>
@@ -259,7 +288,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                             .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLat", type = "textbox", maxlength = "100" })
+                                            .HtmlAttributes(new { id = "textBoxLat", type = "textbox", maxlength = "100" , style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -311,42 +340,64 @@
       }
 }
     function cancel() {
-                 window.location.href = "/Landmark/Landmark";
-            }
-    //function editFunction() {
-    //    alert("Obiectiv salvat cu succes!");
-    //             window.location.href = "/Landmark/Landmark";
-    //}
-    
-            function editFunction() { 
+            window.location.href = "/Landmark/Landmark";
+    }
+    function editFunction()
+    { 
+        var checkBox = document.getElementById("checkTicket");
 				lname = document.getElementById('textBoxLandmarkName').value;
                 ldesc = document.getElementById('textAreaLandmarkShortDesc').value;
-                tprice = document.getElementById('textBoxTicketCost').value;
-                tcurrencyid = document.getElementById('cmbCurrency').value;
-			    ttickettypeid = document.getElementById('cmbTicketType').value;
+              if (checkBox.checked == true) {
+                    var chk = 1;
+              tprice = document.getElementById('textBoxTicketCost').value;
+            tcurrencyid = document.getElementById('cmbCurrency').value;
+            ttickettypeid = document.getElementById('cmbTicketType').value;
+        } else { var chk = 2; }
                 lditemid = document.getElementById('cmbLandmarkDetail').value;
                 ldattractionid = document.getElementById('cmbAttraction').value;
 				ldavailabilty = document.getElementById('cmbAvailability').value;
                 llong = document.getElementById('textBoxLong').value;
                 llat = document.getElementById('textBoxLat').value;
                 ldcity = document.getElementById('cmbCity').value;
-                if (lname == "" || ldesc == "" || llat=="" || llong=="") {
-                    alert("Campuri necompletate!");
-                } else {
-                            $.ajax({
+                if (lname == "" || ldesc == "" || llat == "" || llong == "" || document.getElementById('cmbLandmarkDetail').value == ""  || document.getElementById('cmbAttraction').value == ""   || document.getElementById('cmbAvailability').value == ""   || document.getElementById('cmbCity').value == "" ) 
+                {
+
+                        alert("Campuri necompletate!");
+                    
+                }
+                else if (chk==1)
+                {
+                    if (document.getElementById('cmbCurrency').value == "" || document.getElementById('cmbTicketType').value == "" || document.getElementById('textBoxTicketCost').value == "") { alert("Campuri necompletate!"); }
+                    else {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Landmark/AddNewLandmark',
+                            data: { landmarkName: lname, LandmarkShortDescription: ldesc, ticketPrice: tprice, currencyId: tcurrencyid, ticketTypeId: ttickettypeid, dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid, dictionaryAvailability: ldavailabilty, cityId: ldcity, longit: llong, lat: llat },
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
+                        })
+                        alert("Obiectiv salvat cu succes!");
+                        window.location.href = "/Landmark/Landmark";
+
+                    }
+                }
+                else if (chk==2)
+                {
+                    $.ajax({
                                 type: 'POST',
-                                url: '/Landmark/AddNewLandmark',
-                                data: {landmarkName: lname, LandmarkShortDescription: ldesc, ticketPrice: tprice , currencyId: tcurrencyid, ticketTypeId: ttickettypeid,  dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid,  dictionaryAvailability: ldavailabilty, cityId: ldcity,  longit: llong,  lat:llat},
+                                url: '/Landmark/AddNewLandmark2',
+                                data: { landmarkName: lname, LandmarkShortDescription: ldesc, dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid, dictionaryAvailability: ldavailabilty, cityId: ldcity, longit: llong, lat: llat },
                                 cache: false,
                                 success: function (result) {
-                                    alert("Adaugat cu Success"); return result;
+                                return result;
                                 }
                             })
-                            alert("Obiectiv salvat cu succes!");
-                            window.location.href = "/Landmark/Landmark";
-
+                    alert("Obiectiv salvat cu succes!");
+                    window.location.href = "/Landmark/Landmark";
                 }
-            }
+    }
 
 
   </script>

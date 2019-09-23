@@ -1,5 +1,6 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -459,6 +460,7 @@ namespace iWasHere.Domain.Service
           
             return queryable.FirstOrDefault();
         }
+       
         public int UpdateTicketType(DictionaryTicketType dictType)
         {
         
@@ -478,6 +480,7 @@ namespace iWasHere.Domain.Service
         }
         public void TicketType_DestroyId(int id)
         {
+            
             _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
             _dbContext.SaveChanges();
         }
@@ -963,7 +966,38 @@ namespace iWasHere.Domain.Service
             _dbContext.Landmark.Add(landmark);
             return _dbContext.SaveChanges();
         }
+        public List<DictionaryCity> Cascading_Get_City(int? county)
+        {
 
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            if (county != null)
+            {
+                queryable = queryable.Where(a => a.CountyId == county);
+            }
+            queryable = queryable.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName
+            });
+          
+            return queryable.ToList();
+        }
+        public List<DictionaryCounty> Cascading_Get_County(int? country)
+        {
+
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            if (country != null)
+            {
+                queryable = queryable.Where(a => a.CountryId == country);
+            }
+            queryable = queryable.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName
+            });
+
+            return queryable.ToList();
+        }
         #endregion
 
     }
