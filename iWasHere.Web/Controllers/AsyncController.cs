@@ -37,7 +37,7 @@ namespace iWasHere.Web.Controllers
                     // Some browsers send file names with full path.
                     // We are only interested in the file name.
                     var fileName = Path.GetFileName(fileContent.FileName.ToString().Trim('"'));
-                    var physicalPath = Path.Combine(HostingEnvironment.WebRootPath, "images", fileName);
+                    var physicalPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
 
                     // The files are not actually saved in this demo
                     using (var fileStream = new FileStream(physicalPath, FileMode.Create))
@@ -75,5 +75,7 @@ namespace iWasHere.Web.Controllers
             // Return an empty string to signify success
             return Content("");
         }
+
+
     }
 }
