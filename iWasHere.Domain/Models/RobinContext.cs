@@ -22,7 +22,7 @@ namespace iWasHere.Domain.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        public virtual DbSet<CurrencyConversion> CurrencyConversion { get; set; }
+        ///public virtual DbSet<CurrencyConversion> CurrencyConversion { get; set; }
         public virtual DbSet<DictionaryAttractionType> DictionaryAttractionType { get; set; }
         public virtual DbSet<DictionaryAvailability> DictionaryAvailability { get; set; }
         public virtual DbSet<DictionaryCity> DictionaryCity { get; set; }
@@ -151,14 +151,14 @@ namespace iWasHere.Domain.Models
                 entity.Property(e => e.UserName).HasMaxLength(256);
             });
 
-            modelBuilder.Entity<CurrencyConversion>(entity =>
+            /*modelBuilder.Entity<CurrencyConversion>(entity =>
             {
                 entity.HasOne(d => d.Currency)
                     .WithMany(p => p.CurrencyConversion)
                     .HasForeignKey(d => d.CurrencyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__CurrencyC__Curre__2334397B");
-            });
+            });*/
 
             modelBuilder.Entity<DictionaryAttractionType>(entity =>
             {
@@ -342,11 +342,11 @@ namespace iWasHere.Domain.Models
             {
                 entity.Property(e => e.TicketId).ValueGeneratedOnAdd();
 
-                entity.HasOne(d => d.TicketNavigation)
+                entity.HasOne(d => d.DictionaryCurrency)
                     .WithOne(p => p.Ticket)
-                    .HasForeignKey<Ticket>(d => d.TicketId)
+                    .HasForeignKey<Ticket>(d => d.CurrencyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Ticket__TicketId__2057CCD0");
+                    .HasConstraintName("FK__Ticket__Currency__2EA5EC27");
 
                 entity.HasOne(d => d.TicketType)
                     .WithMany(p => p.Ticket)

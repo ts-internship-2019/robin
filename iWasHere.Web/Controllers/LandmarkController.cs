@@ -123,7 +123,7 @@ namespace iWasHere.Web.Controllers
         }
         public IActionResult LandmarkViewDetails()
         {
-            return View();
+            return View(_dictionaryService.GetLandmarkReadOnly());
         }
     }
 }

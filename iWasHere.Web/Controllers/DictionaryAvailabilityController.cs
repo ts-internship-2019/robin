@@ -21,7 +21,7 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public ActionResult DictionaryAvailability_Read([DataSourceRequest] DataSourceRequest request, string txtboxAvailabilityName)
+        public ActionResult Availability_Read([DataSourceRequest] DataSourceRequest request, string txtboxAvailabilityName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
 
@@ -29,7 +29,7 @@ namespace iWasHere.Web.Controllers
             tempDataSourceResult.Data = _dictionaryService.GetDictionaryAvailabilityFilterPage(request.Page, request.PageSize, txtboxAvailabilityName);
             return Json(tempDataSourceResult);
         }
-        public ActionResult DictionaryAvailability_Update(int id, string name)
+        public ActionResult Availability_Update(int id, string name)
         {
             DictionaryAvailability dictionaryAvailability = new DictionaryAvailability();
             dictionaryAvailability.AvailabilityId = id;
@@ -55,10 +55,6 @@ namespace iWasHere.Web.Controllers
             return Json(new[] { dictionaryAvailability }.ToDataSourceResult(request, ModelState));
         }
 
-
-
-
-
         public ActionResult Availability_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryAvailability dictionaryAvailability)
         {
             if (dictionaryAvailability != null)
@@ -67,13 +63,16 @@ namespace iWasHere.Web.Controllers
             }
             return Json(ModelState.ToDataSourceResult());
         }
-
-
-
-
         public IActionResult Availability()
         {
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+
+            return View("AddAvailability");
         }
 
 
