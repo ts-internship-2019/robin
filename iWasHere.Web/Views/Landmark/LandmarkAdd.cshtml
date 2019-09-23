@@ -29,27 +29,44 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" align="center"> 
+                                <td colspan="2" align="center">
                                     <div class="box">
                                         <p><b>Incarcare Imagine</b></p>
-                                       
-                                            @*The Upload is able to upload files out-of-band using the
-                                            HTML5 File API with fallback for legacy browsers.
-                                        
-                                            You need to configure save action that will receive
-                                            the uploaded files.
-                                            An optional remove action is also available.*@
+
+                                        @*The Upload is able to upload files out-of-band using the
+            HTML5 File API with fallback for legacy browsers.
+
+            You need to configure save action that will receive
+            the uploaded files.
+            An optional remove action is also available.*@
                                     </div>
-                                    <div class="demo-section k-content">
-                                        @(Html.Kendo().Upload()
-                                            .Name("files")
-                                            .Async(a => a
-                                                .Save("Async_Save", "Upload")
-                                                .Remove("Async_Remove", "Upload")
-                                                //.AutoUpload(false)
-                                            )
-                                        )
-                                    </div>
+
+
+                                    <input type="file" name="files" id="files" />
+                                    @*<input type="button" value="Upload Selected Files" class="k-button" onclick="uploadSelected()" />*@
+                                    
+                                    <script>
+                                        $("#files").kendoUpload({
+                                            async: {
+                                                saveUrl: "../Upload/Async_Save",
+                                                removeUrl: "../Upload/Async_Remove",
+                                                autoUpload: false
+                                            }
+                                        });
+
+                                        function uploadSelected() {
+                                            $(".k-upload-selected").click();
+                                        }
+                                    </script>
+
+                                    <style>
+                                        .k-clear-selected, .k-upload-selected {
+                                            display: none !important;
+                                        }
+                                    </style>
+
+
+
                                 </td>
                             </tr>
                             <tr>
@@ -393,6 +410,9 @@
                                 return result;
                             }
                         })
+
+                        $(".k-upload-selected").click();
+
                         alert("Obiectiv salvat cu succes!");
                         window.location.href = "/Landmark/Landmark";
 
@@ -408,7 +428,10 @@
                                 success: function (result) {
                                 return result;
                                 }
-                            })
+                    })
+
+                    $(".k-upload-selected").click();
+
                     alert("Obiectiv salvat cu succes!");
                     window.location.href = "/Landmark/Landmark";
                 }
