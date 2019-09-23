@@ -28,69 +28,57 @@
 </div>
 
 
-<div>
+@*<div>
 
-    <div class="demo-section k-content">
-        @(Html.Kendo().Upload()
-            .Name("files")
-            .HtmlAttributes(new { id = "landmarkUpload", style = "height: 550px;" })
-            .Async(a => a
-                .Save("Async_Save", "Upload")
-                .Remove("Async_Remove", "Upload")
-                .AutoUpload(false)
+        <div class="demo-section k-content">
+            @(Html.Kendo().Upload()
+                .Name("files")
+                .HtmlAttributes(new { id = "landmarkUpload", style = "height: 550px;" })
+                .Async(a => a
+                    .Save("Async_Save", "Upload")
+                    .Remove("Async_Remove", "Upload")
+                    .AutoUpload(false)
+
+                )
+            //.Events(events => events
+            //    .Cancel("onCancel")
+            //    .Clear("onClear")
+            //    .Complete("onComplete")
+            //    .Error("onError")
+            //    .Progress("onProgress")
+            //    .Remove("onRemove")
+            //    .Select("onSelect")
+            //    .Success("onSuccess")
+            //    .Upload("onUpload")
+            //)
 
             )
-        //.Events(events => events
-        //    .Cancel("onCancel")
-        //    .Clear("onClear")
-        //    .Complete("onComplete")
-        //    .Error("onError")
-        //    .Progress("onProgress")
-        //    .Remove("onRemove")
-        //    .Select("onSelect")
-        //    .Success("onSuccess")
-        //    .Upload("onUpload")
-        //)
 
-        )
+        </div>
 
     </div>
+*@
 
-</div>
 
-@(Html.Kendo().Button()
-    .Name("files")
-    .Tag("a")
-    .Icon("Filter")
-    .Content("Salveaza")
-    .HtmlAttributes(new { id = "btnSaveImg", type = "button" })
-    .Events(e => e.Click("saveFunction"))
-)
 
-@*<script>
-            refresh = function () {
-                    @Url.Action("Async_Save","Upload")
-        }
-    </script>*@
-
-@*<input name="files" id="files" type="file" />
-<button id="removeAll" class="k-button">Remove all</button>
-
+<input type="file" name="files" id="files" />
+<input type="button" value="Upload Selected Files" class="k-button" onclick="uploadSelected()" />
 <script>
-    $(document).ready(function () {
-        $("#files").kendoUpload({
-            async: {
-                autoUpload: false,
-                saveUrl: "Upload/Async_Save",
-                removeUrl: "Upload/Async_Remove"
-            }
-        });
-
-        //$("#removeAll").on('click', function (e) {
-        //    e.preventDefault();
-
-            var upload = $("#files").data("kendoUpload");
-            upload.removeAllFiles();
-        })
+    $("#files").kendoUpload({
+        async: {
+            saveUrl: "../Upload/Async_Save",
+            removeUrl: "../Upload/Async_Remove",
+            autoUpload: false
+        }
     });
-</script>*@
+
+    function uploadSelected() {
+        $(".k-upload-selected").click();
+    }
+</script>
+
+<style>
+    .k-clear-selected, .k-upload-selected {
+        display: none !important;
+    }
+</style>

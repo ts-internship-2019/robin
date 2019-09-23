@@ -340,6 +340,21 @@
       }
 }
     function cancel() {
+
+        var file_data = $("#imguploader").prop("files")[0];
+        var form_data = new FormData();
+        form_data.append("file", file_data);
+
+        $.ajax({
+                            type: 'POST',
+                            url: '/Upload/Async_Remove',
+                            data: { files: form_data },
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
+                        })
+            
             window.location.href = "/Landmark/Landmark";
     }
     function editFunction()
