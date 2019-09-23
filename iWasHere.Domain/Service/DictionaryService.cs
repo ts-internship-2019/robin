@@ -555,15 +555,68 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception ex)
             {
-                return "Aceasta atractie nu poate fi stearsa.";
+                return "Aceasta valuta nu poate fi stearsa.";
             }
         }
+            public DictionaryCurrency GetDictionaryCurrencyById(int txtCurrencyId)
+            {
+                IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+                queryable = queryable.Where(a => a.CurrencyId.Equals(txtCurrencyId));
+                queryable = queryable.Select(a => new DictionaryCurrency()
 
-        #endregion
+                {
+                    CurrencyId = a.CurrencyId,
+                    CurrencyCode = a.CurrencyCode,
+                    CurrencyName = a.CurrencyName,
+                });
 
-        #region LandmarkType
+                return queryable.FirstOrDefault();
+            }
 
-        public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
+
+
+            public int UpdateCurrency(DictionaryCurrency dictionaryCurrency)
+            {
+
+                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
+                return _dbContext.SaveChanges();
+            }
+
+            public void UpdateCurrencyId(DictionaryCurrency dictionaryCurrency)
+            {
+                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
+                _dbContext.SaveChanges();
+            }
+
+
+            public string Currency_QuickUpdateId(DictionaryCurrency dictionaryCurrency)
+            {
+                try
+                {
+
+                    var target = (_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == dictionaryCurrency.CurrencyId));
+
+                    target.CurrencyName = dictionaryCurrency.CurrencyName;
+                    target.CurrencyCode = dictionaryCurrency.CurrencyCode;
+
+                    _dbContext.Attach(target);
+                    _dbContext.Entry(target).State = EntityState.Modified;
+                    _dbContext.SaveChanges();
+
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    return "Programul nu poate fi modificat.";
+                }
+            }
+        
+
+            #endregion
+
+            #region LandmarkType
+
+            public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
             {
