@@ -59,7 +59,7 @@
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
             var data = $.ajax({
                 type: 'GET',
-                url: '/Country/CountryGetById', //numecontroller, fara controller / nume metoda
+                url: '/DictionaryCountry/CountryGetById', //numecontroller, fara controller / nume metoda
                 data: { txtCountryId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
                 cache: false,
                 success: function (result) {
@@ -82,13 +82,13 @@
 
         function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
             name = document.getElementById('textBoxCountryName').value;
-            if (code == "" || name == "" || description == "") {
+            if ( name == "" ) {
                 alert("Campuri necompletate!");
             } else {
                 if (modelId != 0 && eventType == 1) {
                     $.ajax({
                         type: 'POST',
-                        url: '/Country/Country_Update',
+                        url: '/DictionaryCountry/Country_Update',
                         data: { id: modelId, name: name,},
                         cache: false,
                         success: function (result) {

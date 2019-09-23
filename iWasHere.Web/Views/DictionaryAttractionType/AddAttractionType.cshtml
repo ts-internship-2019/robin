@@ -18,7 +18,7 @@
                 <div class="card-block">
                     <form class="k-form">
                         <fieldset>
-                            <p id="landmarkTypeAddTitle">Test</p>
+                            <p id="AttractionTypeAddTitle">Test</p>
                             @*//start*@
 
 
@@ -93,8 +93,8 @@
 
         function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
             code = document.getElementById('textBoxAttractionTypeCode').value;
-            name = document.getElementById('textBoxAttractionypeName').value;
-            if (code == "" || name == "" || description == "") {
+            name = document.getElementById('textBoxAttractionTypeName').value;
+            if (code == "" || name == "" ) {
                 alert("Campuri necompletate!");
             } else {
                 if (modelId != 0 && eventType == 1) {

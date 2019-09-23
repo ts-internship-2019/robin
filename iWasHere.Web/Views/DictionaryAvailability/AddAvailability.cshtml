@@ -32,6 +32,14 @@
                                 )
 
                             </label>
+                            <label class="k-form-field">
+                                <span>Program: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputSchedule")
+                                .HtmlAttributes(new { id = "textBoxSchedule", type = "textbox", maxlength = "200" })
+                                )
+
+                            </label>
 
                         </fieldset>
 
@@ -50,11 +58,11 @@
     <script type="text/javascript">
         var currentURL = window.location.href;
         var url = new URL(currentURL);
-        var AvailabilityId = url.searchParams.get("Id");
+        var modelId = url.searchParams.get("Id");
 
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
-        if (AvailabilityId == 0) {
+        if (modelId == 0) {
             document.getElementById("AvailabilityAddTitle").innerHTML = "Adauga un program nou";//pageTitle
 
         } else {
@@ -62,12 +70,13 @@
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
             var data = $.ajax({
                 type: 'GET',
-                url: '/Availability/AvailabilityGetById', //numecontroller, fara controller / nume metoda
-                data: { txtAvailabilityId: AvailabilityId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                url: '/DictionaryAvailability/AvailabilityGetById', //numecontroller, fara controller / nume metoda
+                data: { txtAvailabilityId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
                         document.getElementById("textBoxAvailabilityName").value = data.responseJSON.AvailabilityName;
+                        document.getElementById("textBoxSchedule").value = data.responseJSON.Schedule;
                     }
                     else //id-ul nu este gasit in db
                     {
@@ -85,15 +94,15 @@
 
         function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
             name = document.getElementById('textBoxAvailabilityName').value;
-            description = document.getElementById('textBoxAvailability').value;
-            if (code == "" || name == "" || description == "") {
+            schedule = document.getElementById('textBoxSchedule').value;
+            if (name == "" || schedule == "") {
                 alert("Campuri necompletate!");
             } else {
                 if (modelId != 0 && eventType == 1) {
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/Availability_Update',
-                        data: { id: AvailabilityId,  name: name, },
+                        data: { id: modelId,  name: name, schedule: schedule},
                         cache: false,
                         success: function (result) {
                             alert("Editat cu succes"); return result;
@@ -102,11 +111,11 @@
 
                     window.location.href = "/DictionaryAvailability/Availability"; //redirect
 
-                } else if (AvailabilityId == 0 && eventType == 1) {
+                } else if (modelId == 0 && eventType == 1) {
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/AddNewAvailability',
-                        data: {name: name },
+                        data: {name: name, schedule: schedule },
                         cache: false,
                         success: function (result) {
                             alert("Adaugat cu Success"); return result;
@@ -118,7 +127,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/AddNewAvailability',
-                        data: { name: name },
+                        data: { name: name, schedule: schedule },
                         cache: false,
                         success: function (result) {
                             alert("Adaugat cu Success"); return result;
