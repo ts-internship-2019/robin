@@ -43,15 +43,12 @@
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
-    <input type="button" value="Adaugare tip de Atractie" onclick="location.href='@Url.Action("Add", "DictionaryAttractionType")'" />
-    <input type="button" value="Modificare tip de  Atractie" onclick="location.href='@Url.Action("Add", "DictionaryAttractionType")'" />
-
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>()
         .Name("AttractionTypeGrid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.AttractionTypeId);
+            columns.Bound(c => c.AttractionTypeId).Hidden();
             columns.Bound(c => c.AttractionCode);
             columns.Bound(c => c.AttractionName);
             columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);

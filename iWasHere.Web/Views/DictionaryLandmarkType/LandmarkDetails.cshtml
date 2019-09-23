@@ -38,7 +38,7 @@
         .Name("LandmarkTypeGrid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.ItemId);
+            columns.Bound(c => c.ItemId).Hidden();
             columns.Bound(c => c.ItemCode);
             columns.Bound(c => c.ItemName);
             columns.Bound(c => c.Description);

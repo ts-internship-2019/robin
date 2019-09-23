@@ -1,5 +1,6 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ namespace iWasHere.Domain.Service
     public class DictionaryService
     {
         private readonly RobinContext _dbContext;
-        private static bool UpdateDatabase = false;
 
         public DictionaryService(RobinContext databaseContext)
         {
@@ -367,6 +367,7 @@ namespace iWasHere.Domain.Service
                 //FK-urile catre tabele
                 DictionaryAvailability = a.DictionaryAvailability,
                 DictionaryItem = a.DictionaryItem,
+                Ticket = a.Ticket,
                 DictionaryAttractionType = a.DictionaryAttractionType,
                 DictionaryCity = a.DictionaryCity
 
@@ -377,7 +378,17 @@ namespace iWasHere.Domain.Service
 
         public List<Landmark> GetLandmark()
         {
-            List<Landmark> dictionaryLandmark = _dbContext.Landmark.Select(a => new Landmark()
+            List<Landmark> dictionaryLandmark = _dbContext.Landmark.Include(c => c.DictionaryCity)
+                                                                        .ThenInclude(county => county.County)
+                                                                            .ThenInclude(country=> country.Country)
+            .Include(d => d.DictionaryAttractionType)
+            .Include(e => e.DictionaryAvailability)
+            .Include(f => f.DictionaryItem)
+            .Include(g => g.Ticket)
+                .ThenInclude(currency => currency.DictionaryCurrency)
+            .Include(g => g.Ticket)
+                .ThenInclude(ttype=>ttype.TicketType)
+            .Select(a => new Landmark()
             {
                 LandmarkId = a.LandmarkId,
                 LandmarkName = a.LandmarkName,
@@ -389,11 +400,55 @@ namespace iWasHere.Domain.Service
                 DictionaryAttractionTypeId = a.DictionaryAttractionTypeId,
                 Longitude = a.Longitude,
                 Latitude = a.Latitude,
-                DictionaryCityId = a.DictionaryCityId
+                DictionaryCityId = a.DictionaryCityId,
+
+                //FK-urile catre tabele
+                DictionaryAvailability = a.DictionaryAvailability,
+                DictionaryItem = a.DictionaryItem,
+                Ticket = a.Ticket,
+                DictionaryAttractionType = a.DictionaryAttractionType,
+                DictionaryCity = a.DictionaryCity,
+                
 
             }).ToList();
 
             return dictionaryLandmark;
+        }
+
+        public List<Landmark> GetLandmarkReadOnly()
+        {
+            List<Landmark> dictionaryLandmark = _dbContext.Landmark.Include(c => c.DictionaryCity)
+                                                                        .ThenInclude(county => county.County)
+                                                                            .ThenInclude(country => country.Country)
+            .Include(d => d.DictionaryAttractionType)
+            .Include(e => e.DictionaryAvailability)
+            .Include(f => f.DictionaryItem)
+            .Include(g => g.Ticket)
+                .ThenInclude(currency => currency.DictionaryCurrency)
+            .Include(g => g.Ticket)
+                .ThenInclude(ttype => ttype.TicketType)
+            .ToList();
+
+            return dictionaryLandmark;
+        }
+        #endregion
+
+        #region ticket
+        public List<Ticket> GetTicketPage(int page, int pageSize)
+        {
+            IQueryable<Ticket> queryable = _dbContext.Ticket.Include(a=>a.DictionaryCurrency).Include(a => a.TicketType);
+
+            queryable = queryable.Select(a => new Ticket()
+            {
+                TicketId = a.TicketId,
+                TicketPrice = a.TicketPrice,
+                TicketTypeId = a.TicketTypeId,
+
+                DictionaryCurrency = a.DictionaryCurrency,
+                TicketType = a.TicketType
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
         }
         #endregion
 
@@ -459,6 +514,7 @@ namespace iWasHere.Domain.Service
           
             return queryable.FirstOrDefault();
         }
+       
         public int UpdateTicketType(DictionaryTicketType dictType)
         {
         
@@ -478,6 +534,7 @@ namespace iWasHere.Domain.Service
         }
         public void TicketType_DestroyId(int id)
         {
+            
             _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
             _dbContext.SaveChanges();
         }
@@ -555,15 +612,68 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception ex)
             {
-                return "Aceasta atractie nu poate fi stearsa.";
+                return "Aceasta valuta nu poate fi stearsa.";
             }
         }
+            public DictionaryCurrency GetDictionaryCurrencyById(int txtCurrencyId)
+            {
+                IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+                queryable = queryable.Where(a => a.CurrencyId.Equals(txtCurrencyId));
+                queryable = queryable.Select(a => new DictionaryCurrency()
 
-        #endregion
+                {
+                    CurrencyId = a.CurrencyId,
+                    CurrencyCode = a.CurrencyCode,
+                    CurrencyName = a.CurrencyName,
+                });
 
-        #region LandmarkType
+                return queryable.FirstOrDefault();
+            }
 
-        public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
+
+
+            public int UpdateCurrency(DictionaryCurrency dictionaryCurrency)
+            {
+
+                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
+                return _dbContext.SaveChanges();
+            }
+
+            public void UpdateCurrencyId(DictionaryCurrency dictionaryCurrency)
+            {
+                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
+                _dbContext.SaveChanges();
+            }
+
+
+            public string Currency_QuickUpdateId(DictionaryCurrency dictionaryCurrency)
+            {
+                try
+                {
+
+                    var target = (_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == dictionaryCurrency.CurrencyId));
+
+                    target.CurrencyName = dictionaryCurrency.CurrencyName;
+                    target.CurrencyCode = dictionaryCurrency.CurrencyCode;
+
+                    _dbContext.Attach(target);
+                    _dbContext.Entry(target).State = EntityState.Modified;
+                    _dbContext.SaveChanges();
+
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    return "Programul nu poate fi modificat.";
+                }
+            }
+        
+
+            #endregion
+
+            #region LandmarkType
+
+            public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
             {
@@ -806,8 +916,6 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-
-
         public void AttractionType_DestroyId(int id)
         {
             _dbContext.Remove(_dbContext.DictionaryAttractionType.Single(a => a.AttractionTypeId == id));
@@ -839,8 +947,6 @@ namespace iWasHere.Domain.Service
 
             return queryable.FirstOrDefault();
         }
-
-
 
         public int UpdateAttractionType(DictionaryAttractionType dictionaryAttractionType)
         {
@@ -877,6 +983,7 @@ namespace iWasHere.Domain.Service
                 return "Tipul de atractie nu poate fi modificat.";
             }
         }
+        #endregion
 
         public string LandmarkType_UpdateId(DictionaryLandmarkType dictionaryLandmarkType)
         {
@@ -899,7 +1006,6 @@ namespace iWasHere.Domain.Service
                 return "Acest Landmark nu poate fi modificat.";
             }
         }
-        #endregion
 
         #region landmark
         public List<DictionaryCity> GetGmbCity()
@@ -963,7 +1069,38 @@ namespace iWasHere.Domain.Service
             _dbContext.Landmark.Add(landmark);
             return _dbContext.SaveChanges();
         }
+        public List<DictionaryCity> Cascading_Get_City(int? county)
+        {
 
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            if (county != null)
+            {
+                queryable = queryable.Where(a => a.CountyId == county);
+            }
+            queryable = queryable.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName
+            });
+          
+            return queryable.ToList();
+        }
+        public List<DictionaryCounty> Cascading_Get_County(int? country)
+        {
+
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            if (country != null)
+            {
+                queryable = queryable.Where(a => a.CountryId == country);
+            }
+            queryable = queryable.Select(a => new DictionaryCounty()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName
+            });
+
+            return queryable.ToList();
+        }
         #endregion
 
     }
