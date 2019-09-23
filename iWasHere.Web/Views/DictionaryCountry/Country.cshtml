@@ -49,9 +49,9 @@
         .Name("CountryGrid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.CountryId);;
-            columns.Bound(c => c.CountryName);
-            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            columns.Bound(c => c.CountryId).Hidden();
+            columns.Bound(c => c.CountryName).Title("Tara");;
+            columns.Command(command => { command.Edit(); command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" });}).Width(200);
 
         })
         .HtmlAttributes(new { id = "CountryGrid", style = "height: 550px;" })
@@ -75,14 +75,14 @@
             //CRUD
             .Read(read => read.Action("Country_Read", "DictionaryCountry").Data("getFilter"))
             .Create(create => create.Action("Country_Create", "DictionaryCountry"))
-            .Update(update => update.Action("Country_Update", "DictionaryCountry"))
+            .Update(update => update.Action("Country_QuickUpdate", "DictionaryCountry"))
             .Destroy(destroy => destroy.Action("Country_Destroy", "DictionaryCountry"))
 
             .PageSize(20)
         )
     )
 
-    <p align="right"> <a href='/DictionaryCountry/AddCountry' class="k-button k-primary">Adauga o noua tara</a></p>
+    <p align="right"> <a href='/DictionaryCountry/AddCountry?Id=0' class="k-button k-primary">Adauga o noua tara</a></p>
 
     <script>
 

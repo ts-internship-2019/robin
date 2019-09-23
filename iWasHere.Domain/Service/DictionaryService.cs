@@ -806,8 +806,6 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-
-
         public void AttractionType_DestroyId(int id)
         {
             _dbContext.Remove(_dbContext.DictionaryAttractionType.Single(a => a.AttractionTypeId == id));
@@ -839,8 +837,6 @@ namespace iWasHere.Domain.Service
 
             return queryable.FirstOrDefault();
         }
-
-
 
         public int UpdateAttractionType(DictionaryAttractionType dictionaryAttractionType)
         {
@@ -877,6 +873,7 @@ namespace iWasHere.Domain.Service
                 return "Tipul de atractie nu poate fi modificat.";
             }
         }
+        #endregion
 
         public string LandmarkType_UpdateId(DictionaryLandmarkType dictionaryLandmarkType)
         {
@@ -899,7 +896,6 @@ namespace iWasHere.Domain.Service
                 return "Acest Landmark nu poate fi modificat.";
             }
         }
-        #endregion
     }
 }
 

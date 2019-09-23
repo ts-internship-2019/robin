@@ -51,7 +51,7 @@
         .Name("AvailabilityGrid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.AvailabilityId);
+            columns.Bound(c => c.AvailabilityId).Hidden();
             columns.Bound(c => c.AvailabilityName);
             columns.Bound(c => c.Schedule);
 

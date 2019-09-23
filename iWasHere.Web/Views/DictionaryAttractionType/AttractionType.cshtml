@@ -51,7 +51,7 @@
         .Name("AttractionTypeGrid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.AttractionTypeId);
+            columns.Bound(c => c.AttractionTypeId).Hidden();
             columns.Bound(c => c.AttractionCode);
             columns.Bound(c => c.AttractionName);
             columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);

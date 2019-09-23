@@ -33,8 +33,6 @@
 
                             </label>
 
-                            </label>>
-
                         </fieldset>
 
                         <div class="text-right">
@@ -52,20 +50,20 @@
     <script type="text/javascript">
         var currentURL = window.location.href;
         var url = new URL(currentURL);
-        var modelId = url.searchParams.get("Id");
+        var AvailabilityId = url.searchParams.get("Id");
 
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
-        if (modelId == 0) {
-            document.getElementById("AvailabilityAddTitle").innerHTML = "Adauga detalii noi atractie";//pageTitle
+        if (AvailabilityId == 0) {
+            document.getElementById("AvailabilityAddTitle").innerHTML = "Adauga un program nou";//pageTitle
 
         } else {
-            document.getElementById("AvailabilityAddTitle").innerHTML = "Editeaza detalii atractie";
+            document.getElementById("AvailabilityAddTitle").innerHTML = "Editeaza program";
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
             var data = $.ajax({
                 type: 'GET',
-                url: '/DictionaryAvailability/AvailabilityGetById', //numecontroller, fara controller / nume metoda
-                data: { txtAvailabilityId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                url: '/Availability/AvailabilityGetById', //numecontroller, fara controller / nume metoda
+                data: { txtAvailabilityId: AvailabilityId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
@@ -95,7 +93,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/Availability_Update',
-                        data: { id: modelId,  name: name, },
+                        data: { id: AvailabilityId,  name: name, },
                         cache: false,
                         success: function (result) {
                             alert("Editat cu succes"); return result;
@@ -104,7 +102,7 @@
 
                     window.location.href = "/DictionaryAvailability/Availability"; //redirect
 
-                } else if (modelId == 0 && eventType == 1) {
+                } else if (AvailabilityId == 0 && eventType == 1) {
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryAvailability/AddNewAvailability',
