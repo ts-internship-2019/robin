@@ -16,8 +16,6 @@ namespace iWasHere.Web.Controllers
     public class DictionaryLandmarkTypeController : Controller
     {
         private readonly DictionaryService _dictionaryService;
-        private readonly RobinContext _dbContext;
-        private static bool UpdateDatabase = false;
 
         public DictionaryLandmarkTypeController(DictionaryService dictionaryService)
         {

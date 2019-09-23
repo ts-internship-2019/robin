@@ -15,7 +15,7 @@ namespace iWasHere.Domain.Models
         public int CurrencyId { get; set; }
         public int TicketTypeId { get; set; }
 
-        public virtual DictionaryCurrency TicketNavigation { get; set; }
+        public virtual DictionaryCurrency DictionaryCurrency { get; set; }
         public virtual DictionaryTicketType TicketType { get; set; }
         public virtual ICollection<Landmark> Landmark { get; set; }
     }
