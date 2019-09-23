@@ -39,7 +39,6 @@
                                             the uploaded files.
                                             An optional remove action is also available.*@
                                     </div>
-
                                     <div class="demo-section k-content">
                                         @(Html.Kendo().Upload()
                                             .Name("files")
@@ -52,7 +51,6 @@
                                     </div>
                                 </td>
                             </tr>
-
                             <tr>
                                 <td>
                                     @(Html.Kendo().CheckBox()
@@ -61,7 +59,6 @@
                                            .Label("Cu bilet de intrare")
                                            .HtmlAttributes(new { id = "checkTicket", onclick = "myFunction()" })
                                     )
-
                                 </td>
                             </tr>
                             <tr id="trTicketCost1">
@@ -74,7 +71,6 @@
                                     .HtmlAttributes(new { id = "textBoxTicketCost", type = "textbox", maxlength = "100" })
                                     )
                                 </td>
-
                             </tr>
                             <tr id="trTicketCost2">
                                 <td>
@@ -83,15 +79,16 @@
                                 <td>
                                     @(Html.Kendo().ComboBox()
                                               .Name("cmbCurrency")
-                                              .DataTextField("CountyName")
-                                              .DataValueField("CountyId")
+                                              .DataTextField("CurrencyName")
+                                              .DataValueField("CurrencyId")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
                                                       {
-                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                          read.Action("CmbCurrency", "Landmark");
                                                   });
                                               })
+                                              .SelectedIndex(1)
                                               .HtmlAttributes(new { id = "cmbCurrency" })
                                     )
                                 </td>
@@ -112,7 +109,9 @@
                                                           read.Action("CmbTicketType", "Ticket");
                                                   });
                                               })
-                                              .HtmlAttributes(new { id = "cmbTicketType"/*, style = "width: 100%" */})
+                                               .SelectedIndex(1)
+                                              .HtmlAttributes(new { id = "cmbTicketType"/*, style = "width: 100%" */} )
+
                                     )
                                 </td>
                             </tr>
@@ -122,17 +121,18 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                              .Name("countyFilter1")
-                                              .DataTextField("CountyName")
-                                              .DataValueField("CountyId")
+                                              .Name("landmarkDetailFilter")
+                                              .DataTextField("ItemName")
+                                              .DataValueField("ItemId")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
                                                       {
-                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                          read.Action("CmbLandmarkDetail", "Landmark");
                                                   });
                                               })
-                                              .HtmlAttributes(new { id = "cmbCountyFilter2"/*, style = "width: 100%" */})
+                                              .SelectedIndex(1)
+                                              .HtmlAttributes(new { id = "cmbLandmarkDetail"/*, style = "width: 100%" */})
                                     )
                                 </td>
                             </tr>
@@ -142,17 +142,18 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                              .Name("countyFilter1")
-                                              .DataTextField("CountyName")
-                                              .DataValueField("CountyId")
+                                              .Name("attractionfilter")
+                                              .DataTextField("AttractionName")
+                                              .DataValueField("AttractionTypeId")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
                                                       {
-                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                          read.Action("CmbAttraction", "Landmark");
                                                   });
                                               })
-                                              .HtmlAttributes(new { id = "cmbCountyFilter20"/*, style = "width: 100%" */})
+                                              .SelectedIndex(1)
+                                              .HtmlAttributes(new { id = "cmbAttraction"})
                                     )
                                 </td>
                             </tr>
@@ -162,17 +163,18 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                              .Name("countyFilter1")
-                                              .DataTextField("CountyName")
-                                              .DataValueField("CountyId")
+                                              .Name("availabilityFilter")
+                                              .DataTextField("AvailabilityName")
+                                              .DataValueField("AvailabilityId")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
                                                       {
-                                                          read.Action("cmbCounty", "DictionaryCity");
+                                                          read.Action("CmbAvailability", "Landmark");
                                                   });
                                               })
-                                                 .HtmlAttributes(new { id = "cmbCountyFilter12"/*, style = "width: 100%" */})
+                                               .SelectedIndex(1)
+                                               .HtmlAttributes(new { id = "cmbAvailability"/*, style = "width: 100%" */})
                                     )
                                 </td>
                             </tr>
@@ -182,16 +184,17 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                           .Name("countyFilter1")
-                                           .DataTextField("CountyName")
-                                           .DataValueField("CountyId")
+                                            .Name("countryFilter")
+                                            .DataTextField("CountryName")
+                                            .DataValueField("CountryId")
                                            .DataSource(source =>
                                                {
                                                    source.Read(read =>
                                                    {
-                                                       read.Action("cmbCounty", "DictionaryCity");
+                                                       read.Action("cmbCountry", "DictionaryCounty");
                                                });
                                            })
+                                           .SelectedIndex(1)
                                            .HtmlAttributes(new { id = "cmbCountyFilter23"/*, style = "width: 100%" */})
                                     )
                                 </td>
@@ -202,7 +205,7 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                           .Name("countyFilter1")
+                                           .Name("countyFilter")
                                            .DataTextField("CountyName")
                                            .DataValueField("CountyId")
                                            .DataSource(source =>
@@ -212,6 +215,7 @@
                                                        read.Action("cmbCounty", "DictionaryCity");
                                                });
                                            })
+                                            .SelectedIndex(1)
                                            .HtmlAttributes(new { id = "cmbCountyFilter23y"/*, style = "width: 100%" */})
                                     )
                                 </td>
@@ -222,17 +226,18 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().ComboBox()
-                                           .Name("countyFilter1")
-                                           .DataTextField("CountyName")
-                                           .DataValueField("CountyId")
+                                           .Name("cityFilter")
+                                           .DataTextField("CityName")
+                                           .DataValueField("CityId")
                                            .DataSource(source =>
                                                {
                                                    source.Read(read =>
                                                    {
-                                                       read.Action("cmbCounty", "DictionaryCity");
+                                                       read.Action("CmbCity", "Landmark");
                                                });
                                            })
-                                           .HtmlAttributes(new { id = "cmbCountyFilter2t3"/*, style = "width: 100%" */})
+                                            .SelectedIndex(1)
+                                           .HtmlAttributes(new { id = "cmbCity"/*, style = "width: 100%" */})
                                     )
                                 </td>
                             </tr>
@@ -243,7 +248,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                             .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                                            .HtmlAttributes(new { id = "textBoxLong", type = "textbox", maxlength = "100" })
                                     )
                                 </td>
                             </tr>
@@ -254,7 +259,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                             .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" })
+                                            .HtmlAttributes(new { id = "textBoxLat", type = "textbox", maxlength = "100" })
                                     )
                                 </td>
                             </tr>
@@ -308,8 +313,40 @@
     function cancel() {
                  window.location.href = "/Landmark/Landmark";
             }
-    function editFunction() {
-        alert("Obiectiv salvat cu succes!");
-                 window.location.href = "/Landmark/Landmark";
+    //function editFunction() {
+    //    alert("Obiectiv salvat cu succes!");
+    //             window.location.href = "/Landmark/Landmark";
+    //}
+    
+            function editFunction() { 
+				lname = document.getElementById('textBoxLandmarkName').value;
+                ldesc = document.getElementById('textAreaLandmarkShortDesc').value;
+                tprice = document.getElementById('textBoxTicketCost').value;
+                tcurrencyid = document.getElementById('cmbCurrency').value;
+			    ttickettypeid = document.getElementById('cmbTicketType').value;
+                lditemid = document.getElementById('cmbLandmarkDetail').value;
+                ldattractionid = document.getElementById('cmbAttraction').value;
+				ldavailabilty = document.getElementById('cmbAvailability').value;
+                llong = document.getElementById('textBoxLong').value;
+                llat = document.getElementById('textBoxLat').value;
+                ldcity = document.getElementById('cmbCity').value;
+                if (lname == "" || ldesc == "" || llat=="" || llong=="") {
+                    alert("Campuri necompletate!");
+                } else {
+                            $.ajax({
+                                type: 'POST',
+                                url: '/Landmark/AddNewLandmark',
+                                data: {landmarkName: lname, LandmarkShortDescription: ldesc, ticketPrice: tprice , currencyId: tcurrencyid, ticketTypeId: ttickettypeid,  dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid,  dictionaryAvailability: ldavailabilty, cityId: ldcity,  longit: llong,  lat:llat},
+                                cache: false,
+                                success: function (result) {
+                                    alert("Adaugat cu Success"); return result;
+                                }
+                            })
+                            alert("Obiectiv salvat cu succes!");
+                            window.location.href = "/Landmark/Landmark";
+
+                }
             }
+
+
   </script>

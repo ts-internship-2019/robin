@@ -39,6 +39,55 @@ namespace iWasHere.Web.Controllers
         {
             return View();
         }
+        public ActionResult CmbCity()
+        {
+            return Json(_dictionaryService.GetGmbCity());
+        }
+        public ActionResult CmbCurrency()
+        {
+            return Json(_dictionaryService.GetCmbCurrency());
+        }
+        public ActionResult CmbLandmarkDetail()
+        {
+            return Json(_dictionaryService.GetCmbLandmarkDetail());
+        }
+        public ActionResult CmbAttraction()
+        {
+            return Json(_dictionaryService.GetCmbAttraction());
+        }
+        public ActionResult CmbAvailability()
+        {
+            return Json(_dictionaryService.GeCmbAvailability());
+        }
+        //11 parametrii cu bilet, 8 fara
+        [HttpPost]
+        public ActionResult AddNewLandmark(string landmarkName, string LandmarkShortDescription, double ticketPrice, int currencyId, int ticketTypeId, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
+        {
+            Ticket ticket = new Ticket
+            {
+               TicketPrice=ticketPrice,
+               TicketTypeId= ticketTypeId,
+               CurrencyId=currencyId
+            };
+            _dictionaryService.AddTicket(ticket);
+            Landmark landmark = new Landmark
+            {
+                LandmarkName = landmarkName,
+                LandmarkShortDescription = LandmarkShortDescription,
+                TicketId = ticket.TicketId,
+                DictionaryAvailabilityId = dictionaryAvailability,
+                DictionaryItemId = dictionaryItemId,
+                DictionaryAttractionTypeId = dictionaryAttractionTypeId,
+                DictionaryCityId = cityId,
+                Longitude = longit,
+                Latitude = lat,
+                DateAdded = DateTime.Now
+                
+
+            };
+            _dictionaryService.AddLandmark(landmark);
+            return Json(ModelState.ToDataSourceResult());
+        }
 
         public IActionResult LandmarkViewDetails()
         {

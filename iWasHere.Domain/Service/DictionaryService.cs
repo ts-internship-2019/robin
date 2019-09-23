@@ -896,6 +896,73 @@ namespace iWasHere.Domain.Service
                 return "Acest Landmark nu poate fi modificat.";
             }
         }
+        #endregion
+
+        #region landmark
+        public List<DictionaryCity> GetGmbCity()
+        {
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            queryable = queryable.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName
+            });
+            return queryable.ToList();
+        }
+
+        public List<DictionaryCurrency> GetCmbCurrency()
+        {
+            IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+            queryable = queryable.Select(a => new DictionaryCurrency()
+            {
+               CurrencyId=a.CurrencyId,
+               CurrencyName=a.CurrencyName
+            });
+            return queryable.ToList();
+        }
+        public List<DictionaryLandmarkType> GetCmbLandmarkDetail()
+        {
+            IQueryable<DictionaryLandmarkType> queryable = _dbContext.DictionaryLandmarkType;
+            queryable = queryable.Select(a => new DictionaryLandmarkType()
+            {
+              ItemId=a.ItemId,
+              ItemName=a.ItemName
+            });
+            return queryable.ToList();
+        }
+        public List<DictionaryAttractionType> GetCmbAttraction()
+        {
+            IQueryable<DictionaryAttractionType> queryable = _dbContext.DictionaryAttractionType;
+            queryable = queryable.Select(a => new DictionaryAttractionType()
+            {
+                AttractionTypeId=a.AttractionTypeId,
+                AttractionName=a.AttractionName
+            });
+            return queryable.ToList();
+        }
+        public List<DictionaryAvailability> GeCmbAvailability()
+        {
+            IQueryable<DictionaryAvailability> queryable = _dbContext.DictionaryAvailability;
+            queryable = queryable.Select(a => new DictionaryAvailability()
+            {
+               AvailabilityId=a.AvailabilityId,
+               AvailabilityName=a.AvailabilityName
+            });
+            return queryable.ToList();
+        }
+        public int AddTicket(Ticket ticket)
+        {
+            _dbContext.Ticket.Add(ticket);
+            return _dbContext.SaveChanges();
+        }
+        public int AddLandmark(Landmark landmark)
+        {
+            _dbContext.Landmark.Add(landmark);
+            return _dbContext.SaveChanges();
+        }
+
+        #endregion
+
     }
 }
 
