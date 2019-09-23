@@ -6,18 +6,65 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Detalii atractie</title>
+    <style> 
+         .header{
+            display:inline-block;
+            font-weight:bold;
+        }    
+         #listaObiective {
+           text-align:justify;
+            list-style-type:none;
+            font-size:40px;
+        }
+
+        .listaObiectiveLI:hover {
+            background-color:black;
+            color:white;
+        }
+    </style>
 </head>
 <body>
-    <table>
-        <tr>
-            <td>
-                @Html.DisplayNameFor(model => model.LandmarkId)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.LandmarkName)
-            </td>
-        </tr>
+    <ul id="listaObiective">
+        @foreach (var d in Model)
+        {
+            @*<td>@d.LandmarkId</td>*@
+            <li class="listaObiectiveLI"><p class="header">Nume obiectiv:</p>@d.LandmarkName</li>
+            <li class="listaObiectiveLI"><p class="header">Scurta descriere: </p>@d.LandmarkShortDescription</li>
+            <li class="listaObiectiveLI"><p class="header">Tipul de obiectiv: </p>@d.DictionaryItem.ItemName</li>
+            //Tipul de atractie
+            <li class="listaObiectiveLI"><p class="header">Codul obiectivului: </p>@d.DictionaryItem.ItemCode</li>
+            //codul atractiei
+            <li class="listaObiectiveLI"><p class="header">Tara: </p>@d.DictionaryCity.County.Country.CountryName</li>
+            <li class="listaObiectiveLI"><p class="header">Judet: </p>@d.DictionaryCity.County.CountyName</li>
+            <li class="listaObiectiveLI"><p class="header">Oras: </p>@d.DictionaryCity.CityName</li>
+            <li class="listaObiectiveLI"><p class="header">Program: </p>@d.DictionaryAvailability.AvailabilityName/@d.DictionaryAvailability.Schedule</li>
+            @*<li>@d.TicketId</li>*@
+            <li class="listaObiectiveLI"><p class="header">Tipul biletului: </p>@d.Ticket.TicketType.TicketName</li>
+            <li class="listaObiectiveLI"><p class="header">Cod bilet: </p>@d.Ticket.TicketType.TicketCode</li>
+            <li class="listaObiectiveLI"><p class="header">Moneda: </p>@d.Ticket.DictionaryCurrency.CurrencyName</li>
+            <li class="listaObiectiveLI"><p class="header">Pretul biletului: </p>@d.Ticket.TicketPrice @d.Ticket.DictionaryCurrency.CurrencyCode</li>
+            <li class="listaObiectiveLI"><p class="header">Pret in lei: </p>@d.Ticket.DictionaryCurrency.ConversionRate*@d.Ticket.TicketPrice</li>
+            @*<li>@d.DictionaryAvailabilityId</li>*@
+            <li class="listaObiectiveLI"><p class="header">Data adaugarii: </p>@d.DateAdded</li>
+            @*<li>@d.DictionaryAttractionTypeId</li>*@
+            <li class="listaObiectiveLI"><p class="header">Coordonate GPS(lat;long): </p>(@d.Latitude;@d.Longitude)</li>
+            <li class="listaObiectiveLI"><p class="header">Tipul atractiei: </p>@d.DictionaryAttractionType.AttractionName</li>
+            <li class="listaObiectiveLI"><p class="header">Codul atractiei: </p>@d.DictionaryAttractionType.AttractionCode</li>
 
-    </table>
+            @*<li>@d.DictionaryCityId</li>*@
+        }
+
+    </ul>
+
+    <script>
+        product = function (a, b) {
+            var prod = a * b;
+            var td = document.getElementsByTagName("produs");
+            td.innerHTML=prod;
+            return a * b;
+    }
+
+
+    </script>
 </body>
 </html>

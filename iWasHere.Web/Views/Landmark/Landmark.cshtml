@@ -33,19 +33,19 @@
             columns.Bound(c => c.TicketId).Hidden();
 
             columns.Bound(c => c.DictionaryAvailabilityId).Hidden();
-            //columns.Bound(c => c.DictionaryAvailability.DictionaryAvailabilityName).Title("");
 
             columns.Bound(c => c.DictionaryItemId).Hidden();
             columns.Bound(c => c.DateAdded).Title("Data adaugare");
             columns.Bound(c => c.DictionaryAttractionTypeId).Hidden();
             columns.Bound(c => c.Longitude);
             columns.Bound(c => c.Latitude);
-            columns.Bound(c => c.DictionaryCityId).Title("Oras");
+           // columns.Bound(c => c.DictionaryCityId).Title("Oras");
             columns.Bound(c => c.DictionaryCity.CityName).Title("Oras");
             columns.Bound(c => c.DictionaryAttractionType.AttractionName).Title("TipAtractie");
 
         })
         .HtmlAttributes(new { style = "height: 550px;" })
+        //.Events(eve=>eve.("recordDblClick"))
         .Scrollable()
         .Sortable()
         .Pageable()
