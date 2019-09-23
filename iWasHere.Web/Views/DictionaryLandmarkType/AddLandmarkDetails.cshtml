@@ -84,9 +84,9 @@
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
-                        document.getElementById("textBoxLandmarkTypeCode").value = data.responseJSON.LandmarkTypeCode;
-                        document.getElementById("textBoxLandmarkTypeName").value = data.responseJSON.LandmarkTypeName;
-                        document.getElementById("textBoxLandmarkTypeDescription").value = data.responseJSON.LandmarkTypeDescription;
+                        document.getElementById("textBoxLandmarkTypeCode").value = data.responseJSON.ItemCode;
+                        document.getElementById("textBoxLandmarkTypeName").value = data.responseJSON.ItemName;
+                        document.getElementById("textBoxLandmarkTypeDescription").value = data.responseJSON.Description;
                     }
                     else //id-ul nu este gasit in db
                     {
