@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
 using iWasHere.Domain.Models;
@@ -77,6 +78,45 @@ namespace iWasHere.Web.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
+
+
+
+
+
+        //Problems with Json:
+        public ActionResult GetDictionaryCurrencyById(int txtCurrencyId)
+        {
+
+            return Json(_dictionaryService.GetDictionaryCurrencyById(txtCurrencyId));
+        }
+
+        public ActionResult UpdateCurrency(int id, string name, string code)
+        {
+            DictionaryCurrency dictionaryCurrency = new DictionaryCurrency();
+            dictionaryCurrency.CurrencyId = id;
+            dictionaryCurrency.CurrencyName = name;
+            dictionaryCurrency.CurrencyCode = code;
+            // dictionaryAvailability.Schedule = schedule;
+
+
+            if (dictionaryCurrency != null)
+            {
+                _dictionaryService.UpdateCurrencyId(dictionaryCurrency);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+        public ActionResult Currency_QuickUpdateId([DataSourceRequest]DataSourceRequest request, DictionaryCurrency dictionaryCurrency)
+        {
+            if (dictionaryCurrency != null && ModelState.IsValid)
+            {
+                _dictionaryService.Currency_QuickUpdateId(dictionaryCurrency);
+            }
+
+            return Json(new[] { dictionaryCurrency }.ToDataSourceResult(request, ModelState));
+        }
+
 
     }
 }

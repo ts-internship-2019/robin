@@ -21,10 +21,7 @@
     .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
 )
 
-
 <input type="button" value="Valuta Noua" onclick="location.href='@Url.Action("Add", "DictionaryCurrency")'" />
-
-<input type="button" value="Editeaza" onclick="location.href='@Url.Action("Add", "DictionaryCurrency")'" />
 
 
 @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>()
@@ -34,7 +31,7 @@
         .Columns(columns =>
         {
             //columns.Bound(c => c.CurrencyId).Filterable(ftb => ftb.Cell(cell => cell.ShowOperators(false))).Width(225);
-            
+
             //latimea coloanelor din Grid:
             columns.Bound(c => c.CurrencyCode).Title("Codul Valutei").Width(300).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
             columns.Bound(c => c.CurrencyName).Title("Numele Valutei").Width(350).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
@@ -49,6 +46,7 @@
             .Model(model => model.Id(p => p.CurrencyId))
             .Read(read => read.Action("Currency_Read", "DictionaryCurrency").Data("getFilter"))
             .Destroy(destroy => destroy.Action("Currency_Destroy", "DictionaryCurrency"))
+            .Update(update => update.Action("Currency_QuickUpdateId", "DictionaryCurrency"))
             .PageSize(20)
         )
 )
@@ -72,6 +70,14 @@
     refresh = function () {
         $("#CurrencyGrid").data("kendoGrid").dataSource.read();
         $("#CurrencyGrid").data("kendoGrid").dataSource.page(1);
+    }
+
+
+    ///adaugat pentru EDIT
+    saveChanges = function () {
+        grid = $("#CurrencyGrid").data("kendoGrid");
+        grid.removeRow($(element).closest("tr"));
+        grid.dataSource.sync();
     }
 
 </script>
