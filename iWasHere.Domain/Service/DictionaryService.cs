@@ -896,7 +896,6 @@ namespace iWasHere.Domain.Service
                 return "Acest Landmark nu poate fi modificat.";
             }
         }
-        #endregion
 
         #region landmark
         public List<DictionaryCity> GetGmbCity()
