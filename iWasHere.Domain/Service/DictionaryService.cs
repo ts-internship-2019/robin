@@ -33,11 +33,24 @@ namespace iWasHere.Domain.Service
             List<DictionaryCountry> dictionaryCountry = _dbContext.DictionaryCountry.Select(a => new DictionaryCountry()
             {
                 CountryId = a.CountryId,
-                CountryName = a.CountryName
+                CountryName = a.CountryName,
             }).ToList();
 
             return dictionaryCountry;
         }
+
+        public List<DictionaryCountry> GetCmbCountry()
+        {           
+            IQueryable<DictionaryCountry> queryable = _dbContext.DictionaryCountry;
+            queryable = queryable.Select(a => new DictionaryCountry()       
+            {
+                CountryId = a.CountryId,
+                CountryName = a.CountryName
+            });
+            
+                return queryable.ToList();                      
+        }
+
         public int GetDictionaryCountryCount()
         {
             return _dbContext.DictionaryCountry.Count();
@@ -59,17 +72,67 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public string Country_DestroyId(int id)
+        public void Country_DestroyId(int id)
+        {
+            _dbContext.Remove(_dbContext.DictionaryCountry.Single(a => a.CountryId == id));
+            _dbContext.SaveChanges();
+        }
+
+        public int AddNewCountry(DictionaryCountry dictionaryCountry)
+        {
+            _dbContext.DictionaryCountry.Add(dictionaryCountry);
+            return _dbContext.SaveChanges();
+        }
+
+        public DictionaryCountry GetDictionaryCountryById(int txtCountryId)
+        {
+            IQueryable<DictionaryCountry> queryable = _dbContext.DictionaryCountry;
+            queryable = queryable.Where(a => a.CountryId.Equals(txtCountryId));
+            queryable = queryable.Select(a => new DictionaryCountry()
+
+            {
+                CountryId = a.CountryId,
+                CountryName = a.CountryName,
+            });
+
+            return queryable.FirstOrDefault();
+        }
+
+
+
+        public int UpdateCountry(DictionaryCountry dictionaryCountry)
+        {
+
+            _dbContext.DictionaryCountry.Update(dictionaryCountry);
+            return _dbContext.SaveChanges();
+        }
+
+        public void UpdateCountryId(DictionaryCountry dictionaryCountry)
+        {
+            _dbContext.DictionaryCountry.Update(dictionaryCountry);
+            _dbContext.SaveChanges();
+        }
+
+
+        public string Country_QuickUpdateId(DictionaryCountry dictionaryCountry)
         {
             try
             {
-                _dbContext.Remove(_dbContext.DictionaryCountry.Single(a => a.CountryId == id));
+
+                var target = (_dbContext.DictionaryCountry.Single(a => a.CountryId == dictionaryCountry.CountryId));
+
+
+                target.CountryName = dictionaryCountry.CountryName;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
                 _dbContext.SaveChanges();
+
                 return null;
             }
             catch (Exception ex)
             {
-                return "Aceasta tara nu poate fi stearsa.";
+                return "Tara nu poate fi modificata.";
             }
         }
         #endregion
@@ -171,13 +234,17 @@ namespace iWasHere.Domain.Service
             return _dbContext.DictionaryCounty.Count();
         }
 
-        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName)
+        public List<DictionaryCounty> GetDictionaryCountyPage(int page, int pageSize, string txtboxCountyName, int cmbboxCountryId)
         {
             IQueryable<DictionaryCounty> queryableCounty = _dbContext.DictionaryCounty.Include(c=>c.Country);
 
             if (!string.IsNullOrWhiteSpace(txtboxCountyName))
             {
                 queryableCounty = queryableCounty.Where(a => a.CountyName.Contains(txtboxCountyName));
+            }
+            if (cmbboxCountryId > 0)
+            {
+                queryableCounty = queryableCounty.Where(a => a.Country.CountryId == (cmbboxCountryId));
             }
             queryableCounty = queryableCounty.Select(a => new DictionaryCounty()
             {
@@ -201,9 +268,74 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
         }
 
-        #endregion
+        public int AddNewCounty(DictionaryCounty dictionaryCounty)
+        {
+            _dbContext.DictionaryCounty.Add(dictionaryCounty);
+            return _dbContext.SaveChanges();
+        }
 
-        #region Landmark
+        public string County_DestroyId(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest judet nu poate fi stearsa.";
+            }
+        }
+
+        public string County_UpdateId(DictionaryCounty dictionaryCounty)
+        {
+            try
+            {
+                var target = (_dbContext.DictionaryCounty.Single(a => a.CountyId == dictionaryCounty.CountyId));
+
+                target.CountyName = dictionaryCounty.CountyName;
+                target.CountryId = dictionaryCounty.CountryId;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest judet nu poate fi modificat.";
+            }
+        }
+
+        public int AddCounty(DictionaryCounty modelCounty)
+        {
+            _dbContext.DictionaryCounty.Add(modelCounty);
+            return _dbContext.SaveChanges();
+        }
+
+        public DictionaryCounty GetDictionaryCountyById(int txtCountyId)
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Where(a => a.CountyId.Equals(txtCountyId));
+            queryable = queryable.Select(a => new DictionaryCounty()
+
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+
+        public void UpdateCounty(DictionaryCounty modelCounty)
+        {
+            _dbContext.Update(modelCounty);
+            _dbContext.SaveChanges();
+        }
+
         public int GetLandmarkCount()
         {
             return _dbContext.Landmark.Count();
@@ -403,6 +535,17 @@ namespace iWasHere.Domain.Service
             _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
             _dbContext.SaveChanges();
         }
+        public List<DictionaryTicketType> GetCmbTicketType()
+        {
+            IQueryable<DictionaryTicketType> queryable = _dbContext.DictionaryTicketType;
+            queryable = queryable.Select(a => new DictionaryTicketType()
+            {
+                TicketTypeId = a.TicketTypeId,
+                TicketName = a.TicketName
+            });
+
+            return queryable.ToList();
+        }
         #endregion
 
         #region dictionarycurrency
@@ -466,15 +609,68 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception ex)
             {
-                return "Aceasta atractie nu poate fi stearsa.";
+                return "Aceasta valuta nu poate fi stearsa.";
             }
         }
+            public DictionaryCurrency GetDictionaryCurrencyById(int txtCurrencyId)
+            {
+                IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+                queryable = queryable.Where(a => a.CurrencyId.Equals(txtCurrencyId));
+                queryable = queryable.Select(a => new DictionaryCurrency()
 
-        #endregion
+                {
+                    CurrencyId = a.CurrencyId,
+                    CurrencyCode = a.CurrencyCode,
+                    CurrencyName = a.CurrencyName,
+                });
 
-        #region LandmarkType
+                return queryable.FirstOrDefault();
+            }
 
-        public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
+
+
+            public int UpdateCurrency(DictionaryCurrency dictionaryCurrency)
+            {
+
+                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
+                return _dbContext.SaveChanges();
+            }
+
+            public void UpdateCurrencyId(DictionaryCurrency dictionaryCurrency)
+            {
+                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
+                _dbContext.SaveChanges();
+            }
+
+
+            public string Currency_QuickUpdateId(DictionaryCurrency dictionaryCurrency)
+            {
+                try
+                {
+
+                    var target = (_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == dictionaryCurrency.CurrencyId));
+
+                    target.CurrencyName = dictionaryCurrency.CurrencyName;
+                    target.CurrencyCode = dictionaryCurrency.CurrencyCode;
+
+                    _dbContext.Attach(target);
+                    _dbContext.Entry(target).State = EntityState.Modified;
+                    _dbContext.SaveChanges();
+
+                    return null;
+                }
+                catch (Exception ex)
+                {
+                    return "Programul nu poate fi modificat.";
+                }
+            }
+        
+
+            #endregion
+
+            #region LandmarkType
+
+            public List<DictionaryLandmarkType> GetDictionaryLandmarkType()
         {
             List<DictionaryLandmarkType> dictionaryLandmarkType = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkType()
             {
@@ -555,9 +751,46 @@ namespace iWasHere.Domain.Service
             _dbContext.SaveChanges();
         }
 
+
+        public string LandmarkType_QuickUpdateId(DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            try
+            {
+
+                var target = (_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == dictionaryLandmarkType.ItemId));
+
+                target.ItemCode = dictionaryLandmarkType.ItemCode;
+                target.ItemName = dictionaryLandmarkType.ItemName;
+                target.Description = dictionaryLandmarkType.Description;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest Landmark nu poate fi modificat.";
+            }
+        }
+
+
         #endregion
 
         #region dictionaryavailability
+
+        public List<DictionaryAvailability> GetDictionaryAvailability()
+        {
+            List<DictionaryAvailability> dictionaryAvailability = _dbContext.DictionaryAvailability.Select(a => new DictionaryAvailability()
+            {
+                AvailabilityId = a.AvailabilityId,
+                AvailabilityName = a.AvailabilityName,
+                Schedule = a.Schedule,
+            }).ToList();
+
+            return dictionaryAvailability;
+        }
 
         public List<DictionaryAvailability> GetDictionaryAvailabilityFilterPage(int page, int pageSize, string txtboxAvailabilityName)
         {
@@ -570,45 +803,99 @@ namespace iWasHere.Domain.Service
             {
                 AvailabilityId = a.AvailabilityId,
                 AvailabilityName = a.AvailabilityName,
-                Schedule = a.Schedule
+                Schedule = a.Schedule,
             }).Skip((page - 1) * pageSize).Take(pageSize);
 
             return queryable.ToList();
         }
-        public List<DictionaryAvailability> GetDictionaryAvailability()
+
+
+
+        public void Availability_DestroyId(int id)
         {
-            List<DictionaryAvailability> dictionaryAvailability = _dbContext.DictionaryAvailability.Select(a => new DictionaryAvailability()
-            {
-                AvailabilityId = a.AvailabilityId,
-                AvailabilityName = a.AvailabilityName,
-                Schedule = a.Schedule
-            }).ToList();
-
-            return dictionaryAvailability;
-
+            _dbContext.Remove(_dbContext.DictionaryAvailability.Single(a => a.AvailabilityId == id));
+            _dbContext.SaveChanges();
         }
+
         public int GetDictionaryAvailabilityCount()
         {
             return _dbContext.DictionaryAvailability.Count();
         }
 
-        public string Availability_DestroyId(int id)
+        public int AddNewAvailability(DictionaryAvailability dictionaryAvailability)
+        {
+            _dbContext.DictionaryAvailability.Add(dictionaryAvailability);
+            return _dbContext.SaveChanges();
+        }
+
+        public DictionaryAvailability GetDictionaryAvailabilityById(int txtAvailabilityId)
+        {
+            IQueryable<DictionaryAvailability> queryable = _dbContext.DictionaryAvailability;
+            queryable = queryable.Where(a => a.AvailabilityId.Equals(txtAvailabilityId));
+            queryable = queryable.Select(a => new DictionaryAvailability()
+
+            {
+                AvailabilityId = a.AvailabilityId,
+                AvailabilityName = a.AvailabilityName,
+                Schedule = a.Schedule,
+            });
+
+            return queryable.FirstOrDefault();
+        }
+
+
+
+        public int UpdateAvailability(DictionaryAvailability dictionaryAvailability)
+        {
+
+            _dbContext.DictionaryAvailability.Update(dictionaryAvailability);
+            return _dbContext.SaveChanges();
+        }
+
+        public void UpdateAvailabilityId(DictionaryAvailability dictionaryAvailability)
+        {
+            _dbContext.DictionaryAvailability.Update(dictionaryAvailability);
+            _dbContext.SaveChanges();
+        }
+
+
+        public string Availability_QuickUpdateId(DictionaryAvailability dictionaryAvailability)
         {
             try
             {
-                _dbContext.Remove(_dbContext.DictionaryAvailability.Single(a => a.AvailabilityId == id));
+
+                var target = (_dbContext.DictionaryAvailability.Single(a => a.AvailabilityId == dictionaryAvailability.AvailabilityId));
+
+                target.AvailabilityName = dictionaryAvailability.AvailabilityName;
+                target.Schedule = dictionaryAvailability.Schedule;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
                 _dbContext.SaveChanges();
+
                 return null;
             }
             catch (Exception ex)
             {
-                return "Aceast program nu poate fi sters.";
+                return "Programul nu poate fi modificat.";
             }
         }
 
         #endregion
 
         #region dictionaryattractiontype
+        public List<DictionaryAttractionType> GetDictionaryAttractionType()
+        {
+            List<DictionaryAttractionType> dictionaryAttractionType = _dbContext.DictionaryAttractionType.Select(a => new DictionaryAttractionType()
+            {
+                AttractionTypeId = a.AttractionTypeId,
+                AttractionCode = a.AttractionCode,
+                AttractionName = a.AttractionName,
+            }).ToList();
+
+            return dictionaryAttractionType;
+        }
+
         public List<DictionaryAttractionType> GetDictionaryAttractionTypeFilterPage(int page, int pageSize, string txtboxAttractionName)
         {
             IQueryable<DictionaryAttractionType> queryable = _dbContext.DictionaryAttractionType;
@@ -620,22 +907,20 @@ namespace iWasHere.Domain.Service
             {
                 AttractionTypeId = a.AttractionTypeId,
                 AttractionCode = a.AttractionCode,
-                AttractionName = a.AttractionName
+                AttractionName = a.AttractionName,
             }).Skip((page - 1) * pageSize).Take(pageSize);
 
             return queryable.ToList();
         }
-        public List<DictionaryAttractionType> GetDictionaryAttractionType()
-        {
-            List<DictionaryAttractionType> dictionaryAttractionType = _dbContext.DictionaryAttractionType.Select(a => new DictionaryAttractionType()
-            {
-                AttractionTypeId = a.AttractionTypeId,
-                AttractionCode = a.AttractionCode,
-                AttractionName = a.AttractionName
-            }).ToList();
 
-            return dictionaryAttractionType;
+
+
+        public void AttractionType_DestroyId(int id)
+        {
+            _dbContext.Remove(_dbContext.DictionaryAttractionType.Single(a => a.AttractionTypeId == id));
+            _dbContext.SaveChanges();
         }
+
         public int GetDictionaryAttractionTypeCount()
         {
             return _dbContext.DictionaryAttractionType.Count();
@@ -647,17 +932,56 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public string AttractionType_DestroyId(int id)
+        public DictionaryAttractionType GetDictionaryAttractionTypeById(int txtAttractionTypeId)
+        {
+            IQueryable<DictionaryAttractionType> queryable = _dbContext.DictionaryAttractionType;
+            queryable = queryable.Where(a => a.AttractionTypeId.Equals(txtAttractionTypeId));
+            queryable = queryable.Select(a => new DictionaryAttractionType()
+
+            {
+                AttractionTypeId = a.AttractionTypeId,
+                AttractionCode = a.AttractionCode,
+                AttractionName = a.AttractionName,
+            });
+
+            return queryable.FirstOrDefault();
+        }
+
+
+
+        public int UpdateAttractionType(DictionaryAttractionType dictionaryAttractionType)
+        {
+
+            _dbContext.DictionaryAttractionType.Update(dictionaryAttractionType);
+            return _dbContext.SaveChanges();
+        }
+
+        public void UpdateAttractionTypeId(DictionaryAttractionType dictionaryAttractionType)
+        {
+            _dbContext.DictionaryAttractionType.Update(dictionaryAttractionType);
+            _dbContext.SaveChanges();
+        }
+
+
+        public string AttractionType_QuickUpdateId(DictionaryAttractionType dictionaryAttractionType)
         {
             try
             {
-                _dbContext.Remove(_dbContext.DictionaryAttractionType.Single(a => a.AttractionTypeId == id));
+
+                var target = (_dbContext.DictionaryAttractionType.Single(a => a.AttractionTypeId == dictionaryAttractionType.AttractionTypeId));
+
+                target.AttractionCode = dictionaryAttractionType.AttractionCode;
+                target.AttractionName = dictionaryAttractionType.AttractionName;
+
+                _dbContext.Attach(target);
+                _dbContext.Entry(target).State = EntityState.Modified;
                 _dbContext.SaveChanges();
+
                 return null;
             }
             catch (Exception ex)
             {
-                return "Aceasta atractie nu poate fi stearsa.";
+                return "Tipul de atractie nu poate fi modificat.";
             }
         }
 
@@ -683,6 +1007,72 @@ namespace iWasHere.Domain.Service
             }
         }
         #endregion
+
+        #region landmark
+        public List<DictionaryCity> GetGmbCity()
+        {
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            queryable = queryable.Select(a => new DictionaryCity()
+            {
+                CityId = a.CityId,
+                CityName = a.CityName
+            });
+            return queryable.ToList();
+        }
+
+        public List<DictionaryCurrency> GetCmbCurrency()
+        {
+            IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+            queryable = queryable.Select(a => new DictionaryCurrency()
+            {
+               CurrencyId=a.CurrencyId,
+               CurrencyName=a.CurrencyName
+            });
+            return queryable.ToList();
+        }
+        public List<DictionaryLandmarkType> GetCmbLandmarkDetail()
+        {
+            IQueryable<DictionaryLandmarkType> queryable = _dbContext.DictionaryLandmarkType;
+            queryable = queryable.Select(a => new DictionaryLandmarkType()
+            {
+              ItemId=a.ItemId,
+              ItemName=a.ItemName
+            });
+            return queryable.ToList();
+        }
+        public List<DictionaryAttractionType> GetCmbAttraction()
+        {
+            IQueryable<DictionaryAttractionType> queryable = _dbContext.DictionaryAttractionType;
+            queryable = queryable.Select(a => new DictionaryAttractionType()
+            {
+                AttractionTypeId=a.AttractionTypeId,
+                AttractionName=a.AttractionName
+            });
+            return queryable.ToList();
+        }
+        public List<DictionaryAvailability> GeCmbAvailability()
+        {
+            IQueryable<DictionaryAvailability> queryable = _dbContext.DictionaryAvailability;
+            queryable = queryable.Select(a => new DictionaryAvailability()
+            {
+               AvailabilityId=a.AvailabilityId,
+               AvailabilityName=a.AvailabilityName
+            });
+            return queryable.ToList();
+        }
+        public int AddTicket(Ticket ticket)
+        {
+            _dbContext.Ticket.Add(ticket);
+            return _dbContext.SaveChanges();
+        }
+        public int AddLandmark(Landmark landmark)
+        {
+            _dbContext.Landmark.Add(landmark);
+            return _dbContext.SaveChanges();
+        }
+
+        #endregion
+
     }
 }
 

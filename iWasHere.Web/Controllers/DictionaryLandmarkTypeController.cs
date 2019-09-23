@@ -62,6 +62,20 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
         }
 
+        public ActionResult LandmarkType_QuickUpdate([DataSourceRequest]DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
+        {
+            if (dictionaryLandmarkType != null && ModelState.IsValid)
+            {
+                _dictionaryService.LandmarkType_QuickUpdateId(dictionaryLandmarkType);
+            }
+
+            return Json(new[] { dictionaryLandmarkType }.ToDataSourceResult(request, ModelState));
+        }
+
+
+
+
+
         public ActionResult LandmarkType_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
         {
             if (dictionaryLandmarkType != null)
@@ -70,6 +84,9 @@ namespace iWasHere.Web.Controllers
             }
             return Json(ModelState.ToDataSourceResult());
         }
+
+
+
 
         public IActionResult LandmarkDetails()
         {

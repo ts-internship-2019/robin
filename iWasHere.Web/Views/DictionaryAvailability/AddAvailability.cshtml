@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿
+
+@model iWasHere.Domain.Models.DictionaryAvailability
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Detalii Atractie</title>
+    <title>Program</title>
 
 </head>
 <body>
@@ -15,53 +18,29 @@
                 <div class="card-block">
                     <form class="k-form">
                         <fieldset>
-                            <legend>Adauga un program</legend>
+                            <p id="AvailabilityAddTitle">Test</p>
+                            @*//start*@
+
+
+                            @*end*@
 
                             <label class="k-form-field">
-                                <span>Availability Name: </span>
-                                <input class="k-textbox" placeholder="Numele disponibilității" />
-                            </label>
-                            <label class="k-form-field">
-                                <span>Interval orar: </span>
-                                <input class="k-textbox" value="nimic" placeholder="Interval orar" />
-                            </label>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Detalii</legend>
-                            <label class="k-form-field">
-                                <span>Selecteaza ceva</span>
-                                @(Html.Kendo().ComboBox()
-                                    .Name("fabric")
-                                    .Filter("contains")
-                                    .Placeholder("Select fabric...")
-                                    .DataTextField("Text")
-                                    .DataValueField("Value")
-                                    .BindTo(new List<SelectListItem>() {
-                                        new SelectListItem() {
-                                          Text = "Aici", Value = "1"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Trebuie", Value = "2"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Legatura Cu", Value = "3"
-                                        },
-                                        new SelectListItem() {
-                                          Text = "Baza", Value = "4"
-                                        }
-                                    })
-                                    .SelectedIndex(3)
-                                    .Suggest(true)
-                                    .HtmlAttributes(new { style = "width:100%;" })
-
+                                <span>Nume program: </span>
+                                @(Html.Kendo().TextBox()
+                                .Name("inputAvailabilityName")
+                                .HtmlAttributes(new { id = "textBoxAvailabilityName", type = "textbox", maxlength = "200" })
                                 )
+
                             </label>
+
+                            </label>>
+
                         </fieldset>
 
                         <div class="text-right">
-                            <button type="button" class="k-button k-primary">Anuleaza</button>
-                            <button type="button" class="k-button">Salveaza</button>
-                            <button type="button" class="k-button">Salveaza si nou</button>
+                            <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
+                            <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                            <button type="button" id="btnSaveNew" class="k-button" onclick="editFunction(2)">Salveaza si nou</button>
 
                         </div>
                     </form>
@@ -70,5 +49,87 @@
         </div>
     </div>
 
+    <script type="text/javascript">
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var modelId = url.searchParams.get("Id");
+
+        // alert(c); // alert pentru verificarea id-ului
+        //c ia valoarea id-ului
+        if (modelId == 0) {
+            document.getElementById("AvailabilityAddTitle").innerHTML = "Adauga detalii noi atractie";//pageTitle
+
+        } else {
+            document.getElementById("AvailabilityAddTitle").innerHTML = "Editeaza detalii atractie";
+            document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
+            var data = $.ajax({
+                type: 'GET',
+                url: '/DictionaryAvailability/AvailabilityGetById', //numecontroller, fara controller / nume metoda
+                data: { txtAvailabilityId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                cache: false,
+                success: function (result) {
+                    if (data.responseJSON != null) {
+                        document.getElementById("textBoxAvailabilityName").value = data.responseJSON.AvailabilityName;
+                    }
+                    else //id-ul nu este gasit in db
+                    {
+                        alert("Inregistrarea nu a fost gasita in baza de date!")
+                        window.location.href = "/DictionaryAvailability/Availability";
+                    }
+                    return result;
+                }
+            });
+        }
+        function cancel() {
+            window.location.href = "/DictionaryAvailability/Availability";
+        }
+        var eventType;
+
+        function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
+            name = document.getElementById('textBoxAvailabilityName').value;
+            description = document.getElementById('textBoxAvailability').value;
+            if (code == "" || name == "" || description == "") {
+                alert("Campuri necompletate!");
+            } else {
+                if (modelId != 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryAvailability/Availability_Update',
+                        data: { id: modelId,  name: name, },
+                        cache: false,
+                        success: function (result) {
+                            alert("Editat cu succes"); return result;
+                        }
+                    })
+
+                    window.location.href = "/DictionaryAvailability/Availability"; //redirect
+
+                } else if (modelId == 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryAvailability/AddNewAvailability',
+                        data: {name: name },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryAvailability/Availability";
+
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryAvailability/AddNewAvailability',
+                        data: { name: name },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryAvailability/AddAvailability?Id=0";
+                }
+            }
+        }
+    </script>
 </body>
 </html>

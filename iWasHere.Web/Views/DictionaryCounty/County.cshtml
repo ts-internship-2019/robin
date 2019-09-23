@@ -1,60 +1,113 @@
-﻿<h1>Lista judete</h1>
-@(Html.Kendo().Button()
-        .Name("iconTextButton")
-        .Tag("a")
-        .Icon("filter")
-        .Content("Filtreaza")
-        .HtmlAttributes(new { id = "btnFilter", type = "button" })
-        .Events(e => e.Click("refresh"))
-)
+﻿<!DOCTYPE html>
+<head>
 
-@(Html.Kendo().Button()
-        .Name("kendoIconTextButton")
-        .Tag("a")
-        .Icon("filter-clear")
-        .Content("Sterge filtru")
-        .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
-        .Events(e => e.Click("removeFilter"))
-)
-
-@(Html.Kendo().TextBox()
-    .Name("inputCountyNameFilter")
-    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
-)
-
-
-@(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
-        .Name("CountyGrid")
-        .Columns(columns =>
-        {
-            //columns.Bound(c => c.CountyId);
-            columns.Bound(c => c.CountyName).Title("Judet");
-            //columns.Bound(c => c.CountryId);
-            columns.Bound(c => c.Country.CountryName).Title("Tara");
-        })
-        .HtmlAttributes(new { style = "height: 550px;" })
-        .Scrollable()
-        //.Groupable()
-        //.Filterable(ftb => ftb.Mode(GridFilterMode.Row))
-        .Sortable()
-        .Pageable()
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
-            .PageSize(20)
+    <meta name="viewport" content="width=device-width" />
+    <title>Judete</title>
+    <style>
+        p {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    @*<h1>Lista judete</h1>*@
+    <h1>@ViewData["Title"]</h1>
+    <p>
+        Nume judet:
+        @(Html.Kendo().TextBox()
+            .Name("inputCountyNameFilter")
+            .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
         )
-)
+    </p>
 
-<script>
+    <p>
+        Tara:
+    @(Html.Kendo().ComboBox()
+              .Name("countryFilter")
+              .DataTextField("CountryName")
+              .DataValueField("CountryId")
+              .DataSource(source =>
+              {
+
+                      source.Read(read =>
+                      {
+                          read.Action("cmbCountry", "DictionaryCounty");
+                  });
+              })
+              .HtmlAttributes(new { id = "cmbCountryFilter"/*, style = "width: 100%" */})
+    )
+</p>
+
+    <p>
+        @(Html.Kendo().Button()
+                .Name("iconTextButton")
+                .Tag("a")
+                .Icon("filter")
+                .Content("Filtreaza")
+                .HtmlAttributes(new { id = "btnFilter", type = "button" })
+                .Events(e => e.Click("refresh"))
+        )
+    </p>
+
+    <p>
+        @(Html.Kendo().Button()
+                .Name("kendoIconTextButton")
+                .Tag("a")
+                .Icon("filter-clear")
+                .Content("Sterge filtru")
+                .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+                .Events(e => e.Click("removeFilter"))
+        )
+    </p>
+
+
+   
+    <br />
+    <br />
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
+            .Name("CountyGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.CountyId).Hidden();
+                columns.Bound(c => c.CountyName).Title("Judet");
+                columns.Bound(c => c.CountryId).Hidden();
+                columns.Bound(c => c.Country.CountryName).Title("Tara");
+                columns.Template("<a  class='k-button' href='/DictionaryCounty/CountyAdd?Id=#=CountyId# '> Editeaza </a>").Width(150);
+                columns.Command(command => { command.Destroy(); }).Width(200);
+            })
+            .HtmlAttributes(new { id = "CountyGrid", style = "height: 550px;" })
+            .Scrollable()
+            .Editable(editable =>
+            {
+                editable.Mode(GridEditMode.InLine);
+                editable.DisplayDeleteConfirmation("Sunteti sigur ca doriti stergerea inregistrarii?");
+            })
+            //.Groupable()
+            //.Filterable(ftb => ftb.Mode(GridFilterMode.Row))
+            .Sortable()
+            .Pageable()
+            .DataSource(dataSource => dataSource
+
+                .Ajax()
+                .Model(model => model.Id(p => p.CountyId))
+                .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
+                .Destroy(destroy => destroy.Action("County_Destroy", "DictionaryCounty"))
+                .PageSize(20)
+            )
+    )
+
+    <script>
 
         getFilter = function () {
             var model = {};
             model["txtboxCountyName"] = $("#inputTextbox").val();
+            model["cmbboxCountryName"] = $("#cmbCountryFilter").val();
             return model;
         }
 
         removeFilter = function () {
             $("#inputTextbox").val("");
+            $("#cmbCountryFilter").data("kendoComboBox").value("");
             refresh();
         }
 
@@ -63,4 +116,12 @@
             $("#CountyGrid").data("kendoGrid").dataSource.page(1);
         }
 
-</script>
+        saveChanges = function () {
+            grid = $("#CountyGrid").data("kendoGrid");
+            grid.removeRow($(element).closest("tr"));
+            grid.dataSource.sync();
+        }
+
+    </script>
+    <p align="right"> <a href='/DictionaryCounty/CountyAdd?Id=0' class="k-button k-primary">Adauga judet</a></p>
+</body>

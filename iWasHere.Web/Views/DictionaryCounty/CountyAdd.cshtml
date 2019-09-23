@@ -1,0 +1,150 @@
+@model iWasHere.Domain.Models.DictionaryCounty
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Judet</title>
+
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col-xl-6 col-sm-10 offset-sm-3">
+            <div class="card">
+                <div class="card-block">
+                    <form class="k-form">
+                        <fieldset>
+                            <p id="countyAddTitle">Test</p>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span>Nume judet:</span>
+                                    </td>
+                                    <td>
+
+                                        @(Html.Kendo().TextBox()
+                                        .Name("inputCountyName")
+                                        .HtmlAttributes(new { id = "textBoxCountyName", type = "textbox", maxlength = "10" })
+                                        )
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Nume tara:</span>
+                                    </td>
+                                    <td>
+                                        @(Html.Kendo().ComboBox()
+                                          .Name("countryEdit")
+                                          .DataTextField("CountryName")
+                                          .DataValueField("CountryId")
+                                          .DataSource(source =>
+                                              {
+                                                  source.Read(read =>
+                                                  {
+                                                      read.Action("cmbCountry", "DictionaryCounty");
+                                              });
+                                          })
+                                          .HtmlAttributes(new { id = "cmbCountryId" })
+                                        )
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+
+                        <div class="text-right">
+                            <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
+                            <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>
+                            <button type="button" id="btnSaveNew" class="k-button" onclick="editFunction(2)">Salveaza si nou</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var modelId = url.searchParams.get("Id");
+
+        if (modelId == 0) {
+            document.getElementById("countyAddTitle").innerHTML = "Adaugare judet";//pageTitle
+
+        } else {
+            document.getElementById("countyAddTitle").innerHTML = "Editare judet";
+            document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
+            var data = $.ajax({
+                type: 'GET',
+                url: '/DictionaryCounty/CountyGetById', //numecontroller, fara controller / nume metoda
+                data: { txtCountyId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                cache: false,
+                success: function (result) {
+                    if (data.responseJSON != null) {
+                        document.getElementById("textBoxCountyName").value = data.responseJSON.CountyName;
+                        document.getElementById("cmbCountryId").value = data.responseJSON.CountryId;
+                    }
+                    else //id-ul nu este gasit in db
+                    {
+                        alert("Inregistrarea nu a fost gasita in baza de date!")
+                        window.location.href = "/DictionaryCounty/County";
+                    }
+                    return result;
+                }
+            });
+        }
+        function cancel() {
+            window.location.href = "/DictionaryCounty/County";
+        }
+        var eventType;
+
+        function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
+            countyname = document.getElementById('textBoxCountyName').value;
+            countryid = document.getElementById('cmbCountryId').value;
+            if (countyname == "" || countryid == "") {
+                alert("Campuri necompletate!");
+            } else {
+                if (modelId != 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryCounty/County_Update',
+                        data: { id: modelId, countyname: countyname, countryid: countryid },
+                        cache: false,
+                        success: function (result) {
+                            alert("Editat cu succes"); return result;
+                        }
+                    })
+
+                    window.location.href = "/DictionaryCounty/County"; //redirect
+
+                } else if (modelId == 0 && eventType == 1) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryCounty/AddNewCounty',
+                        data: { countyname: countyname, countryid: countryid },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryCounty/County";
+
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/DictionaryCounty/AddNewCounty',
+                        data: { countyname: countyname, countryid: countryid },
+                        cache: false,
+                        success: function (result) {
+                            alert("Adaugat cu Success"); return result;
+                        }
+                    })
+                    window.location.href = "/DictionaryCounty/CountyAdd?Id=0";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

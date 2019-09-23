@@ -3,18 +3,20 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Country</title>
+    <title>AttractionType</title>
 
 </head>
 <body>
-    <h1>@ViewData["AttractionType"]</h1>
+    <h1>@ViewData["Title"]</h1>
+
+
     @(Html.Kendo().Button()
-            .Name("iconTextButton")
-            .Tag("a")
-            .Icon("filter")
-            .Content("Filtreaza")
-            .HtmlAttributes(new { id = "btnFilter", type = "button" })
-            .Events(e => e.Click("refresh"))
+        .Name("iconTextButton")
+        .Tag("a")
+        .Icon("filter")
+        .Content("Filtreaza")
+        .HtmlAttributes(new { id = "btnFilter", type = "button" })
+        .Events(e => e.Click("refresh"))
     )
 
     @(Html.Kendo().Button()
@@ -26,48 +28,72 @@
             .Events(e => e.Click("removeFilter"))
     )
 
+    @(Html.Kendo().Button()
+        .Name("kendoIconTextButton")
+        .Tag("a")
+        .Icon("save-changes")
+        .Content("Salvare modificari")
+        .HtmlAttributes(new { id = "btnSave", type = "button" })
+        .Events(e => e.Click("saveChanges"))
+    )
+
+
     @(Html.Kendo().TextBox()
         .Name("inputAttractionNameFilter")
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
-    <input type="button" value="Adaugare Atractie" onclick="location.href='@Url.Action("Add", "DictionaryAttractionType")'" />
+    <input type="button" value="Adaugare tip de Atractie" onclick="location.href='@Url.Action("Add", "DictionaryAttractionType")'" />
+    <input type="button" value="Modificare tip de  Atractie" onclick="location.href='@Url.Action("Add", "DictionaryAttractionType")'" />
 
 
-    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>
-        ()
+    @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>()
         .Name("AttractionTypeGrid")
-        .Pageable()
         .Columns(columns =>
         {
-        columns.Bound(c => c.AttractionTypeId);
-        columns.Bound(c => c.AttractionCode);
-        columns.Bound(c => c.AttractionName);
-        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            columns.Bound(c => c.AttractionTypeId);
+            columns.Bound(c => c.AttractionCode);
+            columns.Bound(c => c.AttractionName);
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+            //columns.Template("<a class='k-button' href='~/DictionaryAttractionType/AddAttractionType'>Editeaza</a>").Width(150);
+            //columns.Template("<a class='k-button k-primary' href='~/Home/Index'>Sterge</a>").Width(150);
+
         })
         .HtmlAttributes(new { id = "AttractionTypeGrid", style = "height: 550px;" })
         .Scrollable()
-        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        //.Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+            .ToolBar(toolbar =>
+                    {
+    toolbar.Create();
+    toolbar.Save();
+})
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
-        .Ajax()
-        .Model(model => model.Id(p => p.AttractionTypeId))
+            .Ajax()
+            .Model(model => model.Id(p => p.AttractionTypeId))
 
-        //CRUD
-        .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
-        .Create(create => create.Action("AttractionType_Create", "DictionaryAttractionType"))
-        .Update(update => update.Action("AttractionType_Update", "DictionaryAttractionType"))
-        .Destroy(destroy => destroy.Action("AttractionType_Destroy", "DictionaryAttractionType"))
+            //CRUD
+            .Read(read => read.Action("AttractionType_Read", "DictionaryAttractionType").Data("getFilter"))
+            .Create(create => create.Action("AttractionType_Create", "DictionaryAttractionType"))
+            .Update(update => update.Action("AttractionType_QuickUpdate", "DictionaryAttractionType"))
+            .Destroy(destroy => destroy.Action("AttractionType_Destroy", "DictionaryAttractionType"))
 
-        .PageSize(20)
+            .PageSize(20)
         )
     )
-    <p align="right"> <a href='/DictionaryAttractionType/AddAttractionType' class="k-button k-primary">Adauga un nou tip de atracție</a></p>
+
+    <p align="right"> <a href='/DictionaryAttractionType/AddAttractionType?Id=0' class="k-button k-primary">Adauga un nou tip de atractie</a></p>
 
     <script>
 
         getFilter = function () {
             var model = {};
-            model["txtboxAttractionName"] = $("#inputTextbox").val();
+            model["txtboxItemName"] = $("#inputTextbox").val();
             return model;
         }
 
@@ -78,9 +104,17 @@
 
         refresh = function () {
             $("#AttractionTypeGrid").data("kendoGrid").dataSource.read();
-            $("#AttractionTypeGrid").data("kendoGrid").dataSource.page(1);
+            $("#AttractionypeGrid").data("kendoGrid").dataSource.page(1);
+        }
+
+        saveChanges = function () {
+            grid = $("#AttractionTypeGrid").data("kendoGrid");
+            grid.removeRow($(element).closest("tr"));
+            grid.dataSource.sync();
         }
 
     </script>
+
+
 </body>
 </html>
