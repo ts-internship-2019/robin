@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using iWasHere.Domain.Models;
 using iWasHere.Domain.Service;
 using iWasHere.Web.Models;
+using iWasHere.Domain.DTOs;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;

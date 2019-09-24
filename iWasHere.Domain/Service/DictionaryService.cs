@@ -3,6 +3,7 @@ using iWasHere.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -175,18 +176,10 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public string City_DestroyId(int id)
+        public void City_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest oras nu poate fi sters.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
+            _dbContext.SaveChanges();
         }
         public List<DictionaryCounty> GetCmbCounty()
         {
@@ -274,18 +267,10 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public string County_DestroyId(int id)
+        public void County_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest judet nu poate fi stearsa.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+            _dbContext.SaveChanges();
         }
 
         public string County_UpdateId(DictionaryCounty dictionaryCounty)
@@ -601,18 +586,10 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public string Currency_DestroyId(int id)
+        public void Currency_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Aceasta valuta nu poate fi stearsa.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
+            _dbContext.SaveChanges();
         }
             public DictionaryCurrency GetDictionaryCurrencyById(int txtCurrencyId)
             {
@@ -1058,7 +1035,7 @@ namespace iWasHere.Domain.Service
             });
             return queryable.ToList();
         }
-        public Landmark GetLandmarkById(int landmarkId)
+        public LandmarkReadOnlyModel GetLandmarkById(int landmarkId)
         {
             IQueryable<Landmark> queryable = _dbContext.Landmark;
             if (landmarkId>0)
@@ -1077,7 +1054,11 @@ namespace iWasHere.Domain.Service
                 .ThenInclude(ttype => ttype.TicketType)
             .ToList();
 
-            return queryable.FirstOrDefault();
+            Landmark landmarkResult  = queryable.FirstOrDefault();
+
+            LandmarkReadOnlyModel landmarkReadOnlyModel = new LandmarkReadOnlyModel();
+            landmarkReadOnlyModel = landmarkReadOnlyModel.ConvertToModel(landmarkResult);
+            return landmarkReadOnlyModel;
         }
         public int AddTicket(Ticket ticket)
         {
@@ -1209,6 +1190,53 @@ namespace iWasHere.Domain.Service
             _dbContext.Ticket.Add(ticket);
             return _dbContext.SaveChanges();
         }
+
+
+
+        public void SaveUploadedImagesDB(int lmkid, string path)
+        {
+            
+            //int landmarkId = lmkid;
+
+            LandmarkImage img = new LandmarkImage()
+            {
+
+                LandmarkId = lmkid,
+                ImageUrl = path
+
+            };
+
+            _dbContext.LandmarkImage.Add(img);
+            _dbContext.SaveChanges();
+        }
+
+
+
+
+
+
+        //public int AddTicket(Ticket ticket)
+        //{
+        //    _dbContext.Ticket.Add(ticket);
+        //    return _dbContext.SaveChanges();
+        //}
+
+
+        //[HttpPost]
+        //public ActionResult AddNewTicketType(string code, string name)
+        //{
+        //    DictionaryTicketType dictionaryTicketType = new DictionaryTicketType
+        //    {
+        //        TicketName = name,
+        //        TicketCode = code
+        //    };
+        //    _dictionaryService.AddTicketType(dictionaryTicketType);
+
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
+
+
+
         #endregion
 
     }

@@ -13,9 +13,6 @@ namespace iWasHere.Web.Controllers
     public class DictionaryAttractionTypeController : Controller
     {
         private readonly DictionaryService _dictionaryService;
-        private readonly RobinContext _dbContext;
-        private static bool UpdateDatabase = false;
-
         public DictionaryAttractionTypeController(DictionaryService dictionaryService)
         {
             _dictionaryService = dictionaryService;
@@ -24,6 +21,7 @@ namespace iWasHere.Web.Controllers
         public ActionResult AttractionType_Read([DataSourceRequest] DataSourceRequest request, string txtboxAttractionName)
         {
             DataSourceResult tempDataSourceResult = new DataSourceResult();
+
             tempDataSourceResult.Total = _dictionaryService.GetDictionaryAttractionTypeCount();
             tempDataSourceResult.Data = _dictionaryService.GetDictionaryAttractionTypeFilterPage(request.Page, request.PageSize, txtboxAttractionName);
             return Json(tempDataSourceResult);

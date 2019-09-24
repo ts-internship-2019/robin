@@ -18,7 +18,7 @@
                 <div class="card-block">
                     <form class="k-form">
                         <fieldset>
-                            <p id="AttractionTypeAddTitle">Test</p>
+                            <p id="attractionTypeAddTitle">Test</p>
                             @*//start*@
 
 
@@ -62,10 +62,10 @@
         // alert(c); // alert pentru verificarea id-ului
         //c ia valoarea id-ului
         if (modelId == 0) {
-            document.getElementById("AttractionTypeAddTitle").innerHTML = "Adauga tipuri de atractii noi";//pageTitle
+            document.getElementById("attractionTypeAddTitle").innerHTML = "Adauga tipuri de atractii noi";//pageTitle
 
         } else {
-            document.getElementById("AttractionTypeAddTitle").innerHTML = "Editeaza detalii atractie";
+            document.getElementById("attractionTypeAddTitle").innerHTML = "Editeaza detalii atractie";
             document.getElementById("btnSaveNew").style.display = "none";//ascunde savenew
             var data = $.ajax({
                 type: 'GET',
@@ -74,8 +74,8 @@
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {
-                        document.getElementById("textBoxAttractionTypeCode").value = data.responseJSON.LandmarkTypeCode;
-                        document.getElementById("textBoxAttractionTypeName").value = data.responseJSON.LandmarkTypeName;
+                        document.getElementById("textBoxAttractionTypeCode").value = data.responseJSON.AttractionCode;
+                        document.getElementById("textBoxAttractionTypeName").value = data.responseJSON.AttractionName;
                     }
                     else //id-ul nu este gasit in db
                     {
@@ -108,7 +108,7 @@
                         }
                     })
 
-                    window.location.href = "/DictionaryAttractionType/Attraction"; //redirect
+                    window.location.href = "/DictionaryAttractionType/AttractionType"; //redirect
 
                 } else if (modelId == 0 && eventType == 1) {
                     $.ajax({

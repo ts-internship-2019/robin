@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using iWasHere.Domain.Service;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,11 @@ namespace iWasHere.Web.Controllers
 {
     public partial class UploadController : Controller
     {
+
+        private readonly DictionaryService _dictionaryService;
+
+        public List<string> uploadedImagesPaths = new List<string>();
+
         public IHostingEnvironment HostingEnvironment { get; set; }
 
         public UploadController(IHostingEnvironment hostingEnvironment)
@@ -25,33 +31,80 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Async_Save(IEnumerable<IFormFile> files)
+        //public async Task<ActionResult> Async_Save(IEnumerable<IFormFile> files)
+        //{
+        //    // The Name of the Upload component is "files"
+        //    if (files != null)
+        //    {
+
+        //        uploadedImagesPaths = new List<string>();
+
+        //        foreach (var file in files)
+        //        {
+        //            var fileContent = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+
+        //            // Some browsers send file names with full path.
+        //            // We are only interested in the file name.
+
+        //            var fileName = Path.GetFileName(fileContent.FileName.ToString().Trim('"'));
+
+        //            //var physicalPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+
+        //            var fileId = Guid.NewGuid().ToString();
+        //            var physicalPath = Path.Combine(HostingEnvironment.WebRootPath + "/images/"+ fileId + Path.GetExtension(file.FileName));
+
+        //            // The files are not actually saved in this demo
+        //            using (var fileStream = new FileStream(physicalPath, FileMode.Create))
+        //                //{
+        //                await file.CopyToAsync(fileStream);
+
+        //            uploadedImagesPaths.Add(fileId + Path.GetExtension(file.FileName));
+        //            //}
+        //        }
+        //    }
+
+        //    //Return an empty string to signify success
+        //    return Content("");
+        //}
+
+
+
+        public void Async_Save(List<IFormFile> img)
         {
-            // The Name of the Upload component is "files"
-            if (files != null)
+            if (img != null && img.Count > 0)
+
             {
-                foreach (var file in files)
+                uploadedImagesPaths = new List<string>();
+
+                foreach (IFormFile imgs in img)
                 {
-                    var fileContent = ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+                    if (Path.GetExtension(imgs.FileName).ToLower() == ".jpeg" || Path.GetExtension(imgs.FileName).ToLower() == ".jpg"
+                        || Path.GetExtension(imgs.FileName).ToLower() == ".png")
+                    {
 
-                    // Some browsers send file names with full path.
-                    // We are only interested in the file name.
-                    var fileName = Path.GetFileName(fileContent.FileName.ToString().Trim('"'));
-                    //var physicalPath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\images", fileName);
+                        var fileId = Guid.NewGuid().ToString();
 
-                    var fileId = Guid.NewGuid().ToString();
-                    var physicalPath = Path.Combine(HostingEnvironment.WebRootPath, "images", fileId + Path.GetExtension(file.FileName));
+                        var physicalPath = Path.Combine(HostingEnvironment.WebRootPath, "/images/", fileId, Path.GetExtension(imgs.FileName));
 
-                    // The files are not actually saved in this demo
-                    using (var fileStream = new FileStream(physicalPath, FileMode.Create))
-                    //{
-                    await file.CopyToAsync(fileStream);
-                    //}
+                        imgs.CopyTo(new FileStream(physicalPath, FileMode.Create));
+
+                        uploadedImagesPaths.Add(((fileId.ToString()) + Path.GetExtension(imgs.FileName)).ToString());
+                    }
+
                 }
             }
 
-            // Return an empty string to signify success
-            return Content("");
+        }
+
+        [HttpPost]
+        public void SaveUploadedImagesDB(int lmkid)
+        {
+
+            foreach (string path in uploadedImagesPaths)
+            {
+                _dictionaryService.SaveUploadedImagesDB(lmkid, path);
+            }
+
         }
 
         public ActionResult Async_Remove(string[] fileNames)
@@ -78,6 +131,17 @@ namespace iWasHere.Web.Controllers
             // Return an empty string to signify success
             return Content("");
         }
+
+
+        //public void SaveImageDB(int id, string imgpath)
+        //{
+
+        //    foreach (var path in imgpath)
+        //    {
+        //       _dictionaryService.SaveUploadImageDB(id, path.ToString());
+        //    }
+
+        //}
 
 
     }

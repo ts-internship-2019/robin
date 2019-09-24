@@ -15,9 +15,6 @@ namespace iWasHere.Web.Controllers
     public class DictionaryCountryController : Controller
     {
         private readonly DictionaryService _dictionaryService;
-        private readonly RobinContext _dbContext;
-        private static bool UpdateDatabase = false;
-
         public DictionaryCountryController(DictionaryService dictionaryService)
         {
             _dictionaryService = dictionaryService;
@@ -97,7 +94,6 @@ namespace iWasHere.Web.Controllers
 
             return Json(_dictionaryService.GetDictionaryCountryById(txtCountryId));
         }
-
 
         public IActionResult AddCountry()
         {

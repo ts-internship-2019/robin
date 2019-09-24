@@ -27,8 +27,6 @@ namespace iWasHere.Web.Controllers
             tempDataSourceResult.Data = _dictionaryService.GetDictionaryCountyPage(request.Page,request.PageSize, txtboxCountyName, cmbboxCountryName);
 
             return Json(tempDataSourceResult);
-
-            //return Json(_dictionaryService.GetDictionaryCounty().ToDataSourceResult(request));
         }
 
         public ActionResult cmbCountry([DataSourceRequest] DataSourceRequest request, string cmbCountryName)
@@ -51,34 +49,17 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
         }
 
-        public ActionResult County_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCounty dictionaryCounty)
+        public ActionResult County_Destroy(DictionaryCounty dictionaryCounty)
         {
             if (dictionaryCounty != null)
             {
-                string cnty = _dictionaryService.County_DestroyId(dictionaryCounty.CountyId);
-
-                if (string.IsNullOrWhiteSpace(cnty))
-                {
-                    return Json(ModelState.ToDataSourceResult());
-                }
-                else
-                {
-                    ModelState.AddModelError("Error", cnty);
-                    return Json(ModelState.ToDataSourceResult());
-                }
-            }
-            else if (dictionaryCounty == null)
-            {
-
+                _dictionaryService.County_DestroyId(dictionaryCounty.CountyId);
             }
             return Json(ModelState.ToDataSourceResult());
         }
 
         public IActionResult County()
         {
-            //List<Domain.Models.DictionaryCounty> dictionaryCounty = _dictionaryService.GetDictionaryCounty();
-
-            //return View(dictionaryCounty);
             return View();
         }
 

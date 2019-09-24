@@ -9,6 +9,11 @@
 <body>
     <h1>@ViewData["Title"]</h1>
 
+    Cautare:
+    @(Html.Kendo().TextBox()
+    .Name("inputAttractionNameFilter")
+    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+    )
 
     @(Html.Kendo().Button()
         .Name("iconTextButton")
@@ -28,21 +33,6 @@
             .Events(e => e.Click("removeFilter"))
     )
 
-    @(Html.Kendo().Button()
-        .Name("kendoIconTextButton")
-        .Tag("a")
-        .Icon("save-changes")
-        .Content("Salvare modificari")
-        .HtmlAttributes(new { id = "btnSave", type = "button" })
-        .Events(e => e.Click("saveChanges"))
-    )
-
-
-    @(Html.Kendo().TextBox()
-        .Name("inputAttractionNameFilter")
-        .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
-    )
-
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>()
         .Name("AttractionTypeGrid")
@@ -51,12 +41,11 @@
             columns.Bound(c => c.AttractionTypeId).Hidden();
             columns.Bound(c => c.AttractionCode);
             columns.Bound(c => c.AttractionName);
-            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
-            //columns.Template("<a class='k-button' href='~/DictionaryAttractionType/AddAttractionType'>Editeaza</a>").Width(150);
-            //columns.Template("<a class='k-button k-primary' href='~/Home/Index'>Sterge</a>").Width(150);
+            columns.Template("<a  class='k-button' href='/DictionaryAttractionType/AddAttractionType?Id=#=AttractionTypeId# '> Editeaza </a>").Width(150);
+            columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
 
         })
-        .HtmlAttributes(new { id = "AttractionTypeGrid", style = "height: 550px;" })
+        .HtmlAttributes(new { id = "attractionTypeGrid", style = "height: 550px;" })
         .Scrollable()
         //.Groupable()
         .Sortable()
@@ -64,11 +53,7 @@
             .Refresh(true)
             .PageSizes(true)
             .ButtonCount(5))
-            .ToolBar(toolbar =>
-                    {
-    toolbar.Create();
-    toolbar.Save();
-})
+    
             .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
             .Ajax()
@@ -90,7 +75,7 @@
 
         getFilter = function () {
             var model = {};
-            model["txtboxItemName"] = $("#inputTextbox").val();
+            model["txtboxAttractionName"] = $("#inputTextbox").val();
             return model;
         }
 
@@ -100,14 +85,8 @@
         }
 
         refresh = function () {
-            $("#AttractionTypeGrid").data("kendoGrid").dataSource.read();
-            $("#AttractionypeGrid").data("kendoGrid").dataSource.page(1);
-        }
-
-        saveChanges = function () {
-            grid = $("#AttractionTypeGrid").data("kendoGrid");
-            grid.removeRow($(element).closest("tr"));
-            grid.dataSource.sync();
+            $("#attractionTypeGrid").data("kendoGrid").dataSource.read();
+            $("#attractionTypeGrid").data("kendoGrid").dataSource.page(1);
         }
 
     </script>
