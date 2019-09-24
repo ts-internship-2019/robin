@@ -13,9 +13,6 @@ namespace iWasHere.Web.Controllers
     public class DictionaryAvailabilityController : Controller
     {
         private readonly DictionaryService _dictionaryService;
-        private readonly RobinContext _dbContext;
-        private static bool UpdateDatabase = false;
-
         public DictionaryAvailabilityController(DictionaryService dictionaryService)
         {
             _dictionaryService = dictionaryService;

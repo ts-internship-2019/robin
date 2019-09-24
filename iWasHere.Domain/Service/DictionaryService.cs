@@ -176,18 +176,10 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public string City_DestroyId(int id)
+        public void City_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest oras nu poate fi sters.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
+            _dbContext.SaveChanges();
         }
         public List<DictionaryCounty> GetCmbCounty()
         {
@@ -275,18 +267,10 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public string County_DestroyId(int id)
+        public void County_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest judet nu poate fi stearsa.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+            _dbContext.SaveChanges();
         }
 
         public string County_UpdateId(DictionaryCounty dictionaryCounty)
@@ -602,18 +586,10 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public string Currency_DestroyId(int id)
+        public void Currency_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Aceasta valuta nu poate fi stearsa.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
+            _dbContext.SaveChanges();
         }
             public DictionaryCurrency GetDictionaryCurrencyById(int txtCurrencyId)
             {
