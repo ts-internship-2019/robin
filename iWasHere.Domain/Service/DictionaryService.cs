@@ -1,6 +1,5 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
