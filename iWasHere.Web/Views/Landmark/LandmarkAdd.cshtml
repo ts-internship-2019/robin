@@ -333,8 +333,8 @@
         document.getElementById("LandmarkAddTitle").innerHTML = "<b>Editeaza obiectiv</b>";
          var data = $.ajax({
                 type: 'GET',
-                url: '/Landmark/LandmarkGetById', 
-                data: { txtLandmarkId: landmarkId }, 
+                url: '/Landmark/GetLandmarkByIdEdit', 
+                data: { landmarkId: landmarkId }, 
                 cache: false,
                 success: function (result) {
                     if (data.responseJSON != null) {

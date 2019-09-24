@@ -73,6 +73,10 @@ namespace iWasHere.Web.Controllers
         {
             return Json(_dictionaryService.GetLandmarkById(landmarkId));
         }
+        public ActionResult GetLandmarkByIdEdit(int landmarkId)
+        {
+            return Json(_dictionaryService.GetLandmarkByIdEdit(landmarkId));
+        }
         //11 parametrii cu bilet, 8 fara
         [HttpPost]
         public ActionResult AddNewLandmark(string landmarkName, string LandmarkShortDescription, double ticketPrice, int currencyId, int ticketTypeId, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
@@ -146,12 +150,12 @@ namespace iWasHere.Web.Controllers
         [HttpPost]
         public ActionResult LandmarkUpdate(int landmarkId, string landmarkName, string LandmarkShortDescription, double ticketPrice, int currencyId, int ticketTypeId, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
         {
-            Landmark landmarkWithId = _dictionaryService.GetLandmarkById(landmarkId);
+            Landmark landmarkWithId = _dictionaryService.GetLandmarkByIdEdit(landmarkId);
             int? ticketId= (landmarkWithId.TicketId);
             DateTime? dateAdded = landmarkWithId.DateAdded;
             int ticketId2;
             
-            if (ticketId != null && ticketPrice != null)
+            if (ticketId != null)
             {
                 ticketId2 = Convert.ToInt32(ticketId);
                 Ticket ticket = new Ticket
@@ -203,7 +207,7 @@ namespace iWasHere.Web.Controllers
         [HttpPost]
         public ActionResult LandmarkUpdate2(int landmarkId, string landmarkName, string LandmarkShortDescription,  int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
         {
-            Landmark landmarkWithId = _dictionaryService.GetLandmarkById(landmarkId);
+            Landmark landmarkWithId = _dictionaryService.GetLandmarkByIdEdit(landmarkId);
             DateTime? dateAdded = landmarkWithId.DateAdded;
 
             Landmark landmark = new Landmark

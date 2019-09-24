@@ -1121,7 +1121,7 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
-        public Landmark GetLandmarkById(int txtLandmarkId)
+        public Landmark GetLandmarkByIdEdit(int txtLandmarkId)
         {
             IQueryable<Landmark> queryable = _dbContext.Landmark;
             queryable = queryable.Where(a => a.LandmarkId.Equals(txtLandmarkId));
