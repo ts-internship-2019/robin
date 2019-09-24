@@ -29,12 +29,12 @@ namespace iWasHere.Web.Controllers
             tempDataSourceResult.Data = _dictionaryService.GetDictionaryAvailabilityFilterPage(request.Page, request.PageSize, txtboxAvailabilityName);
             return Json(tempDataSourceResult);
         }
-        public ActionResult Availability_Update(int id, string name)
+        public ActionResult Availability_Update(int id, string name, string schedule)
         {
             DictionaryAvailability dictionaryAvailability = new DictionaryAvailability();
             dictionaryAvailability.AvailabilityId = id;
             dictionaryAvailability.AvailabilityName = name;
-           // dictionaryAvailability.Schedule = schedule;
+            dictionaryAvailability.Schedule = schedule;
 
 
             if (dictionaryAvailability != null)
@@ -77,11 +77,12 @@ namespace iWasHere.Web.Controllers
 
 
         [HttpPost]
-        public ActionResult AddNewAvailability( string name)
+        public ActionResult AddNewAvailability( string name , string schedule)
         {
             DictionaryAvailability dictionaryAvailability = new DictionaryAvailability
             {
                 AvailabilityName = name,
+                Schedule = schedule,
             };
             _dictionaryService.AddNewAvailability(dictionaryAvailability);
 

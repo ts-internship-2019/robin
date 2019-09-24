@@ -68,6 +68,11 @@ namespace iWasHere.Web.Controllers
         {
             return Json(_dictionaryService.GeCmbAvailability());
         }
+
+        public ActionResult GetLandmarkById(int landmarkId)
+        {
+            return Json(_dictionaryService.GetLandmarkById(landmarkId));
+        }
         //11 parametrii cu bilet, 8 fara
         [HttpPost]
         public ActionResult AddNewLandmark(string landmarkName, string LandmarkShortDescription, double ticketPrice, int currencyId, int ticketTypeId, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)

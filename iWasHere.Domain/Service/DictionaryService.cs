@@ -1,6 +1,5 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -1058,6 +1057,27 @@ namespace iWasHere.Domain.Service
                AvailabilityName=a.AvailabilityName
             });
             return queryable.ToList();
+        }
+        public Landmark GetLandmarkById(int landmarkId)
+        {
+            IQueryable<Landmark> queryable = _dbContext.Landmark;
+            if (landmarkId>0)
+            {
+                queryable = queryable.Where(a => a.LandmarkId.Equals(landmarkId));
+            }
+            _dbContext.Landmark.Include(c => c.DictionaryCity)
+                                                                        .ThenInclude(county => county.County)
+                                                                            .ThenInclude(country => country.Country)
+            .Include(d => d.DictionaryAttractionType)
+            .Include(e => e.DictionaryAvailability)
+            .Include(f => f.DictionaryItem)
+            .Include(g => g.Ticket)
+                .ThenInclude(currency => currency.DictionaryCurrency)
+            .Include(g => g.Ticket)
+                .ThenInclude(ttype => ttype.TicketType)
+            .ToList();
+
+            return queryable.FirstOrDefault();
         }
         public int AddTicket(Ticket ticket)
         {

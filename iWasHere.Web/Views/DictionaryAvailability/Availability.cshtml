@@ -43,9 +43,6 @@
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
     )
 
-    <input type="button" value="Adaugare program" onclick="location.href='@Url.Action("Add", "DictionaryAvailability")'" />
-    <input type="button" value="Modificare program" onclick="location.href='@Url.Action("Add", "DictionaryAvailability")'" />
-
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAvailability>()
         .Name("AvailabilityGrid")
@@ -54,7 +51,7 @@
             columns.Bound(c => c.AvailabilityId).Hidden();
             columns.Bound(c => c.AvailabilityName);
             columns.Bound(c => c.Schedule);
-
+            //columns.Template("<a  class='k-button' href='/DictionaryAvailability/AddAvailability?Id=#=ItemId# '> Editeaza </a>").Width(250);
             columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
             //columns.Template("<a class='k-button' href='~/DictionaryLandmarkType/AddLandmarkDetails'>Editeaza</a>").Width(150);
             //columns.Template("<a class='k-button k-primary' href='~/Home/Index'>Sterge</a>").Width(150);
@@ -65,26 +62,26 @@
         //.Groupable()
         .Sortable()
         .Pageable(pageable => pageable
-            .Refresh(true)
-            .PageSizes(true)
-            .ButtonCount(5))
-            .ToolBar(toolbar =>
+        .Refresh(true)
+        .PageSizes(true)
+        .ButtonCount(5))
+        .ToolBar(toolbar =>
                     {
-    toolbar.Create();
-    toolbar.Save();
+        toolbar.Create();
+        toolbar.Save();
 })
-            .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
-            .Ajax()
-            .Model(model => model.Id(p => p.AvailabilityId))
+        .Ajax()
+        .Model(model => model.Id(p => p.AvailabilityId))
 
-            //CRUD
-            .Read(read => read.Action("Availability_Read", "DictionaryAvailability").Data("getFilter"))
-            .Create(create => create.Action("Availability_Create", "DictionaryAvailability"))
-            .Update(update => update.Action("Availability_QuickUpdate", "DictionaryAvailability"))
-            .Destroy(destroy => destroy.Action("Availability_Destroy", "DictionaryAvailability"))
+        //CRUD
+        .Read(read => read.Action("Availability_Read", "DictionaryAvailability").Data("getFilter"))
+        .Create(create => create.Action("Availability_Create", "DictionaryAvailability"))
+        .Update(update => update.Action("Availability_QuickUpdate", "DictionaryAvailability"))
+        .Destroy(destroy => destroy.Action("Availability_Destroy", "DictionaryAvailability"))
 
-            .PageSize(20)
+        .PageSize(20)
         )
     )
 

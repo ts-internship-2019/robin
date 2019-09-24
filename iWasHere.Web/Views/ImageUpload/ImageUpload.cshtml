@@ -1,16 +1,84 @@
-﻿
-@{
-    ViewBag.Title = "ImageUpload";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@*@{
+        ViewBag.Title = "ImageUpload";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 
 
-    <div class="jumbotron">
-        <h3>Image Upload Using Kendo Upload and Display into List View</h3>
-    </div>
-
-    <div class="row">
-        <div class="col-md-4">
-            <input name="files" id="files" type="file" aria-label="false" />
+        <div class="jumbotron">
+            <h3>Image Upload Using Kendo Upload and Display into List View</h3>
         </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <input name="files" id="files" type="file" aria-label="false" />
+            </div>
+        </div>*@
+
+
+@using Kendo.Mvc.UI
+
+<div class="box">
+    <h4>Information</h4>
+    <p>
+        The Upload is able to upload files out-of-band using the
+        HTML5 File API with fallback for legacy browsers. You need to configure save action that will receive
+        the uploaded files.
+        An optional remove action is also available.
+    </p>
+</div>
+
+
+@*<div>
+
+        <div class="demo-section k-content">
+            @(Html.Kendo().Upload()
+                .Name("files")
+                .HtmlAttributes(new { id = "landmarkUpload", style = "height: 550px;" })
+                .Async(a => a
+                    .Save("Async_Save", "Upload")
+                    .Remove("Async_Remove", "Upload")
+                    .AutoUpload(false)
+
+                )
+            //.Events(events => events
+            //    .Cancel("onCancel")
+            //    .Clear("onClear")
+            //    .Complete("onComplete")
+            //    .Error("onError")
+            //    .Progress("onProgress")
+            //    .Remove("onRemove")
+            //    .Select("onSelect")
+            //    .Success("onSuccess")
+            //    .Upload("onUpload")
+            //)
+
+            )
+
+        </div>
+
     </div>
+*@
+
+
+
+<input type="file" name="files" id="files" />
+<input type="button" value="Upload Selected Files" class="k-button" onclick="uploadSelected()" />
+<script>
+    $("#files").kendoUpload({
+        async: {
+            saveUrl: "../Upload/Async_Save",
+            removeUrl: "../Upload/Async_Remove",
+            autoUpload: false
+        }
+    });
+
+    function uploadSelected() {
+        $(".k-upload-selected").click();
+    }
+</script>
+
+<style>
+    .k-clear-selected, .k-upload-selected {
+        display: none !important;
+    }
+</style>

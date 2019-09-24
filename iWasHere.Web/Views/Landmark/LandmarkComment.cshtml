@@ -1,0 +1,73 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Comentarii</title>
+    <style>
+        .divRatings {
+    background-color: #fff3c8;
+    color: #000;
+    border: 1px solid #ffe58a;
+    width: 400px;
+    margin: auto;
+}
+ 
+        .qsf-conf-local {
+    width:500px;
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+    padding: 0 0 0 20px;
+}
+ 
+        .spacer {
+    padding-bottom: 20px;
+}
+    </style>
+</head>
+<body>
+    <ul><li>
+            Nume utilizator: //textbox
+        </li>
+        <li>
+            @(Html.Kendo().CheckBox()
+                       .Name("utilizator")
+                       .Checked(true)
+                       .Label("Cu user logat")
+                       .HtmlAttributes(new { id = "checkUser", onclick = "checkUser()" })
+            )
+        </li>
+        <li>
+            <div style="padding: 15px; padding-left: 20px;">
+                NUMELE LANDMARK-ului<telerik:RadRating RenderMode="Lightweight" ID="RadRating1" runat="server" ItemCount="5"
+                                                       Value="3" SelectionMode="Continuous" Precision="Half" Orientation="Horizontal">
+                </telerik:RadRating>
+        </li>
+        <li>
+            Comentariu: @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "800", id = "textAreaComment" })
+        </li>
+    </ul>
+
+    <script>
+
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var modelId = url.searchParams.get("Id");
+
+        var data = $.ajax({
+            type: 'GET',
+            url: '/Landmark/GetLandmarkById',
+            data: { landmarkId: modelId },
+            cache: false,
+            success: function (result) {
+                if (data.responseJSON == null) {
+                    alert("Inregistrare nu a fost gasita in baza de date");
+                    window.location.href = "/Landmark/Landmark";
+                }
+
+
+    </script>
+</body>
+</html>
