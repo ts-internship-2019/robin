@@ -33,16 +33,6 @@
             .Events(e => e.Click("removeFilter"))
     )
 
-    @*@(Html.Kendo().Button()
-        .Name("kendoIconTextButton")
-        .Tag("a")
-        .Icon("save-changes")
-        .Content("Salvare modificari")
-        .HtmlAttributes(new { id = "btnSave", type = "button" })
-        .Events(e => e.Click("saveChanges"))
-    )*@
-
-
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>()
         .Name("AttractionTypeGrid")
