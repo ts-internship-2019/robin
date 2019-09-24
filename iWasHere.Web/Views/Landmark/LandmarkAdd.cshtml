@@ -294,7 +294,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                             .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLong", type = "textbox", maxlength = "100" , style = "width: 100%"  })
+                                            .HtmlAttributes(new { id = "textBoxLong", type = "number", maxlength = "100" , style = "width: 100%"  })
                                     )
                                 </td>
                             </tr>
@@ -305,7 +305,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                             .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLat", type = "textbox", maxlength = "100" , style = "width: 100%" })
+                                            .HtmlAttributes(new { id = "textBoxLat", type = "number", maxlength = "100" , style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -566,11 +566,11 @@
                     }
                 }
     }
-    $("#textBoxTicketCost").on("keypress", function(evt) {
-  var keycode = evt.charCode || evt.keyCode;
-  if (keycode == 46) {
-    return false;
-  }
-});
+     $("#textBoxTicketCost").on("keypress", function(evt) {
+     var keycode = evt.charCode || evt.keyCode;
+     if (keycode == 46) {
+      return false;
+     }
+     });
 
   </script>
