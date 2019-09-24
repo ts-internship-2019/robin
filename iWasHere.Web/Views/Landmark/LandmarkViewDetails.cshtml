@@ -14,7 +14,7 @@
          #listaObiective {
            text-align:justify;
             list-style-type:none;
-            font-size:40px;
+            font-size:25px;
         }
     </style>
 </head>
@@ -182,23 +182,23 @@
                 }
                 else {
                     document.getElementById("landmarkName").value = data.responseJSON.LandmarkName;
-                    document.getElementById("shortDescription").value = data.responseJSON.LandmarkShortDescription;
-                    document.getElementById("landmarkTypeName").value = data.responseJSON.DictionaryItem.ItemName;
-                    document.getElementById("landmarkTypeCode").value = data.responseJSON.DictionaryItem.ItemCode;
-                    document.getElementById("countryName").value = data.responseJSON.DictionaryCity.County.Country.CountryName;
-                    document.getElementById("countyName").value = data.responseJSON.DictionaryCity.County.CountyName;
-                    document.getElementById("cityName").value = data.responseJSON.DictionaryCity.CityName;
-                    document.getElementById("availabilityName").value = data.responseJSON.DictionaryAvailability.AvailabilityName;
-                    document.getElementById("availabilitySchedule").value = data.responseJSON.DictionaryAvailability.Schedule;
-                    document.getElementById("ticketName").value = data.responseJSON.Ticket.TicketType.TicketName;
-                    document.getElementById("ticketCode").value = data.responseJSON.Ticket.TicketType.TicketCode;
-                    document.getElementById("ticketPrice").value = data.responseJSON.Ticket.Price;
-                    document.getElementById("conversionRate").value = data.responseJSON.Ticket.DictionaryCurrency.ConversionRate;
+                    document.getElementById("shortDesc").value = data.responseJSON.LandmarkShortDescription;
+                    document.getElementById("landmarkTypeName").value = data.responseJSON.LandmarkTypeName;
+                    document.getElementById("landmarkTypeCode").value = data.responseJSON.LandmarkTypeCode;
+                    document.getElementById("countryName").value = data.responseJSON.CountryName;
+                    document.getElementById("countyName").value = data.responseJSON.CountyName;
+                    document.getElementById("cityName").value = data.responseJSON.CityName;
+                    document.getElementById("availabilityName").value = data.responseJSON.AvailabilityName;
+                    document.getElementById("availabilitySchedule").value = data.responseJSON.AvailabilitySchedule;
+                    document.getElementById("ticketName").value = data.responseJSON.TicketName;
+                    document.getElementById("ticketCode").value = data.responseJSON.TicketCode;
+                    document.getElementById("ticketPrice").value = data.responseJSON.TicketPrice;
+                    document.getElementById("conversionRate").value = data.responseJSON.ConversionRate;
                     document.getElementById("dateAdded").value = data.responseJSON.DateAdded;
                     document.getElementById("latitude").value = data.responseJSON.Latitude;
                     document.getElementById("longitude").value = data.responseJSON.Longitude;
-                    document.getElementById("attractionName").value = data.responseJSON.AttractionType.AttractionName;
-                    document.getElementById("attractionCode").value = data.responseJSON.AttractionType.AttractionCode;
+                    document.getElementById("attractionName").value = data.responseJSON.AttractionName;
+                    document.getElementById("attractionCode").value = data.responseJSON.AttractionCode;
                 }
                 return result;
             }
