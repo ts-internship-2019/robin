@@ -17,52 +17,169 @@
             font-size:40px;
         }
 
-        .listaObiectiveLI:hover {
+        /*.listaObiectiveLI:hover {
             background-color:black;
             color:white;
-        }
+        }*/
     </style>
 </head>
 <body>
     <ul id="listaObiective">
-        @foreach (var d in Model)
-        {
-            @*<td>@d.LandmarkId</td>*@
-            <li class="listaObiectiveLI"><p class="header">Nume obiectiv:</p>@d.LandmarkName</li>
-            <li class="listaObiectiveLI"><p class="header">Scurta descriere: </p>@d.LandmarkShortDescription</li>
-            <li class="listaObiectiveLI"><p class="header">Tipul de obiectiv: </p>@d.DictionaryItem.ItemName</li>
-            //Tipul de atractie
-            <li class="listaObiectiveLI"><p class="header">Codul obiectivului: </p>@d.DictionaryItem.ItemCode</li>
-            //codul atractiei
-            <li class="listaObiectiveLI"><p class="header">Tara: </p>@d.DictionaryCity.County.Country.CountryName</li>
-            <li class="listaObiectiveLI"><p class="header">Judet: </p>@d.DictionaryCity.County.CountyName</li>
-            <li class="listaObiectiveLI"><p class="header">Oras: </p>@d.DictionaryCity.CityName</li>
-            <li class="listaObiectiveLI"><p class="header">Program: </p>@d.DictionaryAvailability.AvailabilityName/@d.DictionaryAvailability.Schedule</li>
-            @*<li>@d.TicketId</li>*@
-            <li class="listaObiectiveLI"><p class="header">Tipul biletului: </p>@d.Ticket.TicketType.TicketName</li>
-            <li class="listaObiectiveLI"><p class="header">Cod bilet: </p>@d.Ticket.TicketType.TicketCode</li>
-            <li class="listaObiectiveLI"><p class="header">Moneda: </p>@d.Ticket.DictionaryCurrency.CurrencyName</li>
-            <li class="listaObiectiveLI"><p class="header">Pretul biletului: </p>@d.Ticket.TicketPrice @d.Ticket.DictionaryCurrency.CurrencyCode</li>
-            <li class="listaObiectiveLI"><p class="header">Pret in lei: </p>@d.Ticket.DictionaryCurrency.ConversionRate*@d.Ticket.TicketPrice</li>
-            @*<li>@d.DictionaryAvailabilityId</li>*@
-            <li class="listaObiectiveLI"><p class="header">Data adaugarii: </p>@d.DateAdded</li>
-            @*<li>@d.DictionaryAttractionTypeId</li>*@
-            <li class="listaObiectiveLI"><p class="header">Coordonate GPS(lat;long): </p>(@d.Latitude;@d.Longitude)</li>
-            <li class="listaObiectiveLI"><p class="header">Tipul atractiei: </p>@d.DictionaryAttractionType.AttractionName</li>
-            <li class="listaObiectiveLI"><p class="header">Codul atractiei: </p>@d.DictionaryAttractionType.AttractionCode</li>
-
-            @*<li>@d.DictionaryCityId</li>*@
-        }
+            <li>LOC PENTRU IMAGINE</li>
+            <li class="listaObiectiveLI"><p class="header">Nume obiectiv:</p>
+                @(Html.Kendo().TextBox()
+                              .Name("landmarkName")
+                              .HtmlAttributes(new { id = "landmarkName", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            
+            <li class="listaObiectiveLI">
+                <p class="header">Scurta descriere: </p>@(Html.Kendo().TextBox()
+.Name("shortDesc")
+.HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Tipul de obiectiv: </p>@(Html.Kendo().TextBox()
+.Name("landmarkTypeName")
+.HtmlAttributes(new { id = "landmarkTypeName", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Codul obiectivului: </p>@(Html.Kendo().TextBox()
+.Name("landmarkTypeCode")
+.HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Tara: </p>@(Html.Kendo().TextBox()
+.Name("countryName")
+.HtmlAttributes(new { id = "countryName", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Judet: </p>@(Html.Kendo().TextBox()
+.Name("countyName")
+.HtmlAttributes(new { id = "countyName", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Oras: </p>@(Html.Kendo().TextBox()
+.Name("cityName")
+.HtmlAttributes(new { id = "cityName", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Program: </p>@(Html.Kendo().TextBox()
+.Name("availabilityName")
+.HtmlAttributes(new { id = "availabilityName", type = "textbox", maxlength = "100"})
+                )/@(Html.Kendo().TextBox()
+.Name("availabilitySchedule")
+.HtmlAttributes(new { id = "availabilitySchedule", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Tipul biletului: </p>@(Html.Kendo().TextBox()
+.Name("ticketName")
+.HtmlAttributes(new { id = "ticketName", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Cod bilet: </p>@(Html.Kendo().TextBox()
+.Name("ticketCode")
+.HtmlAttributes(new { id = "ticketCode", type = "textbox", maxlength = "100" })
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Moneda: </p>@(Html.Kendo().TextBox()
+.Name("currencyName")
+.HtmlAttributes(new { id = "currencyName", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Pretul biletului: </p>@(Html.Kendo().TextBox()
+.Name("ticketPrice")
+.HtmlAttributes(new { id = "ticketPrice", type = "textbox", maxlength = "100"})
+                ) @(Html.Kendo().TextBox()
+.Name("currencyCode")
+.HtmlAttributes(new { id = "currencyCode", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Pret in lei: </p>@(Html.Kendo().TextBox()
+.Name("conversionRate")
+.HtmlAttributes(new { id = "conversionRate", type = "textbox", maxlength = "100"})
+                )
+            </li>
+            <li class="listaObiectiveLI">
+                <p class="header">Data adaugarii: </p>@(Html.Kendo().TextBox()
+.Name("dateAdded")
+.HtmlAttributes(new { id = "dateAdded", type = "textbox", maxlength = "100"})
+                )
+            </li>
+    <li class="listaObiectiveLI">
+        <p class="header">Coordonate GPS(lat;long): </p>(@(Html.Kendo().TextBox()
+.Name("latitude")
+.HtmlAttributes(new { id = "latitude", type = "textbox", maxlength = "100" })
+        );@(Html.Kendo().TextBox()
+.Name("longitude")
+.HtmlAttributes(new { id = "longitude", type = "textbox", maxlength = "100" })
+        ))
+    </li>
+    <li class="listaObiectiveLI">
+        <p class="header">Tipul atractiei: </p>@(Html.Kendo().TextBox()
+.Name("attractionName")
+.HtmlAttributes(new { id = "attractionName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+        )
+    </li>
+    <li class="listaObiectiveLI">
+        <p class="header">Codul atractiei: </p>@(Html.Kendo().TextBox()
+.Name("attractionCode")
+.HtmlAttributes(new { id = "attractionCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
+        )
+    </li>
 
     </ul>
 
     <script>
-        product = function (a, b) {
-            var prod = a * b;
-            var td = document.getElementsByTagName("produs");
-            td.innerHTML=prod;
-            return a * b;
-    }
+
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var modelId = url.searchParams.get("Id");
+
+        var data = $.ajax({
+                type: 'GET',
+                url: '/Landmark/GetLandmarkById', //numecontroller, fara controller / nume metoda
+                data: { landmarkId: modelId }, //parametri metoda cu  numele exact: variabila din javascript ce ii da valoarea
+                cache: false,
+                success: function (result) {
+                if (data.responseJSON == null) {
+                    alert("Inregistrare nu a fost gasita in baza de date");
+                    window.location.href = "/Landmark/Landmark";
+                }
+                else {
+                    document.getElementById("landmarkName").value = data.responseJSON.LandmarkName;
+                    document.getElementById("shortDescription").value = data.responseJSON.LandmarkShortDescription;
+                    document.getElementById("landmarkTypeName").value = data.responseJSON.DictionaryItem.ItemName;
+                    document.getElementById("landmarkTypeCode").value = data.responseJSON.DictionaryItem.ItemCode;
+                    document.getElementById("countryName").value = data.responseJSON.DictionaryCity.County.Country.CountryName;
+                    document.getElementById("countyName").value = data.responseJSON.DictionaryCity.County.CountyName;
+                    document.getElementById("cityName").value = data.responseJSON.DictionaryCity.CityName;
+                    document.getElementById("availabilityName").value = data.responseJSON.DictionaryAvailability.AvailabilityName;
+                    document.getElementById("availabilitySchedule").value = data.responseJSON.DictionaryAvailability.Schedule;
+                    document.getElementById("ticketName").value = data.responseJSON.Ticket.TicketType.TicketName;
+                    document.getElementById("ticketCode").value = data.responseJSON.Ticket.TicketType.TicketCode;
+                    document.getElementById("ticketPrice").value = data.responseJSON.Ticket.Price;
+                    document.getElementById("conversionRate").value = data.responseJSON.Ticket.DictionaryCurrency.ConversionRate;
+                    document.getElementById("dateAdded").value = data.responseJSON.DateAdded;
+                    document.getElementById("latitude").value = data.responseJSON.Latitude;
+                    document.getElementById("longitude").value = data.responseJSON.Longitude;
+                    document.getElementById("attractionName").value = data.responseJSON.AttractionType.AttractionName;
+                    document.getElementById("attractionCode").value = data.responseJSON.AttractionType.AttractionCode;
+                }
+                return result;
+            }
+            });
 
 
     </script>

@@ -42,8 +42,10 @@
            // columns.Bound(c => c.DictionaryCityId).Title("Oras");
             columns.Bound(c => c.DictionaryCity.CityName).Title("Oras");
             columns.Bound(c => c.DictionaryAttractionType.AttractionName).Title("TipAtractie");
+            columns.Template("<a class='k-button' href='/Landmark/LandmarkViewDetails?Id=#=LandmarkId#'>Arata detalii</a>").Width(150);
 
         })
+
         .HtmlAttributes(new { style = "height: 550px;" })
         //.Events(eve=>eve.("recordDblClick"))
         .Scrollable()
