@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml;
 
 namespace iWasHere.Domain.Service
 {
@@ -1211,7 +1214,39 @@ namespace iWasHere.Domain.Service
         }
 
 
+        public Stream ExportToWord(LandmarkReadOnlyModel model)
+        {
+            var stream = new MemoryStream();
+            using (WordprocessingDocument doc = WordprocessingDocument.Create(stream, DocumentFormat.OpenXml.WordprocessingDocumentType.Document, true))
+            {
+                MainDocumentPart mainPart = doc.AddMainDocumentPart();
+                //model.DateAdded = _dbContext.Landmark.Where(x=>x.LandmarkId==model.LandmarkId).Select(x=>x.DateAdded).FirstOrDefault();
+                new Document(new Body()).Save(mainPart);
 
+                Body body = mainPart.Document.Body;
+                body.Append(new Paragraph(
+                            new Run(
+                                new Text("Numele obiectivului: " + model.LandmarkName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Descrierea obiectivului: " + model.LandmarkShortDescription))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Orasul: " + model.CityName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Judetul: " + model.CountyName)))
+                                );
+
+                mainPart.Document.Save();
+
+                //if you don't use the using you should close the WordprocessingDocument here
+                //doc.Close();
+            }
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return stream;
+        }
 
 
 

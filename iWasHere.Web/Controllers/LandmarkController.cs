@@ -241,12 +241,12 @@ namespace iWasHere.Web.Controllers
         {
             return View(_dictionaryService.GetLandmarkReadOnly());
         }
-/*
-        public IActionResult Download(string id)
+
+        public IActionResult Download(int id)
         {
-            Landmark model = _dictionaryService.GetLandmarkById(Convert.ToInt32(id));
+            LandmarkReadOnlyModel model = _dictionaryService.GetLandmarkById(id);
             Stream stream = _dictionaryService.ExportToWord(model);
             return File(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Landmark.docx");
-        }*/
+        }
     }
 }
