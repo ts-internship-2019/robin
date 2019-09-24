@@ -326,6 +326,7 @@
     var currentURL = window.location.href;
     var url = new URL(currentURL);
     var landmarkId = url.searchParams.get("Id");
+    var imgUrl;
     if (landmarkId == 0) {
         document.getElementById("LandmarkAddTitle").innerHTML = "<b> Adauga un nou  obiectiv</b>";//pageTitle
 
@@ -411,7 +412,20 @@
                             }
                         })
 
-                        $(".k-upload-selected").click();
+                       $(".k-upload-selected").click();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Async/SaveUploadedImagesDB',
+                            data: {lmkid: 3},
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
+                        })
+
+
+                        //$(".k-upload-selected").click();
 
                         alert("Obiectiv salvat cu succes!");
                         window.location.href = "/Landmark/Landmark";
@@ -431,6 +445,18 @@
                     })
 
                     $(".k-upload-selected").click();
+
+                    $.ajax({
+                            type: 'POST',
+                            url: '/Async/SaveUploadedImagesDB',
+                            data: { lmkid: 3 },
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
+                    })
+
+                    //$(".k-upload-selected").click();
 
                     alert("Obiectiv salvat cu succes!");
                     window.location.href = "/Landmark/Landmark";

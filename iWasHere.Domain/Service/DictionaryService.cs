@@ -1,9 +1,11 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -1122,6 +1124,53 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+
+
+
+        public void SaveUploadedImagesDB(int lmkid, string path)
+        {
+            
+            //int landmarkId = lmkid;
+
+            LandmarkImage img = new LandmarkImage()
+            {
+
+                LandmarkId = lmkid,
+                ImageUrl = path
+
+            };
+
+            _dbContext.LandmarkImage.Add(img);
+            _dbContext.SaveChanges();
+        }
+
+
+
+
+
+
+        //public int AddTicket(Ticket ticket)
+        //{
+        //    _dbContext.Ticket.Add(ticket);
+        //    return _dbContext.SaveChanges();
+        //}
+
+
+        //[HttpPost]
+        //public ActionResult AddNewTicketType(string code, string name)
+        //{
+        //    DictionaryTicketType dictionaryTicketType = new DictionaryTicketType
+        //    {
+        //        TicketName = name,
+        //        TicketCode = code
+        //    };
+        //    _dictionaryService.AddTicketType(dictionaryTicketType);
+
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
+
+
+
         #endregion
 
     }
