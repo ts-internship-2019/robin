@@ -86,7 +86,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                     .Name("inputLandmarkName")
-                                    .HtmlAttributes(new { id = "textBoxTicketCost", type = "textbox", maxlength = "100" , style = "width: 100%" })
+                                    .HtmlAttributes(new { id = "textBoxTicketCost", type = "number", maxlength = "100" , style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -566,6 +566,11 @@
                     }
                 }
     }
-
+    $("#textBoxTicketCost").on("keypress", function(evt) {
+  var keycode = evt.charCode || evt.keyCode;
+  if (keycode == 46) {
+    return false;
+  }
+});
 
   </script>
