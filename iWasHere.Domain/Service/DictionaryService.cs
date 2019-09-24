@@ -1,7 +1,5 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -1061,7 +1059,7 @@ namespace iWasHere.Domain.Service
             });
             return queryable.ToList();
         }
-        public Landmark GetLandmarkById(int landmarkId)
+        public LandmarkReadOnlyModel GetLandmarkById(int landmarkId)
         {
             IQueryable<Landmark> queryable = _dbContext.Landmark;
             if (landmarkId>0)
@@ -1080,7 +1078,11 @@ namespace iWasHere.Domain.Service
                 .ThenInclude(ttype => ttype.TicketType)
             .ToList();
 
-            return queryable.FirstOrDefault();
+            Landmark landmarkResult  = queryable.FirstOrDefault();
+
+            LandmarkReadOnlyModel landmarkReadOnlyModel = new LandmarkReadOnlyModel();
+            landmarkReadOnlyModel = landmarkReadOnlyModel.ConvertToModel(landmarkResult);
+            return landmarkReadOnlyModel;
         }
         public int AddTicket(Ticket ticket)
         {
