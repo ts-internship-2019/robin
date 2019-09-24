@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml;
 
 namespace iWasHere.Domain.Service
 {
@@ -1102,6 +1105,94 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+        public Landmark GetLandmarkByIdEdit(int txtLandmarkId)
+        {
+            IQueryable<Landmark> queryable = _dbContext.Landmark;
+            queryable = queryable.Where(a => a.LandmarkId.Equals(txtLandmarkId));
+            queryable = queryable.Select(a => new Landmark()
+
+            {
+               LandmarkId=a.LandmarkId,
+               LandmarkName=a.LandmarkName,
+               LandmarkShortDescription=a.LandmarkShortDescription,
+               TicketId=a.TicketId,
+               DictionaryAvailabilityId=a.DictionaryAvailabilityId,
+               DictionaryItemId=a.DictionaryItemId,
+               DictionaryAttractionTypeId=a.DictionaryAttractionTypeId,
+               Longitude=a.Longitude,
+               Latitude=a.Latitude,
+               DictionaryCityId=a.DictionaryCityId,
+               DateAdded=a.DateAdded
+              
+            });
+           
+            return queryable.FirstOrDefault();
+        }
+        public DictionaryCity GetDictionaryCityCountyById(int txtCityId)
+        {
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            queryable = queryable.Where(a => a.CityId.Equals(txtCityId));
+            queryable = queryable.Select(a => new DictionaryCity()
+
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+      
+        public DictionaryCounty GetDictionaryCountyCountryById(int txtCountId)
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Where(a => a.CountyId.Equals(txtCountId));
+            queryable = queryable.Select(a => new DictionaryCounty()
+            { 
+                CountyId = a.CountyId,
+                CountyName=a.CountyName,
+                CountryId=a.CountryId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+        public Ticket GetTicketTypeCurrency(int ticketId)
+        {
+            IQueryable<Ticket> queryable = _dbContext.Ticket;
+            queryable = queryable.Where(a => a.TicketId.Equals(ticketId));
+            queryable = queryable.Select(a => new Ticket()
+
+            {
+                TicketPrice = a.TicketPrice,
+                CurrencyId = a.CurrencyId,
+                TicketTypeId = a.TicketTypeId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+        public int UpdateLandmark(Landmark landmark)
+        {
+
+            _dbContext.Landmark.Update(landmark);
+            return _dbContext.SaveChanges();
+        }
+        public int UpdateLandmark2(Landmark landmark)
+        {
+
+            _dbContext.Landmark.Update(landmark);
+            return _dbContext.SaveChanges();
+        }
+        public int UpdateTicket(Ticket ticket)
+        {
+
+            _dbContext.Ticket.Update(ticket);
+            return _dbContext.SaveChanges();
+        }
+        public int AddTicketLandmark(Ticket ticket)
+        {
+            _dbContext.Ticket.Add(ticket);
+            return _dbContext.SaveChanges();
+        }
 
 
 
@@ -1123,7 +1214,39 @@ namespace iWasHere.Domain.Service
         }
 
 
+        public Stream ExportToWord(LandmarkReadOnlyModel model)
+        {
+            var stream = new MemoryStream();
+            using (WordprocessingDocument doc = WordprocessingDocument.Create(stream, DocumentFormat.OpenXml.WordprocessingDocumentType.Document, true))
+            {
+                MainDocumentPart mainPart = doc.AddMainDocumentPart();
+                //model.DateAdded = _dbContext.Landmark.Where(x=>x.LandmarkId==model.LandmarkId).Select(x=>x.DateAdded).FirstOrDefault();
+                new Document(new Body()).Save(mainPart);
 
+                Body body = mainPart.Document.Body;
+                body.Append(new Paragraph(
+                            new Run(
+                                new Text("Numele obiectivului: " + model.LandmarkName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Descrierea obiectivului: " + model.LandmarkShortDescription))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Orasul: " + model.CityName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Judetul: " + model.CountyName)))
+                                );
+
+                mainPart.Document.Save();
+
+                //if you don't use the using you should close the WordprocessingDocument here
+                //doc.Close();
+            }
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return stream;
+        }
 
 
 
