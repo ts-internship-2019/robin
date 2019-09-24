@@ -16,7 +16,6 @@ namespace iWasHere.Web.Controllers
         private readonly DictionaryService _dictionaryService;
        
 
-
         public LandmarkController(DictionaryService dictionaryService)
         {
             _dictionaryService = dictionaryService;
@@ -92,8 +91,6 @@ namespace iWasHere.Web.Controllers
                 Longitude = longit,
                 Latitude = lat,
                 DateAdded = DateTime.Now
-                
-
             };
             _dictionaryService.AddLandmark(landmark);
             return Json(ModelState.ToDataSourceResult());
@@ -121,6 +118,111 @@ namespace iWasHere.Web.Controllers
             _dictionaryService.AddLandmark(landmark);
             return Json(ModelState.ToDataSourceResult());
         }
+        public ActionResult LandmarkGetById(int txtLandmarkId)
+        {
+
+            return Json(_dictionaryService.GetLandmarkById(txtLandmarkId));
+        }
+        public ActionResult CountyCityGetById(int txtCityId)
+        {
+
+            return Json(_dictionaryService.GetDictionaryCityCountyById(txtCityId));
+        }
+        public ActionResult CountryCountyGetById(int txtCountyId)
+        {
+
+            return Json(_dictionaryService.GetDictionaryCountyCountryById(txtCountyId));
+        }
+        public ActionResult GetCurrencyTicketType(int ticketId)
+        {
+
+            return Json(_dictionaryService.GetTicketTypeCurrency(ticketId));
+        }
+        [HttpPost]
+        public ActionResult LandmarkUpdate(int landmarkId, string landmarkName, string LandmarkShortDescription, double ticketPrice, int currencyId, int ticketTypeId, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
+        {
+            Landmark landmarkWithId = _dictionaryService.GetLandmarkById(landmarkId);
+            int? ticketId= (landmarkWithId.TicketId);
+            DateTime? dateAdded = landmarkWithId.DateAdded;
+            int ticketId2;
+            
+            if (ticketId != null && ticketPrice != null)
+            {
+                ticketId2 = Convert.ToInt32(ticketId);
+                Ticket ticket = new Ticket
+                {
+                    TicketId = ticketId2,
+                    TicketPrice = ticketPrice,
+                    TicketTypeId = ticketTypeId,
+                    CurrencyId = currencyId
+
+                };
+                _dictionaryService.UpdateTicket(ticket);
+               
+            }
+            else 
+
+            {
+                Ticket ticket = new Ticket
+                {
+                    TicketPrice = ticketPrice,
+                    TicketTypeId = ticketTypeId,
+                    CurrencyId = currencyId
+                };
+                _dictionaryService.AddTicketLandmark(ticket);
+                ticketId2 = ticket.TicketId;
+               
+            }
+         
+            Landmark landmark = new Landmark
+            {
+                LandmarkId = landmarkId,
+                LandmarkName = landmarkName,
+                LandmarkShortDescription = LandmarkShortDescription,
+                TicketId = ticketId2,
+                DictionaryAvailabilityId = dictionaryAvailability,
+                DictionaryItemId = dictionaryItemId,
+                DictionaryAttractionTypeId = dictionaryAttractionTypeId,
+                DictionaryCityId = cityId,
+                Longitude = longit,
+                Latitude = lat,
+                DateAdded = dateAdded
+            };
+
+                _dictionaryService.UpdateLandmark(landmark);
+
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+        [HttpPost]
+        public ActionResult LandmarkUpdate2(int landmarkId, string landmarkName, string LandmarkShortDescription,  int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
+        {
+            Landmark landmarkWithId = _dictionaryService.GetLandmarkById(landmarkId);
+            DateTime? dateAdded = landmarkWithId.DateAdded;
+
+            Landmark landmark = new Landmark
+            {
+                LandmarkId = landmarkId,
+                LandmarkName = landmarkName,
+                LandmarkShortDescription = LandmarkShortDescription,
+                TicketId = null,
+                DictionaryAvailabilityId = dictionaryAvailability,
+                DictionaryItemId = dictionaryItemId,
+                DictionaryAttractionTypeId = dictionaryAttractionTypeId,
+                DictionaryCityId = cityId,
+                Longitude = longit,
+                Latitude = lat,
+                DateAdded = dateAdded
+            };
+
+            _dictionaryService.UpdateLandmark(landmark);
+
+
+            return Json(ModelState.ToDataSourceResult());
+        }
+
+
         public IActionResult LandmarkViewDetails()
         {
             return View(_dictionaryService.GetLandmarkReadOnly());

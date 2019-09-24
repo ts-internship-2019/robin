@@ -1101,6 +1101,94 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+        public Landmark GetLandmarkById(int txtLandmarkId)
+        {
+            IQueryable<Landmark> queryable = _dbContext.Landmark;
+            queryable = queryable.Where(a => a.LandmarkId.Equals(txtLandmarkId));
+            queryable = queryable.Select(a => new Landmark()
+
+            {
+               LandmarkId=a.LandmarkId,
+               LandmarkName=a.LandmarkName,
+               LandmarkShortDescription=a.LandmarkShortDescription,
+               TicketId=a.TicketId,
+               DictionaryAvailabilityId=a.DictionaryAvailabilityId,
+               DictionaryItemId=a.DictionaryItemId,
+               DictionaryAttractionTypeId=a.DictionaryAttractionTypeId,
+               Longitude=a.Longitude,
+               Latitude=a.Latitude,
+               DictionaryCityId=a.DictionaryCityId,
+               DateAdded=a.DateAdded
+              
+            });
+           
+            return queryable.FirstOrDefault();
+        }
+        public DictionaryCity GetDictionaryCityCountyById(int txtCityId)
+        {
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            queryable = queryable.Where(a => a.CityId.Equals(txtCityId));
+            queryable = queryable.Select(a => new DictionaryCity()
+
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+      
+        public DictionaryCounty GetDictionaryCountyCountryById(int txtCountId)
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Where(a => a.CountyId.Equals(txtCountId));
+            queryable = queryable.Select(a => new DictionaryCounty()
+            { 
+                CountyId = a.CountyId,
+                CountyName=a.CountyName,
+                CountryId=a.CountryId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+        public Ticket GetTicketTypeCurrency(int ticketId)
+        {
+            IQueryable<Ticket> queryable = _dbContext.Ticket;
+            queryable = queryable.Where(a => a.TicketId.Equals(ticketId));
+            queryable = queryable.Select(a => new Ticket()
+
+            {
+                TicketPrice = a.TicketPrice,
+                CurrencyId = a.CurrencyId,
+                TicketTypeId = a.TicketTypeId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+        public int UpdateLandmark(Landmark landmark)
+        {
+
+            _dbContext.Landmark.Update(landmark);
+            return _dbContext.SaveChanges();
+        }
+        public int UpdateLandmark2(Landmark landmark)
+        {
+
+            _dbContext.Landmark.Update(landmark);
+            return _dbContext.SaveChanges();
+        }
+        public int UpdateTicket(Ticket ticket)
+        {
+
+            _dbContext.Ticket.Update(ticket);
+            return _dbContext.SaveChanges();
+        }
+        public int AddTicketLandmark(Ticket ticket)
+        {
+            _dbContext.Ticket.Add(ticket);
+            return _dbContext.SaveChanges();
+        }
         #endregion
 
     }
