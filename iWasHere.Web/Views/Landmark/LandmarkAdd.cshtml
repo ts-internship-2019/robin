@@ -211,10 +211,10 @@
                                            .DataValueField("CountryId")
                                            .Placeholder("Selectati tara.")
                                            .DataSource(source =>
+                                           {
+                                               source.Read(read =>
                                                {
-                                                   source.Read(read =>
-                                                   {
-                                                       read.Action("cmbCountry", "DictionaryCounty");
+                                                   read.Action("cmbCountry", "DictionaryCounty");
                                                });
                                            })
                                            .HtmlAttributes(new { id = "cmbCountry", style = "width: 100%" })
@@ -326,17 +326,91 @@
     var currentURL = window.location.href;
     var url = new URL(currentURL);
     var landmarkId = url.searchParams.get("Id");
+    var imgUrl;
     if (landmarkId == 0) {
         document.getElementById("LandmarkAddTitle").innerHTML = "<b> Adauga un nou  obiectiv</b>";//pageTitle
 
     } else {
         document.getElementById("LandmarkAddTitle").innerHTML = "<b>Editeaza obiectiv</b>";
+         var data = $.ajax({
+                type: 'GET',
+                url: '/Landmark/GetLandmarkByIdEdit', 
+                data: { landmarkId: landmarkId }, 
+                cache: false,
+                success: function (result) {
+                    if (data.responseJSON != null) {
+                        document.getElementById("textBoxLandmarkName").value = data.responseJSON.LandmarkName; 
+                        document.getElementById("textAreaLandmarkShortDesc").value = data.responseJSON.LandmarkShortDescription;
+                        document.getElementById("cmbLandmarkDetail").value = data.responseJSON.DictionaryItemId; 
+                        document.getElementById("cmbAttraction").value = data.responseJSON.DictionaryAttractionTypeId;
+                        document.getElementById("cmbAvailability").value = data.responseJSON.DictionaryAvailabilityId; 
+                        document.getElementById("textBoxLong").value = data.responseJSON.Longitude;
+                        document.getElementById("textBoxLat").value = data.responseJSON.Latitude; 
+                        if (data.responseJSON.TicketId == null) { document.getElementById("checkTicket").checked = false; myFunction(); }
+                        else
+                        {
+                            document.getElementById("trTicketCost1").style.visibility = "visible";
+                            document.getElementById("trTicketCost1").style.position = "static";
+                            document.getElementById("trTicketCost2").style.visibility = "visible";
+                            document.getElementById("trTicketCost2").style.position = "static";
+                            document.getElementById("trTicketCost3").style.visibility = "visible";
+                            document.getElementById("trTicketCost3").style.position = "static";
+                            var ticketdata = $.ajax({
+                                type: 'GET',
+                                url: '/Landmark/GetCurrencyTicketType', 
+                                data: { ticketId: data.responseJSON.TicketId }, 
+                                cache: false,
+                                success: function (result)
+                                {   document.getElementById("cmbCurrency").value = ticketdata.responseJSON.CurrencyId;
+                                    $("#cmbCurrency").data("kendoComboBox").value(ticketdata.responseJSON.CurrencyId);
+                                    document.getElementById("cmbTicketType").value = ticketdata.responseJSON.TicketTypeId;
+                                    $("#cmbTicketType").data("kendoComboBox").value(ticketdata.responseJSON.TicketTypeId);
+                                    $("#textBoxTicketCost").val(ticketdata.responseJSON.TicketPrice);
+                                    return result
+                                }
+                            });
+
+                        }
+                         var countydata = $.ajax({
+                                type: 'GET',
+                                url: '/Landmark/CountyCityGetById', 
+                                data: { txtCityId: data.responseJSON.DictionaryCityId },
+                                cache: false,
+                                             success: function (result)
+                                             {
+                                                  
+                                                  var countrydata = $.ajax({
+                                                    type: 'GET',
+                                                    url: '/Landmark/CountryCountyGetById', 
+                                                    data: { txtCountyId: countydata.responseJSON.CountyId},
+                                                    cache: false,
+                                                                 success: function (result)
+                                                                 {
+                                                                     document.getElementById("cmbCountry").value = countrydata.responseJSON.CountryId;
+                                                                     $("#cmbCountry").data("kendoComboBox").value(countrydata.responseJSON.CountryId);
+                                                                     document.getElementById("cmbCounty").value = countydata.responseJSON.CountyId;
+                                                                     $("#cmbCounty").data("kendoComboBox").value(countydata.responseJSON.CountyId);
+                                                                     document.getElementById("cmbCity").value = data.responseJSON.DictionaryCityId;
+                                                                     $("#cmbCity").data("kendoComboBox").value(data.responseJSON.DictionaryCityId);
+                                                                 }
+
+                                                             })
+                                             }
+                                         })
+
+                    }
+                    else 
+                    {
+                        alert("Inregistrarea nu a fost gasita in baza de date!")
+                        window.location.href = "/Landmark/Landmark";
+                    }
+                    return result;
+                    }
+                });
     }
     function myFunction() {
-      // Get the checkbox
       var checkBox = document.getElementById("checkTicket");
-      //  var textBoxTicketCost = document.getElementById("textBoxTicketCost");
-  
+
         if (checkBox.checked == false)
         {
           document.getElementById("textBoxTicketCost").value = "";
@@ -376,15 +450,20 @@
     }
     function editFunction()
     { 
-        var checkBox = document.getElementById("checkTicket");
+                var checkBox = document.getElementById("checkTicket");
 				lname = document.getElementById('textBoxLandmarkName').value;
                 ldesc = document.getElementById('textAreaLandmarkShortDesc').value;
-              if (checkBox.checked == true) {
-                    var chk = 1;
-              tprice = document.getElementById('textBoxTicketCost').value;
-            tcurrencyid = document.getElementById('cmbCurrency').value;
-            ttickettypeid = document.getElementById('cmbTicketType').value;
-        } else { var chk = 2; }
+                if (checkBox.checked == true)
+                {
+                       var chk = 1;
+                       tprice = document.getElementById('textBoxTicketCost').value;
+                       tcurrencyid = document.getElementById('cmbCurrency').value;
+                       ttickettypeid = document.getElementById('cmbTicketType').value;
+                }
+                else
+                {
+                    var chk = 2;
+                }
                 lditemid = document.getElementById('cmbLandmarkDetail').value;
                 ldattractionid = document.getElementById('cmbAttraction').value;
 				ldavailabilty = document.getElementById('cmbAvailability').value;
@@ -398,9 +477,10 @@
                     
                 }
                 else if (chk==1)
-                {
+                { //chk 1 se introduce landmark complet cu bilet complet
                     if (document.getElementById('cmbCurrency').value == "" || document.getElementById('cmbTicketType').value == "" || document.getElementById('textBoxTicketCost').value == "") { alert("Campuri necompletate!"); }
-                    else {
+                    else if (landmarkId == 0)
+                    {//landmark nou
                         $.ajax({
                             type: 'POST',
                             url: '/Landmark/AddNewLandmark',
@@ -411,29 +491,79 @@
                             }
                         })
 
-                        $(".k-upload-selected").click();
+                       $(".k-upload-selected").click();
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Async/SaveUploadedImagesDB',
+                            data: {lmkid: 3},
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
+                        })
+
+
+                        //$(".k-upload-selected").click();
 
                         alert("Obiectiv salvat cu succes!");
                         window.location.href = "/Landmark/Landmark";
 
+                    } else
+                    {//landmark  cu bilet - edit cu bilet
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Landmark/LandmarkUpdate',
+                            data: { landmarkId: landmarkId, landmarkName: lname, LandmarkShortDescription: ldesc, ticketPrice: tprice, currencyId: tcurrencyid, ticketTypeId: ttickettypeid, dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid, dictionaryAvailability: ldavailabilty, cityId: ldcity, longit: llong, lat: llat },
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
+                        })
+                        alert("Obiectiv editat cu succes!");
+                        window.location.href = "/Landmark/Landmark";
                     }
                 }
                 else if (chk==2)
-                {
-                    $.ajax({
-                                type: 'POST',
-                                url: '/Landmark/AddNewLandmark2',
-                                data: { landmarkName: lname, LandmarkShortDescription: ldesc, dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid, dictionaryAvailability: ldavailabilty, cityId: ldcity, longit: llong, lat: llat },
-                                cache: false,
-                                success: function (result) {
+                {// chk 2 se introduce doar landmark
+                    if (landmarkId == 0) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Landmark/AddNewLandmark2',
+                            data: { landmarkName: lname, LandmarkShortDescription: ldesc, dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid, dictionaryAvailability: ldavailabilty, cityId: ldcity, longit: llong, lat: llat },
+                            cache: false,
+                            success: function (result) {
                                 return result;
-                                }
+                            }
+                        })
+                           $(".k-upload-selected").click();
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Async/SaveUploadedImagesDB',
+                            data: { lmkid: 3 },
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
                     })
+                        alert("Obiectiv salvat cu succes!");
+                        window.location.href = "/Landmark/Landmark";
+                    } else
+                    {
+                         $.ajax({
+                            type: 'POST',
+                            url: '/Landmark/LandmarkUpdate2',
+                            data: { landmarkId: landmarkId, landmarkName: lname, LandmarkShortDescription: ldesc, dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid, dictionaryAvailability: ldavailabilty, cityId: ldcity, longit: llong, lat: llat },
+                            cache: false,
+                            success: function (result) {
+                                return result;
+                            }
+                        })
+                        alert("Obiectiv editat cu succes!");
+                        window.location.href = "/Landmark/Landmark";
 
-                    $(".k-upload-selected").click();
 
-                    alert("Obiectiv salvat cu succes!");
-                    window.location.href = "/Landmark/Landmark";
+                    }
                 }
     }
 

@@ -1,9 +1,9 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -176,18 +176,10 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
-        public string City_DestroyId(int id)
+        public void City_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest oras nu poate fi sters.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
+            _dbContext.SaveChanges();
         }
         public List<DictionaryCounty> GetCmbCounty()
         {
@@ -275,18 +267,10 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public string County_DestroyId(int id)
+        public void County_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acest judet nu poate fi stearsa.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+            _dbContext.SaveChanges();
         }
 
         public string County_UpdateId(DictionaryCounty dictionaryCounty)
@@ -602,18 +586,10 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public string Currency_DestroyId(int id)
+        public void Currency_DestroyId(int id)
         {
-            try
-            {
-                _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
-                _dbContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Aceasta valuta nu poate fi stearsa.";
-            }
+            _dbContext.Remove(_dbContext.DictionaryCurrency.Single(a => a.CurrencyId == id));
+            _dbContext.SaveChanges();
         }
             public DictionaryCurrency GetDictionaryCurrencyById(int txtCurrencyId)
             {
@@ -1059,7 +1035,7 @@ namespace iWasHere.Domain.Service
             });
             return queryable.ToList();
         }
-        public Landmark GetLandmarkById(int landmarkId)
+        public LandmarkReadOnlyModel GetLandmarkById(int landmarkId)
         {
             IQueryable<Landmark> queryable = _dbContext.Landmark;
             if (landmarkId>0)
@@ -1078,7 +1054,11 @@ namespace iWasHere.Domain.Service
                 .ThenInclude(ttype => ttype.TicketType)
             .ToList();
 
-            return queryable.FirstOrDefault();
+            Landmark landmarkResult  = queryable.FirstOrDefault();
+
+            LandmarkReadOnlyModel landmarkReadOnlyModel = new LandmarkReadOnlyModel();
+            landmarkReadOnlyModel = landmarkReadOnlyModel.ConvertToModel(landmarkResult);
+            return landmarkReadOnlyModel;
         }
         public int AddTicket(Ticket ticket)
         {
@@ -1122,6 +1102,141 @@ namespace iWasHere.Domain.Service
 
             return queryable.ToList();
         }
+        public Landmark GetLandmarkByIdEdit(int txtLandmarkId)
+        {
+            IQueryable<Landmark> queryable = _dbContext.Landmark;
+            queryable = queryable.Where(a => a.LandmarkId.Equals(txtLandmarkId));
+            queryable = queryable.Select(a => new Landmark()
+
+            {
+               LandmarkId=a.LandmarkId,
+               LandmarkName=a.LandmarkName,
+               LandmarkShortDescription=a.LandmarkShortDescription,
+               TicketId=a.TicketId,
+               DictionaryAvailabilityId=a.DictionaryAvailabilityId,
+               DictionaryItemId=a.DictionaryItemId,
+               DictionaryAttractionTypeId=a.DictionaryAttractionTypeId,
+               Longitude=a.Longitude,
+               Latitude=a.Latitude,
+               DictionaryCityId=a.DictionaryCityId,
+               DateAdded=a.DateAdded
+              
+            });
+           
+            return queryable.FirstOrDefault();
+        }
+        public DictionaryCity GetDictionaryCityCountyById(int txtCityId)
+        {
+            IQueryable<DictionaryCity> queryable = _dbContext.DictionaryCity;
+            queryable = queryable.Where(a => a.CityId.Equals(txtCityId));
+            queryable = queryable.Select(a => new DictionaryCity()
+
+            {
+                CityId = a.CityId,
+                CityName = a.CityName,
+                CountyId = a.CountyId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+      
+        public DictionaryCounty GetDictionaryCountyCountryById(int txtCountId)
+        {
+            IQueryable<DictionaryCounty> queryable = _dbContext.DictionaryCounty;
+            queryable = queryable.Where(a => a.CountyId.Equals(txtCountId));
+            queryable = queryable.Select(a => new DictionaryCounty()
+            { 
+                CountyId = a.CountyId,
+                CountyName=a.CountyName,
+                CountryId=a.CountryId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+        public Ticket GetTicketTypeCurrency(int ticketId)
+        {
+            IQueryable<Ticket> queryable = _dbContext.Ticket;
+            queryable = queryable.Where(a => a.TicketId.Equals(ticketId));
+            queryable = queryable.Select(a => new Ticket()
+
+            {
+                TicketPrice = a.TicketPrice,
+                CurrencyId = a.CurrencyId,
+                TicketTypeId = a.TicketTypeId
+            });
+
+            return queryable.FirstOrDefault();
+        }
+        public int UpdateLandmark(Landmark landmark)
+        {
+
+            _dbContext.Landmark.Update(landmark);
+            return _dbContext.SaveChanges();
+        }
+        public int UpdateLandmark2(Landmark landmark)
+        {
+
+            _dbContext.Landmark.Update(landmark);
+            return _dbContext.SaveChanges();
+        }
+        public int UpdateTicket(Ticket ticket)
+        {
+
+            _dbContext.Ticket.Update(ticket);
+            return _dbContext.SaveChanges();
+        }
+        public int AddTicketLandmark(Ticket ticket)
+        {
+            _dbContext.Ticket.Add(ticket);
+            return _dbContext.SaveChanges();
+        }
+
+
+
+        public void SaveUploadedImagesDB(int lmkid, string path)
+        {
+            
+            //int landmarkId = lmkid;
+
+            LandmarkImage img = new LandmarkImage()
+            {
+
+                LandmarkId = lmkid,
+                ImageUrl = path
+
+            };
+
+            _dbContext.LandmarkImage.Add(img);
+            _dbContext.SaveChanges();
+        }
+
+
+
+
+
+
+        //public int AddTicket(Ticket ticket)
+        //{
+        //    _dbContext.Ticket.Add(ticket);
+        //    return _dbContext.SaveChanges();
+        //}
+
+
+        //[HttpPost]
+        //public ActionResult AddNewTicketType(string code, string name)
+        //{
+        //    DictionaryTicketType dictionaryTicketType = new DictionaryTicketType
+        //    {
+        //        TicketName = name,
+        //        TicketCode = code
+        //    };
+        //    _dictionaryService.AddTicketType(dictionaryTicketType);
+
+        //    return Json(ModelState.ToDataSourceResult());
+        //}
+
+
+
         #endregion
 
     }

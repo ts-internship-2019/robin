@@ -28,15 +28,6 @@
             .Events(e => e.Click("removeFilter"))
     )
 
-    @(Html.Kendo().Button()
-        .Name("kendoIconTextButton")
-        .Tag("a")
-        .Icon("save-changes")
-        .Content("Salvare modificari")
-        .HtmlAttributes(new { id = "btnSave", type = "button" })
-        .Events(e => e.Click("saveChanges"))
-    )
-
 
     @(Html.Kendo().TextBox()
         .Name("inputCountryFilter")
@@ -51,7 +42,9 @@
         {
             columns.Bound(c => c.CountryId).Hidden();
             columns.Bound(c => c.CountryName).Title("Tara");;
-            columns.Command(command => { command.Edit(); command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" });}).Width(200);
+            columns.Template("<a  class='k-button' href='/DictionaryCountry/AddCountry?Id=#=CountryId# '> Editeaza </a>").Width(150);
+            columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
+
 
         })
         .HtmlAttributes(new { id = "CountryGrid", style = "height: 550px;" })
@@ -62,11 +55,11 @@
             .Refresh(true)
             .PageSizes(true)
             .ButtonCount(5))
-            .ToolBar(toolbar =>
-                    {
-            toolbar.Create();
-            toolbar.Save();
-})
+            //            .ToolBar(toolbar =>
+            //                    {
+            //            toolbar.Create();
+            //            toolbar.Save();
+            //})
             .Editable(editable => editable.Mode(GridEditMode.InLine))
             .DataSource(dataSource => dataSource
             .Ajax()
@@ -102,11 +95,11 @@
             $("#CountryGrid").data("kendoGrid").dataSource.page(1);
         }
 
-        saveChanges = function () {
-            grid = $("#CountryGrid").data("kendoGrid");
-            grid.removeRow($(element).closest("tr"));
-            grid.dataSource.sync();
-        }
+        //saveChanges = function () {
+        //    grid = $("#CountryGrid").data("kendoGrid");
+        //    grid.removeRow($(element).closest("tr"));
+        //    grid.dataSource.sync();
+        //}
 
     </script>
 </body>

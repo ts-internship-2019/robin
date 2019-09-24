@@ -73,17 +73,7 @@ namespace iWasHere.Web.Controllers
         {
             if (dictionaryCity != null)
             {
-                string messageDestroyCity = _dictionaryService.City_DestroyId(dictionaryCity.CityId);
-
-                if (string.IsNullOrWhiteSpace(messageDestroyCity))
-                {
-                    return Json(ModelState.ToDataSourceResult());
-                }
-                else
-                {
-                    ModelState.AddModelError("Acest oras nu poate fi sters", messageDestroyCity);
-                    return Json(ModelState.ToDataSourceResult());
-                }
+                _dictionaryService.City_DestroyId(dictionaryCity.CityId);
             }
             return Json(ModelState.ToDataSourceResult());
         }
