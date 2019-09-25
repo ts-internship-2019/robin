@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace iWasHere.Domain.Models
 {
@@ -11,7 +12,8 @@ namespace iWasHere.Domain.Models
         public DateTime? ComentDate { get; set; }
         public string CommentDesc { get; set; }
         public string UserId { get; set; }
-
         public virtual Landmark Landmark { get; set; }
+        public virtual AspNetUsers User { get; set; }
+
     }
 }

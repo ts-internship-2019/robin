@@ -3,11 +3,6 @@
 
     <meta name="viewport" content="width=device-width" />
     <title>Judete</title>
-    <style>
-        p {
-            display: inline;
-        }
-    </style>
 </head>
 <body>
     @*<h1>Lista judete</h1>*@
@@ -18,9 +13,7 @@
             .Name("inputCountyNameFilter")
             .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
         )
-    </p>
 
-    <p  class="text-light">
         Tara:
     @(Html.Kendo().ComboBox()
               .Name("countryFilter")
@@ -36,9 +29,7 @@
               })
               .HtmlAttributes(new { id = "cmbCountryFilter"/*, style = "width: 100%" */})
     )
-</p>
 
-    <p>
         @(Html.Kendo().Button()
                 .Name("iconTextButton")
                 .Tag("a")
@@ -47,9 +38,7 @@
                 .HtmlAttributes(new { id = "btnFilter", type = "button" })
                 .Events(e => e.Click("refresh"))
         )
-    </p>
 
-    <p>
         @(Html.Kendo().Button()
                 .Name("kendoIconTextButton")
                 .Tag("a")
@@ -62,8 +51,7 @@
 
 
    
-    <br />
-    <br />
+
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
             .Name("CountyGrid")
             .Columns(columns =>
