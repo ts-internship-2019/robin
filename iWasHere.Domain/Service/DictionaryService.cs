@@ -270,10 +270,18 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public void County_DestroyId(int id)
+        public string County_DestroyId(int id)
         {
-            _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
             _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         public string County_UpdateId(DictionaryCounty dictionaryCounty)
