@@ -73,7 +73,7 @@
                 columns.Bound(c => c.CountryId).Hidden();
                 columns.Bound(c => c.Country.CountryName).Title("Tara");
                 columns.Template("<a  class='k-button' href='/DictionaryCounty/CountyAdd?Id=#=CountyId# '> Editeaza </a>").Width(150);
-                columns.Command(command => { command.Destroy(); }).Width(200);
+                columns.Command(command => { command.Destroy(); }).Width(130);
             })
             .HtmlAttributes(new { id = "CountyGrid", style = "height: 550px;" })
             .Scrollable()
@@ -92,7 +92,7 @@
                 .Model(model => model.Id(p => p.CountyId))
                 .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
                 .Destroy(destroy => destroy.Action("County_Destroy", "DictionaryCounty"))
-                .PageSize(20)
+                .PageSize(10)
             )
     )
 

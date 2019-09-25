@@ -1235,7 +1235,10 @@ namespace iWasHere.Domain.Service
                                 new Text("Orasul: " + model.CityName))),
                                 new Paragraph(
                             new Run(
-                                new Text("Judetul: " + model.CountyName)))
+                                new Text("Judetul: " + model.CountyName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Tara: " + model.CountryName)))
                                 );
 
                 mainPart.Document.Save();
