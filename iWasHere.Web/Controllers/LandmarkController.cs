@@ -9,6 +9,10 @@ using iWasHere.Domain.DTOs;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.IO;
 
 namespace iWasHere.Web.Controllers
 {
@@ -239,6 +243,13 @@ namespace iWasHere.Web.Controllers
         public IActionResult LandmarkViewDetails()
         {
             return View(_dictionaryService.GetLandmarkReadOnly());
+        }
+
+        public IActionResult Download(int id)
+        {
+            LandmarkReadOnlyModel model = _dictionaryService.GetLandmarkById(id);
+            Stream stream = _dictionaryService.ExportToWord(model);
+            return File(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Landmark.docx");
         }
     }
 }

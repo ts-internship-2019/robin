@@ -73,11 +73,15 @@ namespace iWasHere.Domain.DTOs
             if (landmark.Ticket!= null)
                 if(landmark.Ticket.TicketType!=null)
                     temp.TicketCode = landmark.Ticket.TicketType.TicketCode;
+                else
+                    temp.TicketCode = "NECOMPLETAT";
             else
                 temp.TicketCode = "NECOMPLETAT";
             if (landmark.Ticket != null)
                 if (landmark.Ticket.TicketType != null)
                     temp.TicketName = landmark.Ticket.TicketType.TicketName;
+                else
+                    temp.TicketName = "NECOMPLETAT";
             else
                 temp.TicketName = "NECOMPLETAT";
             if (landmark.DateAdded != null)
@@ -87,6 +91,8 @@ namespace iWasHere.Domain.DTOs
             if (landmark.Ticket!=null)
                 if(landmark.Ticket.DictionaryCurrency != null)
                     temp.CurrencyCode = landmark.Ticket.DictionaryCurrency.CurrencyCode;
+                else
+                    temp.CurrencyCode = "NECOMPLETAT";
             else
                 temp.CurrencyCode = "NECOMPLETAT";
             if (landmark.Ticket != null)
@@ -94,11 +100,15 @@ namespace iWasHere.Domain.DTOs
                     temp.CurrencyName = landmark.Ticket.DictionaryCurrency.CurrencyName;
                 else
                     temp.CurrencyName = "NECOMPLETAT";
+            else
+                temp.CurrencyName = "NECOMPLETAT";
             if (landmark.Ticket != null)
                 if (landmark.Ticket.DictionaryCurrency != null)
                     temp.CurrencyRate = landmark.Ticket.DictionaryCurrency.ConversionRate;
                 else
                     temp.CurrencyRate = -1;
+            else
+                temp.CurrencyRate = -1;
             if (landmark.DictionaryAvailability != null)
                 temp.AvailabilityName = landmark.DictionaryAvailability.AvailabilityName;
             else

@@ -14,15 +14,16 @@
          #listaObiective {
            text-align:justify;
             list-style-type:none;
-            font-size:25px;
+            font-size:15px;
         }
+         .test {background-color:red;position:absolute;right:0%;}
     </style>
 </head>
 <body>
     <ul id="listaObiective">
         <li>LOC PENTRU IMAGINE</li>
         <li class="listaObiectiveLI">
-            <p class="header">Nume obiectiv:</p>
+            <label class="header">Nume obiectiv:</label>
             @(Html.Kendo().TextBox()
             .Name("landmarkName")
             .HtmlAttributes(new { id = "landmarkName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -30,49 +31,49 @@
         </li>
 
         <li class="listaObiectiveLI">
-            <p class="header">Scurta descriere: </p>
+            <label class="header">Scurta descriere: </label>
             @(Html.Kendo().TextBox()
             .Name("shortDesc")
             .HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Tipul de obiectiv: </p>
+            <label class="header">Tipul de obiectiv: </label>
             @(Html.Kendo().TextBox()
             .Name("landmarkTypeName")
             .HtmlAttributes(new { id = "landmarkTypeName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Codul obiectivului: </p>
+            <label class="header">Codul obiectivului: </label>
             @(Html.Kendo().TextBox()
             .Name("landmarkTypeCode")
             .HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Tara: </p>
+            <label class="header">Tara: </label>
             @(Html.Kendo().TextBox()
             .Name("countryName")
             .HtmlAttributes(new { id = "countryName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Judet: </p>
+            <label class="header">Judet: </label>
             @(Html.Kendo().TextBox()
             .Name("countyName")
             .HtmlAttributes(new { id = "countyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Oras: </p>
+            <label class="header">Oras: </label>
             @(Html.Kendo().TextBox()
             .Name("cityName")
             .HtmlAttributes(new { id = "cityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Program: </p>
+            <label class="header">Program: </label>
             @(Html.Kendo().TextBox()
             .Name("availabilityName")
             .HtmlAttributes(new { id = "availabilityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -84,53 +85,54 @@
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Tipul biletului: </p>
+            <label class="header">Tipul biletului: </label>
             @(Html.Kendo().TextBox()
             .Name("ticketName")
             .HtmlAttributes(new { id = "ticketName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Cod bilet: </p>
+            <label class="header">Cod bilet: </label>
             @(Html.Kendo().TextBox()
             .Name("ticketCode")
             .HtmlAttributes(new { id = "ticketCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Moneda: </p>
+            <label class="header">Moneda: </label>
             @(Html.Kendo().TextBox()
             .Name("currencyName")
             .HtmlAttributes(new { id = "currencyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Pretul biletului: </p>
+            <label class="header">Pretul biletului: </label>
             @(Html.Kendo().TextBox()
             .Name("ticketPrice")
             .HtmlAttributes(new { id = "ticketPrice", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
+
             @(Html.Kendo().TextBox()
             .Name("currencyCode")
             .HtmlAttributes(new { id = "currencyCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Pret in lei: </p>
+            <label class="header">Pret in lei: </label>
             @(Html.Kendo().TextBox()
-            .Name("conversionRate")
-            .HtmlAttributes(new { id = "conversionRate", type = "textbox", maxlength = "100", @readonly = "readonly" })
+            .Name("currencyRate")
+            .HtmlAttributes(new { id = "currencyRate", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Data adaugarii: </p>
+            <label class="header">Data adaugarii: </label>
             @(Html.Kendo().TextBox()
             .Name("dateAdded")
             .HtmlAttributes(new { id = "dateAdded", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Coordonate GPS(lat;long): </p>(
+            <label class="header">Coordonate GPS(lat;long): </label>(
             @(Html.Kendo().TextBox()
             .Name("latitude")
             .HtmlAttributes(new { id = "latitude", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -141,20 +143,260 @@
             ))
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Tipul atractiei: </p>
+            <label class="header">Tipul atractiei: </label>
             @(Html.Kendo().TextBox()
             .Name("attractionName")
             .HtmlAttributes(new { id = "attractionName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
-            <p class="header">Codul atractiei: </p>
+            <label class="header">Codul atractiei: </label>
             @(Html.Kendo().TextBox()
             .Name("attractionCode")
             .HtmlAttributes(new { id = "attractionCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
+        <div id="googleMap" style="width:50%;height:400px;" class="map-container"></div>
 
+
+
+        <script>
+
+
+
+            var map;
+
+
+
+            var markers = [];
+
+
+
+            function myMap() {
+
+
+
+                var startLatLng = { lat: 44.4894, lng: 26.1267 };
+
+
+
+                map = new google.maps.Map(document.getElementById('googleMap'), {
+
+
+
+                    zoom: 12,
+
+
+
+                    center: startLatLng,
+
+
+
+
+
+
+                });
+
+
+
+
+
+
+
+
+
+
+                map.addListener('click', function (event) {
+
+
+
+                    clearMarkers();
+
+
+
+                    addMarker(event.latLng);
+
+
+
+                    document.getElementById("Latitude").value = event.latLng.lat();
+
+
+
+                    document.getElementById("Longitude").value = event.latLng.lng();
+
+
+
+                });
+
+
+
+
+
+
+
+
+
+
+                addMarker(startLatLng);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function addMarker(location) {
+
+
+
+                var marker = new google.maps.Marker({
+
+
+
+                    position: location,
+
+
+
+                    map: map
+
+
+
+                });
+
+
+
+                markers.push(marker);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function setMapOnAll(map) {
+
+
+
+                for (var i = 0; i < markers.length; i++) {
+
+
+
+                    markers[i].setMap(map);
+
+
+
+                }
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function clearMarkers() {
+
+
+
+                setMapOnAll(null);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function showMarkers() {
+
+
+
+                setMapOnAll(map);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function deleteMarkers() {
+
+
+
+                clearMarkers();
+
+
+
+                markers = [];
+
+
+
+            }
+
+
+
+
+
+
+        </script>
+
+
+
+
+
+
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg&callback=myMap"></script>
+
+
+
+
+
+
+
+        <style>
+
+
+
+            .map-container {
+                position: absolute;
+                bottom: 20%;
+                right: 10%;
+            }
+        </style>
     </ul>
 
     <p align="right"> <a href='/Landmark/LandmarkComment?Id=#=LandmarkId#' class="k-button k-primary">Adauga comentariu</a></p>
@@ -192,13 +434,21 @@
                     document.getElementById("availabilitySchedule").value = data.responseJSON.AvailabilitySchedule;
                     document.getElementById("ticketName").value = data.responseJSON.TicketName;
                     document.getElementById("ticketCode").value = data.responseJSON.TicketCode;
-                    document.getElementById("ticketPrice").value = data.responseJSON.TicketPrice;
-                    document.getElementById("conversionRate").value = data.responseJSON.ConversionRate;
+                    if (data.responseJSON.TicketPrice == -1)
+                        document.getElementById("ticketPrice").value = "NECOMPLETAT";
+                    else
+                        document.getElementById("ticketPrice").value = data.responseJSON.TicketPrice;
+                    if(data.responseJSON.CurrencyRate ==-1)
+                        document.getElementById("currencyRate").value = "NECOMPLETAT";
+                    else
+                        document.getElementById("currencyRate").value = data.responseJSON.CurrencyRate;
                     document.getElementById("dateAdded").value = data.responseJSON.DateAdded;
                     document.getElementById("latitude").value = data.responseJSON.Latitude;
                     document.getElementById("longitude").value = data.responseJSON.Longitude;
                     document.getElementById("attractionName").value = data.responseJSON.AttractionName;
                     document.getElementById("attractionCode").value = data.responseJSON.AttractionCode;
+                    document.getElementById("currencyName").value = data.responseJSON.CurrencyName;
+                    document.getElementById("currencyCode").value = data.responseJSON.CurrencyCode;
                 }
                 return result;
             }
