@@ -26,7 +26,7 @@
             <label class="header">Nume obiectiv:</label>
             @(Html.Kendo().TextBox()
             .Name("landmarkName")
-            .HtmlAttributes(new { id = "landmarkName", type = "textbox", maxlength = "100", @readonly = "readonly"})
+            .HtmlAttributes(new { id = "landmarkName", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
 
@@ -34,7 +34,7 @@
             <label class="header">Scurta descriere: </label>
             @(Html.Kendo().TextBox()
             .Name("shortDesc")
-            .HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500", @readonly = "readonly"})
+            .HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500", @readonly = "readonly" })
             )
         </li>
         <li class="listaObiectiveLI">
@@ -156,18 +156,247 @@
             .HtmlAttributes(new { id = "attractionCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
             )
         </li>
-        <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg'></script>
-        <div style='overflow:hidden;height:400px;width:520px;'><div id='gmap_canvas' style='height:400px;width:520px;'></div>
-        <style>
-            #gmap_canvas img {
-                max-width: none !important;
-                background: none !important
-            }
-        </style></div>
-        <a href='https://www.symptoma.ro/'>Symptoma</a>
-        <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=bf990d1187f88b49d7729dfba894413fe2a2deea'></script>
-        <script type='text/javascript'>function init_map() { var myOptions = { zoom: 12, center: new google.maps.LatLng(44.4894413, 26.127059299999928), mapTypeId: google.maps.MapTypeId.ROADMAP }; map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions); marker = new google.maps.Marker({ map: map, position: new google.maps.LatLng(44.4894413, 26.127059299999928) }); infowindow = new google.maps.InfoWindow({ content: '<strong>Global City Business</strong><br>Soseaua Bucuresti Nord 10,Voluntari<br>077190 Bucharest<br>' }); google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); }); infowindow.open(map, marker); } google.maps.event.addDomListener(window, 'load', init_map);</script>
+        <div id="googleMap" style="width:50%;height:400px;" class="map-container"></div>
 
+
+
+        <script>
+
+
+
+            var map;
+
+
+
+            var markers = [];
+
+
+
+            function myMap() {
+
+
+
+                var startLatLng = { lat: 44.4894, lng: 26.1267 };
+
+
+
+                map = new google.maps.Map(document.getElementById('googleMap'), {
+
+
+
+                    zoom: 12,
+
+
+
+                    center: startLatLng,
+
+
+
+
+
+
+                });
+
+
+
+
+
+
+
+
+
+
+                map.addListener('click', function (event) {
+
+
+
+                    clearMarkers();
+
+
+
+                    addMarker(event.latLng);
+
+
+
+                    document.getElementById("Latitude").value = event.latLng.lat();
+
+
+
+                    document.getElementById("Longitude").value = event.latLng.lng();
+
+
+
+                });
+
+
+
+
+
+
+
+
+
+
+                addMarker(startLatLng);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function addMarker(location) {
+
+
+
+                var marker = new google.maps.Marker({
+
+
+
+                    position: location,
+
+
+
+                    map: map
+
+
+
+                });
+
+
+
+                markers.push(marker);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function setMapOnAll(map) {
+
+
+
+                for (var i = 0; i < markers.length; i++) {
+
+
+
+                    markers[i].setMap(map);
+
+
+
+                }
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function clearMarkers() {
+
+
+
+                setMapOnAll(null);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function showMarkers() {
+
+
+
+                setMapOnAll(map);
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+            function deleteMarkers() {
+
+
+
+                clearMarkers();
+
+
+
+                markers = [];
+
+
+
+            }
+
+
+
+
+
+
+        </script>
+
+
+
+
+
+
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg&callback=myMap"></script>
+
+
+
+
+
+
+
+        <style>
+
+
+
+            .map-container {
+                position: absolute;
+                bottom: 20%;
+                right: 10%;
+            }
+        </style>
     </ul>
 
     <p align="right"> <a href='/Landmark/LandmarkComment?Id=#=LandmarkId#' class="k-button k-primary">Adauga comentariu</a></p>
