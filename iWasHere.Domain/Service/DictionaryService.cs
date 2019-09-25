@@ -1243,22 +1243,43 @@ namespace iWasHere.Domain.Service
 
 
 
-        public void SaveUploadedImagesDB(int lmkid, string path)
+        public void SaveUploadedImagesTemporaryDB(LandmarkImage img)
         {
-            
-            //int landmarkId = lmkid;
 
-            LandmarkImage img = new LandmarkImage()
-            {
 
-                LandmarkId = lmkid,
-                ImageUrl = path
+            int maxID1 = Convert.ToInt32(_dbContext.Landmark.Max(p => p.LandmarkId));
+            int nr2 = 1;
 
-            };
+            img.LandmarkId = Sum(maxID1, nr2);
 
             _dbContext.LandmarkImage.Add(img);
             _dbContext.SaveChanges();
         }
+
+        public void SaveUploadedImagesDB(LandmarkImage img)
+        {
+
+            int maxID2 = _dbContext.Landmark.Max(p => p.LandmarkId);
+
+            var target = (_dbContext.LandmarkImage.Single(a => a.ImageURL == img.ImageURL));
+
+            //img.LandmarkId = maxID2;
+
+            target.LandmarkId = maxID2;
+
+            _dbContext.Attach(target);
+            _dbContext.Entry(target).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+
+        }
+
+        public int Sum(int num1, int num2)
+        {
+            int total;
+            total = num1 + num2;
+            return total;
+        }
+
 
 
         public Stream ExportToWord(LandmarkReadOnlyModel model)

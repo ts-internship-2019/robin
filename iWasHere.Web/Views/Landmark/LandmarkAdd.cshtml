@@ -17,10 +17,10 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                         .Name("inputLandmarkName")
-                                        .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100" , style = "width: 100%"  })
+                                        .HtmlAttributes(new { id = "textBoxLandmarkName", type = "textbox", maxlength = "100", style = "width: 100%" })
                                     )
                                 </td>
-                              
+
                             </tr>
                             <tr>
                                 <td>  <span class="text-light">Descrierea atractiei : </span></td>
@@ -44,20 +44,7 @@
 
                                     <input type="file" name="files" id="files" />
                                     @*<input type="button" value="Upload Selected Files" class="k-button" onclick="uploadSelected()" />*@
-                                    
-                                    <script>
-                                        $("#files").kendoUpload({
-                                            async: {
-                                                saveUrl: "../Upload/Async_Save",
-                                                removeUrl: "../Upload/Async_Remove",
-                                                autoUpload: false
-                                            }
-                                        });
 
-                                        function uploadSelected() {
-                                            $(".k-upload-selected").click();
-                                        }
-                                    </script>
 
                                     <style>
                                         .k-clear-selected, .k-upload-selected {
@@ -132,8 +119,8 @@
                                                           read.Action("CmbTicketType", "Ticket");
                                                   });
                                               })
-                                              
-                                              .HtmlAttributes(new { id = "cmbTicketType", style = "width: 100%" } )
+
+                                              .HtmlAttributes(new { id = "cmbTicketType", style = "width: 100%" })
 
                                     )
                                 </td>
@@ -155,7 +142,7 @@
                                                           read.Action("CmbLandmarkDetail", "Landmark");
                                                   });
                                               })
-                                              
+
                                               .HtmlAttributes(new { id = "cmbLandmarkDetail", style = "width: 100%" })
                                     )
                                 </td>
@@ -177,8 +164,8 @@
                                                           read.Action("CmbAttraction", "Landmark");
                                                   });
                                               })
-                                              
-                                              .HtmlAttributes(new { id = "cmbAttraction" , style = "width: 100%" })
+
+                                              .HtmlAttributes(new { id = "cmbAttraction", style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -240,7 +227,7 @@
                                                    {
                                                        read.Action("CmbCountyByCountry", "Landmark").Data("filterCounty");
 
-                                               })  .ServerFiltering(true);
+                                               }).ServerFiltering(true);
                                            })
                                            .Enable(false)
                                            .AutoBind(false)
@@ -248,7 +235,7 @@
                                            .CascadeFrom("cmbCountry")
                                            .HtmlAttributes(new { id = "cmbCounty", style = "width: 100%" })
                                     )
-                                                                        <script>
+                                    <script>
                                         function filterCounty() {
                                             return {
                                                 country: $("#cmbCountry").val()
@@ -279,7 +266,7 @@
                                            .AutoBind(false)
                                            .NoDataTemplate("Nu s-a gasit nici un oras pentru acest judet")
                                            .CascadeFrom("cmbCounty")
-                                           .HtmlAttributes(new { id = "cmbCity" , style = "width: 100%" })
+                                           .HtmlAttributes(new { id = "cmbCity", style = "width: 100%" })
                                     )
                                     <script>
                                         function filterCity() {
@@ -330,6 +317,13 @@
     var url = new URL(currentURL);
     var landmarkId = url.searchParams.get("Id");
     var imgUrl;
+
+    function onUpload(e) {
+        e.data = {
+            LandmarkId: $(landmarkId).val()
+        };
+
+    }
     if (landmarkId == 0) {
         document.getElementById("LandmarkAddTitle").innerHTML = "<b> Adauga un nou  obiectiv</b>";//pageTitle
 
@@ -397,42 +391,39 @@
                                                                      $("#cmbCity").data("kendoDropDownList").value(data.responseJSON.DictionaryCityId);
                                                                  }
 
-                                                             })
-                                             }
-                                         })
+                            })
+                        }
+                    })
 
-                    }
-                    else 
-                    {
-                        alert("Inregistrarea nu a fost gasita in baza de date!")
-                        window.location.href = "/Landmark/Landmark";
-                    }
-                    return result;
-                    }
-                });
+                }
+                else {
+                    alert("Inregistrarea nu a fost gasita in baza de date!")
+                    window.location.href = "/Landmark/Landmark";
+                }
+                return result;
+            }
+        });
     }
     function myFunction() {
-      var checkBox = document.getElementById("checkTicket");
+        var checkBox = document.getElementById("checkTicket");
 
-        if (checkBox.checked == false)
-        {
-          document.getElementById("textBoxTicketCost").value = "";
-          document.getElementById("trTicketCost1").style.visibility = "hidden";
-          document.getElementById("trTicketCost1").style.position = "absolute";
-          document.getElementById("trTicketCost2").style.visibility = "hidden";
-          document.getElementById("trTicketCost2").style.position = "absolute";
-          document.getElementById("trTicketCost3").style.visibility = "hidden";
-          document.getElementById("trTicketCost3").style.position = "absolute";
-        } else
-        {
-          document.getElementById("trTicketCost1").style.visibility = "visible";
-          document.getElementById("trTicketCost1").style.position = "static";
-          document.getElementById("trTicketCost2").style.visibility = "visible";
-          document.getElementById("trTicketCost2").style.position = "static";
-          document.getElementById("trTicketCost3").style.visibility = "visible";
-          document.getElementById("trTicketCost3").style.position = "static";
-      }
-}
+        if (checkBox.checked == false) {
+            document.getElementById("textBoxTicketCost").value = "";
+            document.getElementById("trTicketCost1").style.visibility = "hidden";
+            document.getElementById("trTicketCost1").style.position = "absolute";
+            document.getElementById("trTicketCost2").style.visibility = "hidden";
+            document.getElementById("trTicketCost2").style.position = "absolute";
+            document.getElementById("trTicketCost3").style.visibility = "hidden";
+            document.getElementById("trTicketCost3").style.position = "absolute";
+        } else {
+            document.getElementById("trTicketCost1").style.visibility = "visible";
+            document.getElementById("trTicketCost1").style.position = "static";
+            document.getElementById("trTicketCost2").style.visibility = "visible";
+            document.getElementById("trTicketCost2").style.position = "static";
+            document.getElementById("trTicketCost3").style.visibility = "visible";
+            document.getElementById("trTicketCost3").style.position = "static";
+        }
+    }
     function cancel() {
 
         var file_data = $("#imguploader").prop("files")[0];
@@ -440,16 +431,16 @@
         form_data.append("file", file_data);
 
         $.ajax({
-                            type: 'POST',
-                            url: '/Upload/Async_Remove',
-                            data: { files: form_data },
-                            cache: false,
-                            success: function (result) {
-                                return result;
-                            }
-                        })
-            
-            window.location.href = "/Landmark/Landmark";
+            type: 'POST',
+            url: '/Upload/Async_Remove',
+            data: { files: form_data },
+            cache: false,
+            success: function (result) {
+                return result;
+            }
+        })
+
+        window.location.href = "/Landmark/Landmark";
     }
     function editFunction()
     { 
@@ -504,8 +495,8 @@
                         })
                         //$(".k-upload-selected").click();
 
-                        alert("Obiectiv salvat cu succes!");
-                        window.location.href = "/Landmark/Landmark";
+                alert("Obiectiv salvat cu succes!");
+                window.location.href = "/Landmark/Landmark";
 
                     } else if (llongLength <= 10 && llatLength <= 10 && tpriceLength<=8 && isNaN(tprice)==false&& isNaN(llat)==false&& isNaN(llong)==false) {//landmark  cu bilet - edit cu bilet
                         $.ajax({
