@@ -77,6 +77,7 @@
             .DataSource(dataSource => dataSource
 
                 .Ajax()
+                .Events(e => e.Error("error"))
                 .Model(model => model.Id(p => p.CountyId))
                 .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
                 .Destroy(destroy => destroy.Action("County_Destroy", "DictionaryCounty"))
@@ -110,6 +111,11 @@
             grid.dataSource.sync();
         }
 
+        function error(e)
+        {
+        alert("Tipul de judet nu poate fii sters deoarece este folosit de un obiectiv!")
+        refresh();
+         } 
     </script>
     <p align="right"> <a href='/DictionaryCounty/CountyAdd?Id=0' class="k-button k-primary">Adauga judet</a></p>
 </body>

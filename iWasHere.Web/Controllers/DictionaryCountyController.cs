@@ -49,8 +49,15 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
         }
 
-        public ActionResult County_Destroy(DictionaryCounty dictionaryCounty)
+        public ActionResult County_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryCounty dictionaryCounty)
         {
+            string error = _dictionaryService.County_DestroyId(dictionaryCounty.CountyId);
+            if (!String.IsNullOrEmpty(error))
+            {
+                ModelState.AddModelError("e", error);
+                return Json(ModelState.ToDataSourceResult());
+            }
+            else
             if (dictionaryCounty != null)
             {
                 _dictionaryService.County_DestroyId(dictionaryCounty.CountyId);
