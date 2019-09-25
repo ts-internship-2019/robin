@@ -28,37 +28,41 @@
             right: 0%;
         }
 
-        [type=radio] { 
-        position: absolute;
-        opacity: 0;
-        width: 0;
-        height: 0;
+        [type=radio] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
 
-/* IMAGE STYLES */
-        [type=radio] + img {
-          cursor: pointer;
+            /* IMAGE STYLES */
+            [type=radio] + img {
+                cursor: pointer;
+            }
+
+            /* CHECKED STYLES */
+            [type=radio]:checked + img {
+                outline: 2px solid #f00;
+            }
+
+        #zoomStar {
+            padding: 5px;
         }
 
-/* CHECKED STYLES */
-        [type=radio]:checked + img {
-          outline: 2px solid #f00;
-        }
-        #zoomStar {padding:5px;}
-
-        #zoomStar:hover {
-        -ms-transform: scale(1.5); /* IE 9 */
-        -webkit-transform: scale(1.5); /* Safari 3-8 */
-        transform: scale(1.5); 
-        }
-            
+            #zoomStar:hover {
+                -ms-transform: scale(1.5); /* IE 9 */
+                -webkit-transform: scale(1.5); /* Safari 3-8 */
+                transform: scale(1.5);
+            }
     </style>
+    
 </head>
-<body>
-    <table class="table table-striped" >
+
+<body onload="onLoadView()">
+    <table class="table table-striped">
         <tr>
             <td>
-                    <p class="text-light">LOC PENTRU IMAGINE</p>
+                <p class="text-light">LOC PENTRU IMAGINE</p>
             </td>
         </tr>
         <tr>
@@ -75,7 +79,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Scurta descriere: </label></p>
+                    <label class="header">Scurta descriere: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -87,7 +92,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Tipul de obiectiv: </label></p>
+                    <label class="header">Tipul de obiectiv: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -99,18 +105,20 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Codul obiectivului: </label></p>
-                    </td>
+                    <label class="header">Codul obiectivului: </label>
+                </p>
+            </td>
             <td>
-                    @(Html.Kendo().TextBox()
-                    .Name("landmarkTypeCode")
-                    .HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
-                    )
+                @(Html.Kendo().TextBox()
+                .Name("landmarkTypeCode")
+                .HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
         </tr>
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Tara: </label></p>
+                    <label class="header">Tara: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -121,7 +129,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Judet: </label></p>
+                    <label class="header">Judet: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -132,7 +141,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Oras: </label></p>
+                    <label class="header">Oras: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -143,7 +153,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Program: </label></p>
+                    <label class="header">Program: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -159,7 +170,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Tipul biletului: </label></p>
+                    <label class="header">Tipul biletului: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -170,7 +182,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Cod bilet: </label></p>
+                    <label class="header">Cod bilet: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -181,7 +194,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Moneda: </label></p>
+                    <label class="header">Moneda: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -192,7 +206,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Pretul biletului: </label></p>
+                    <label class="header">Pretul biletului: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -208,7 +223,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Pret in lei: </label></p>
+                    <label class="header">Pret in lei: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -219,7 +235,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Data adaugarii: </label></p>
+                    <label class="header">Data adaugarii: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -230,10 +247,11 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Coordonate GPS(lat;long): </label></p>
+                    <label class="header">Coordonate GPS(lat;long): </label>
+                </p>
             </td>
             <td>
-                
+
                 @(Html.Kendo().TextBox()
                 .Name("latitude")
                 .HtmlAttributes(new { id = "latitude", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -246,7 +264,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Tipul atractiei: </label></p>
+                    <label class="header">Tipul atractiei: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -257,7 +276,8 @@
         <tr>
             <td>
                 <p class="listaObiectiveLI text-light">
-                    <label class="header">Codul atractiei: </label></p>
+                    <label class="header">Codul atractiei: </label>
+                </p>
             </td>
             <td>
                 @(Html.Kendo().TextBox()
@@ -267,24 +287,27 @@
             </td>
         </tr>
     </table>
-   
-    <div id="googleMap" style="width:50%;height:400px;" class="map-container"></div>
-    
+
+    <div id="googleMap" style="width:50%;height:400px;position:relative;top:30px;left:35%;" class="map-container"></div>
+
     <script>
         var map;
         var markers = [];
-        function myMap() {
-            var startLatLng = { lat: 44.4894, lng: 26.1267 };
+            function onLoadView() {
+            var lati = parseFloat(document.getElementById("latitude").value);
+            var longi = parseFloat(document.getElementById("longitude").value);
+
+            var startLatLng = { lat: lati,lng:longi};
             map = new google.maps.Map(document.getElementById('googleMap'), {
                 zoom: 12,
                 center: startLatLng,
             });
-            map.addListener('click', function (event) {
+            /*map.addListener('click', function (event) {
                 clearMarkers();
                 addMarker(event.latLng);
                 document.getElementById("Latitude").value = event.latLng.lat();
                 document.getElementById("Longitude").value = event.latLng.lng();
-            });
+            });*/
 
             addMarker(startLatLng);
         }
@@ -312,12 +335,12 @@
         }
 
         function deleteMarkers() {
-           clearMarkers();
+            clearMarkers();
             markers = [];
         }
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg&callback=myMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg&callback=onLoadView"></script>
 
 
     <style>
@@ -327,13 +350,11 @@
             right: 10%;
         }
     </style>
-    </ul>
 
-    <p align="right"> <a href='/Landmark/LandmarkComment?Id=#=LandmarkId#' class="k-button k-primary">Adauga comentariu</a></p>
     <br />
     @(Html.Kendo().TextBox()
             .Name("textboxUserName")
-            .HtmlAttributes(new { id = "textboxUserName", type = "textbox", maxlength = "900",@readonly="readonly" })
+            .HtmlAttributes(new { id = "textboxUserName", type = "textbox", maxlength = "900", @readonly = "readonly" })
     )
 
     <br /><br /><label class="text-light">Cu user-ul logat</label>
@@ -353,145 +374,140 @@
         </fieldset>
     </form>
 
-    </li>
 
-    <li>
-        <label class="text-light">Comentariul:</label>
-        @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "800", id = "textAreaComment" })
+    <label class="text-light">Comentariul:</label>
+    @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "800", id = "textAreaComment" })
 
-        <br /><br />
-        <button type="button" id="btnAddComm" class="k-button" onclick="addComment()">Adauga comentariu</button>
-        <br /><hr /><h2 class="text-light">Comentarii anterioare</h2>
-        <table  class=" table table-striped table-dark">
-            <tr>
-                <td>Comentariul:</td>
-                <td>Data comentariului</td>
-                <td>Evaluarea /5</td>
-                <td>Comentariu adaugat de:</td>
-            </tr>
-            @foreach (var currentLandmark in Model)
+    <br /><br />
+    <button type="button" id="btnAddComm" class="k-button" onclick="addComment()">Adauga comentariu</button>
+    <br /><hr /><h2 class="text-light">Comentarii anterioare</h2>
+    <table class=" table table-striped table-dark">
+        <tr>
+            <td>Comentariu adaugat de:</td>
+            <td>Comentariul:</td>
+            <td>Evaluarea /5</td>
+            <td>Data comentariului</td>
+
+
+        </tr>
+        @foreach (var currentLandmark in Model)
+        {
+            @if (currentLandmark.LandmarkRating != null)
             {
-                @if (currentLandmark.LandmarkRating != null)
+                @foreach (var comm in currentLandmark.LandmarkRating/*.Where(a=>a.LandmarkId.Equals(modelId))*/)
                 {
-                    @foreach (var comm in currentLandmark.LandmarkRating.Where(a=>a.LandmarkId==7))
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => comm.CommentDesc)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => comm.ComentDate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => comm.RatingValue)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => comm.User.UserName)
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => comm.User.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => comm.CommentDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => comm.RatingValue)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => comm.ComentDate)
+                        </td>
+
+
+                    </tr>
                 }
             }
-        </table>
+        }
+    </table>
+    <script>
 
-        </ul>
-        <script>
+        var currentURL = window.location.href;
+        var url = new URL(currentURL);
+        var modelId = url.searchParams.get("Id");
+        var checkbox = document.getElementById("checkboxUserName");
+        checkUser = function () {
+            if (checkbox.checked == true) {
+                document.getElementById("textboxUserName").value = "";//data.responseJSON.Username;
+            }
+            else {
+                document.getElementById("textboxUserName").value = "fdeb855e - bd3e - 4a3a - 8466 - 8e3f61fdc1b2";
+            }
+        }
 
-            var currentURL = window.location.href;
-            var url = new URL(currentURL);
-            var modelId = url.searchParams.get("Id");
-            var checkbox = document.getElementById("checkboxUserName");
-            checkUser = function () {
-                if (checkbox.checked == true) {
+        var data = $.ajax({
+            type: 'GET',
+            url: '/Landmark/GetLandmarkById',
+            data: { landmarkId: modelId },
+            cache: false,
+            success: function (result) {
+                if (data.responseJSON == null) {
+                    alert("Inregistrare nu a fost gasita in baza de date");
+                    window.location.href = "/Landmark/Landmark";
+                }
+                else {
+                    document.getElementById("landmarkName").value = data.responseJSON.LandmarkName;
+                    document.getElementById("shortDesc").value = data.responseJSON.LandmarkShortDescription;
+                    document.getElementById("landmarkTypeName").value = data.responseJSON.LandmarkTypeName;
+                    document.getElementById("landmarkTypeCode").value = data.responseJSON.LandmarkTypeCode;
+                    document.getElementById("countryName").value = data.responseJSON.CountryName;
+                    document.getElementById("countyName").value = data.responseJSON.CountyName;
+                    document.getElementById("cityName").value = data.responseJSON.CityName;
+                    document.getElementById("availabilityName").value = data.responseJSON.AvailabilityName;
+                    document.getElementById("availabilitySchedule").value = data.responseJSON.AvailabilitySchedule;
+                    document.getElementById("ticketName").value = data.responseJSON.TicketName;
+                    document.getElementById("ticketCode").value = data.responseJSON.TicketCode;
+                    if (data.responseJSON.TicketPrice == -1)
+                        document.getElementById("ticketPrice").value = "NECOMPLETAT";
+                    else
+                        document.getElementById("ticketPrice").value = data.responseJSON.TicketPrice;
+                    if (data.responseJSON.CurrencyRate == -1)
+                        document.getElementById("currencyRate").value = "NECOMPLETAT";
+                    else
+                        document.getElementById("currencyRate").value = data.responseJSON.CurrencyRate;
+                    document.getElementById("dateAdded").value = data.responseJSON.DateAdded;
+                    document.getElementById("latitude").value = data.responseJSON.Latitude;
+                    document.getElementById("longitude").value = data.responseJSON.Longitude;
+                    document.getElementById("attractionName").value = data.responseJSON.AttractionName;
+                    document.getElementById("attractionCode").value = data.responseJSON.AttractionCode;
+                    document.getElementById("currencyName").value = data.responseJSON.CurrencyName;
+                    document.getElementById("currencyCode").value = data.responseJSON.CurrencyCode;
+
+
+                    var checkbox = document.getElementById("checkboxUserName");
+                    if (checkbox.checked == true) {
                         document.getElementById("textboxUserName").value = "";//data.responseJSON.Username;
-                }
-                else
-                {
-                        document.getElementById("textboxUserName").value = "fdeb855e - bd3e - 4a3a - 8466 - 8e3f61fdc1b2";
-                }
-            }
-
-            var data = $.ajax({
-                type: 'GET',
-                url: '/Landmark/GetLandmarkById',
-                data: { landmarkId: modelId },
-                cache: false,
-                success: function (result) {
-                    if (data.responseJSON == null) {
-                        alert("Inregistrare nu a fost gasita in baza de date");
-                        window.location.href = "/Landmark/Landmark";
                     }
                     else {
-                        document.getElementById("landmarkName").value = data.responseJSON.LandmarkName;
-                        document.getElementById("shortDesc").value = data.responseJSON.LandmarkShortDescription;
-                        document.getElementById("landmarkTypeName").value = data.responseJSON.LandmarkTypeName;
-                        document.getElementById("landmarkTypeCode").value = data.responseJSON.LandmarkTypeCode;
-                        document.getElementById("countryName").value = data.responseJSON.CountryName;
-                        document.getElementById("countyName").value = data.responseJSON.CountyName;
-                        document.getElementById("cityName").value = data.responseJSON.CityName;
-                        document.getElementById("availabilityName").value = data.responseJSON.AvailabilityName;
-                        document.getElementById("availabilitySchedule").value = data.responseJSON.AvailabilitySchedule;
-                        document.getElementById("ticketName").value = data.responseJSON.TicketName;
-                        document.getElementById("ticketCode").value = data.responseJSON.TicketCode;
-                        if (data.responseJSON.TicketPrice == -1)
-                            document.getElementById("ticketPrice").value = "NECOMPLETAT";
-                        else
-                            document.getElementById("ticketPrice").value = data.responseJSON.TicketPrice;
-                        if (data.responseJSON.CurrencyRate == -1)
-                            document.getElementById("currencyRate").value = "NECOMPLETAT";
-                        else
-                            document.getElementById("currencyRate").value = data.responseJSON.CurrencyRate;
-                        document.getElementById("dateAdded").value = data.responseJSON.DateAdded;
-                        document.getElementById("latitude").value = data.responseJSON.Latitude;
-                        document.getElementById("longitude").value = data.responseJSON.Longitude;
-                        document.getElementById("attractionName").value = data.responseJSON.AttractionName;
-                        document.getElementById("attractionCode").value = data.responseJSON.AttractionCode;
-                        document.getElementById("currencyName").value = data.responseJSON.CurrencyName;
-                        document.getElementById("currencyCode").value = data.responseJSON.CurrencyCode;
-
-
-                        var checkbox = document.getElementById("checkboxUserName");
-                        if (checkbox.checked == true) {
-                            document.getElementById("textboxUserName").value = "";//data.responseJSON.Username;
-                        }
-                        else {
-                            document.getElementById("textboxUserName").value = "fdeb855e - bd3e - 4a3a - 8466 - 8e3f61fdc1b2";
-                        }
-
+                        document.getElementById("textboxUserName").value = "fdeb855e - bd3e - 4a3a - 8466 - 8e3f61fdc1b2";
                     }
-                    return result;
+
                 }
-            });
-
-            var ratingValueInput = 0;
-            function optionSelected(option) {
-                ratingValueInput = option.value;
+                return result;
             }
+        });
 
-            addComment = function () {
-                var modelId = url.searchParams.get("Id");
-                var userid = "fdeb855e-bd3e-4a3a-8466-8e3f61fdc1b2";//document.getElementById("textBoxUserName").value;
-                var commenttext = document.getElementById("textAreaComment").value;
-                var commentdate = new Date();//data curenta
-                var ratingvalue = ratingValueInput;
-                /*alert(modelId);
-                alert(userid);
-                alert(commenttext);
-                alert(commentdate);
-                alert(ratingvalue);*/
-                $.ajax({
-                    type: 'POST',
-                    url: '/Landmark/AddComment',
-                    data: { landmarkId: modelId, userid: userid, commenttext: commenttext, commentdate: commentdate, ratingvalue: ratingvalue },
-                    cache: false,
-                    success: function (result) {
-                        alert("Comentariu adaugat. \nIn 2 secunde se v-a efectua un refresh la pagina."); return result;
-                    }
-                })
-                setTimeout("location.reload(true);", 2000);
-                //window.location.href = "/Landmark/LandmarkViewDetails?Id="+modelId;
-            }
+        var ratingValueInput = 0;
+        function optionSelected(option) {
+            ratingValueInput = option.value;
+        }
 
-        </script>
+        addComment = function () {
+            modelId = url.searchParams.get("Id");
+            var userid = "fdeb855e-bd3e-4a3a-8466-8e3f61fdc1b2";//document.getElementById("textBoxUserName").value;
+            var commenttext = document.getElementById("textAreaComment").value;
+            var commentdate = new Date();//data curenta
+            var ratingvalue = ratingValueInput;
+            $.ajax({
+                type: 'POST',
+                url: '/Landmark/AddComment',
+                data: { landmarkId: modelId, userid: userid, commenttext: commenttext, commentdate: commentdate, ratingvalue: ratingvalue },
+                cache: false,
+                success: function (result) {
+                    alert("Comentariu adaugat. \nIn 2 secunde se v-a efectua un refresh la pagina."); return result;
+                }
+            })
+            setTimeout("location.reload(true);", 2000);
+            //window.location.href = "/Landmark/LandmarkViewDetails?Id="+modelId;
+        }
+
+    </script>
+
 </body>
 </html>
