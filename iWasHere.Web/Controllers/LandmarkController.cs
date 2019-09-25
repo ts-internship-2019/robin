@@ -238,13 +238,25 @@ namespace iWasHere.Web.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-
+        [HttpPost]
+        public ActionResult AddComment(int landmarkId, string userid, string commenttext, DateTime? commentdate, int ratingvalue)
+        {
+            LandmarkRating rating = new LandmarkRating
+            {
+                RatingValue = ratingvalue,
+                UserId = userid,
+                LandmarkId = landmarkId,
+                CommentDesc = commenttext,
+                ComentDate = commentdate
+            };
+            _dictionaryService.AddComment(rating);
+            return Json(ModelState.ToDataSourceResult());
+        }
 
         public IActionResult LandmarkViewDetails()
         {
             return View(_dictionaryService.GetLandmarkReadOnly());
         }
-
         public IActionResult Download(int id)
         {
             LandmarkReadOnlyModel model = _dictionaryService.GetLandmarkById(id);

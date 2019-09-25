@@ -29,9 +29,18 @@ namespace iWasHere.Domain.DTOs
 
         public string AttractionName { get; set; }
         public string AttractionCode { get; set; }
+        /// <summary>
+        /// /COMENTARII
+        /// </summary>
+        public string Comment { get; set; }
+        public DateTime? CommentDate { get; set; }
+        public int RatingValue { get; set; }
+        public string UserId { get; set; }
+        public string Username { get; set; }
 
 
-        public LandmarkReadOnlyModel ConvertToModel(Landmark landmark)
+
+        public LandmarkReadOnlyModel ConvertToModel(Landmark landmark,LandmarkRating landmarkRating)
         {
             LandmarkReadOnlyModel temp = new LandmarkReadOnlyModel();
             if (landmark.LandmarkName != null)
@@ -129,6 +138,24 @@ namespace iWasHere.Domain.DTOs
                 temp.CountryName = landmark.DictionaryCity.County.Country.CountryName;
             else
                 temp.CountryName = "NECOMPLETAT";
+
+            if (landmarkRating != null)
+            {
+                temp.Comment = landmarkRating.CommentDesc;
+                temp.RatingValue = landmarkRating.RatingValue;
+                temp.CommentDate = landmarkRating.ComentDate;
+                if(landmarkRating.User!=null)
+                    temp.UserId = landmarkRating.User.Id;
+                else
+                    temp.UserId = "df25da26-9fbd-4888-b1b8-d1905fce6465";// "Anonim@totalsoft.ro";
+            }
+            else
+            {
+                temp.CommentDate = DateTime.Now;
+                temp.RatingValue = -1;
+                temp.UserId = "df25da26-9fbd-4888-b1b8-d1905fce6465";// "Anonim@totalsoft.ro";
+                temp.Comment = "NECOMPLETAT";
+            }
             return temp;
         }
     }

@@ -22,7 +22,6 @@ namespace iWasHere.Domain.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
-        ///public virtual DbSet<CurrencyConversion> CurrencyConversion { get; set; }
         public virtual DbSet<DictionaryAttractionType> DictionaryAttractionType { get; set; }
         public virtual DbSet<DictionaryAvailability> DictionaryAvailability { get; set; }
         public virtual DbSet<DictionaryCity> DictionaryCity { get; set; }
@@ -336,6 +335,12 @@ namespace iWasHere.Domain.Models
                     .HasForeignKey(d => d.LandmarkId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__LandmarkR__Landm__19AACF41");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Rating)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Rating_User");
             });
 
             modelBuilder.Entity<Ticket>(entity =>

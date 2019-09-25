@@ -33,5 +33,6 @@ namespace iWasHere.Domain.Models
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual ICollection<LandmarkRating> Rating { get; set; }
     }
 }
