@@ -8,31 +8,32 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
+    <p class="text-light">
+        Tip de atractie:
 
-    Cautare:
-    @(Html.Kendo().TextBox()
-    .Name("inputAttractionNameFilter")
-    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
-    )
+        @(Html.Kendo().TextBox()
+        .Name("inputAttractionNameFilter")
+        .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+        )
 
-    @(Html.Kendo().Button()
-        .Name("iconTextButton")
-        .Tag("a")
-        .Icon("filter")
-        .Content("Filtreaza")
-        .HtmlAttributes(new { id = "btnFilter", type = "button" })
-        .Events(e => e.Click("refresh"))
-    )
-
-    @(Html.Kendo().Button()
-            .Name("kendoIconTextButton")
+        @(Html.Kendo().Button()
+            .Name("iconTextButton")
             .Tag("a")
-            .Icon("filter-clear")
-            .Content("Sterge filtru")
-            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
-            .Events(e => e.Click("removeFilter"))
-    )
+            .Icon("filter")
+            .Content("Filtreaza")
+            .HtmlAttributes(new { id = "btnFilter", type = "button" })
+            .Events(e => e.Click("refresh"))
+        )
 
+        @(Html.Kendo().Button()
+                .Name("kendoIconTextButton")
+                .Tag("a")
+                .Icon("filter-clear")
+                .Content("Sterge filtru")
+                .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+                .Events(e => e.Click("removeFilter"))
+        )
+    </p>
 
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryAttractionType>()
         .Name("AttractionTypeGrid")

@@ -426,11 +426,18 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryTicketType.Add(dictType);
             return _dbContext.SaveChanges();
         }
-        public void TicketType_DestroyId(int id)
+        public string TicketType_DestroyId(int id)
         {
-            
-            _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
         public List<DictionaryTicketType> GetCmbTicketType()
         {
@@ -461,16 +468,26 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCurrency.Count();
         }
-        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
+        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize, string txtboxCurrencyName, string txtboxCurrencyCode)
         {
-            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+
+            if (!string.IsNullOrWhiteSpace(txtboxCurrencyName))
+            {
+                queryable = queryable.Where(a => a.CurrencyName.Contains(txtboxCurrencyName));
+            }
+            if (!string.IsNullOrWhiteSpace(txtboxCurrencyCode))
+            {
+                queryable = queryable.Where(a => a.CurrencyCode.Contains(txtboxCurrencyCode));
+            }
+            queryable = queryable.Select(a => new DictionaryCurrency()
             {
                 CurrencyId = a.CurrencyId,
                 CurrencyCode = a.CurrencyCode,
                 CurrencyName = a.CurrencyName
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCurrency;
+            return queryable.ToList();
         }
 
         public List<DictionaryCurrency> GetDictionaryCurrencyFilterPage(int page, int pageSize, string txtboxCurrencyName)
@@ -490,9 +507,20 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
+        public int AddCurrency(DictionaryCurrency modelCurrency)
+        {
+            _dbContext.DictionaryCurrency.Add(modelCurrency);
+            return _dbContext.SaveChanges();
+        }
+
         public int AdaugaValuta(DictionaryCurrency ValutaAdaugata)
         {
             _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
+            return _dbContext.SaveChanges();
+        }
+        public int AddNewCurrency(DictionaryCurrency dictionaryCurrency)
+        {
+            _dbContext.DictionaryCurrency.Add(dictionaryCurrency);
             return _dbContext.SaveChanges();
         }
 
@@ -518,12 +546,11 @@ namespace iWasHere.Domain.Service
 
 
 
-            public int UpdateCurrency(DictionaryCurrency dictionaryCurrency)
-            {
-
-                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
-                return _dbContext.SaveChanges();
-            }
+            public void UpdateCurrency(DictionaryCurrency modelCurrency)
+        {
+            _dbContext.Update(modelCurrency);
+            _dbContext.SaveChanges();
+        }
 
             public void UpdateCurrencyId(DictionaryCurrency dictionaryCurrency)
             {
@@ -1247,7 +1274,10 @@ namespace iWasHere.Domain.Service
                                 new Text("Orasul: " + model.CityName))),
                                 new Paragraph(
                             new Run(
-                                new Text("Judetul: " + model.CountyName)))
+                                new Text("Judetul: " + model.CountyName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Tara: " + model.CountryName)))
                                 );
 
                 mainPart.Document.Save();
