@@ -1,26 +1,28 @@
 ﻿<h1 class="text-light">Lista obiective</h1>
-@(Html.Kendo().Button()
-        .Name("iconTextButton")
-        .Tag("a")
-        .Icon("filter")
-        .Content("Filtreaza")
-        .HtmlAttributes(new { id = "btnFilter", type = "button" })
-        .Events(e => e.Click("refresh"))
-)
+<p class="text-light"> Nume obiectiv:
+    @(Html.Kendo().TextBox()
+        .Name("inputLandmarkNameFilter")
+        .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+    )
 
-@(Html.Kendo().Button()
-        .Name("kendoIconTextButton")
-        .Tag("a")
-        .Icon("filter-clear")
-        .Content("Sterge filtru")
-        .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
-        .Events(e => e.Click("removeFilter"))
-)
+    @(Html.Kendo().Button()
+            .Name("iconTextButton")
+            .Tag("a")
+            .Icon("filter")
+            .Content("Filtreaza")
+            .HtmlAttributes(new { id = "btnFilter", type = "button" })
+            .Events(e => e.Click("refresh"))
+    )
 
-@(Html.Kendo().TextBox()
-    .Name("inputLandmarkNameFilter")
-    .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
-)
+    @(Html.Kendo().Button()
+            .Name("kendoIconTextButton")
+            .Tag("a")
+            .Icon("filter-clear")
+            .Content("Sterge filtru")
+            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+            .Events(e => e.Click("removeFilter"))
+    )
+</p>
 
 
 @(Html.Kendo().Grid<iWasHere.Domain.Models.Landmark>()
@@ -45,7 +47,7 @@
             columns.Bound(c => c.DictionaryAttractionType.AttractionName).Title("Tip atractie");
             columns.Template("<a class='k-button' href='/Landmark/LandmarkViewDetails?Id=#=LandmarkId#'>Arata detalii</a>").Width(150);
             columns.Template("<a  class='k-button' href='/Landmark/LandmarkAdd?Id=#=LandmarkId# '> Editeaza </a>").Width(150);
-            columns.Template("<a class='k-button' href='/Landmark/Download?id=#=LandmarkId#'><i class='fa fa-download'></i> Export</a>").Title("Fisa obiectiv");;
+            columns.Template("<a class='k-button' href='/Landmark/Download?id=#=LandmarkId#'><i class='fa fa-download'></i> Export</a>").Title("Fisa obiectiv"); ;
         })
 
         .HtmlAttributes(new { style = "height: 550px;" })

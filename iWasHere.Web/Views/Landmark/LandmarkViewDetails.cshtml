@@ -55,339 +55,288 @@
     </style>
 </head>
 <body>
-    <ul id="listaObiective">
-        <li>LOC PENTRU IMAGINE</li>
-        <li class="listaObiectiveLI">
-            <label class="header">Nume obiectiv:</label>
-            @(Html.Kendo().TextBox()
-            .Name("landmarkName")
-            .HtmlAttributes(new { id = "landmarkName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-
-        <li class="listaObiectiveLI">
-            <label class="header">Scurta descriere: </label>
-            @(Html.Kendo().TextBox()
-            .Name("shortDesc")
-            .HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Tipul de obiectiv: </label>
-            @(Html.Kendo().TextBox()
-            .Name("landmarkTypeName")
-            .HtmlAttributes(new { id = "landmarkTypeName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Codul obiectivului: </label>
-            @(Html.Kendo().TextBox()
-            .Name("landmarkTypeCode")
-            .HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Tara: </label>
-            @(Html.Kendo().TextBox()
-            .Name("countryName")
-            .HtmlAttributes(new { id = "countryName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Judet: </label>
-            @(Html.Kendo().TextBox()
-            .Name("countyName")
-            .HtmlAttributes(new { id = "countyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Oras: </label>
-            @(Html.Kendo().TextBox()
-            .Name("cityName")
-            .HtmlAttributes(new { id = "cityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Program: </label>
-            @(Html.Kendo().TextBox()
-            .Name("availabilityName")
-            .HtmlAttributes(new { id = "availabilityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-            /
-            @(Html.Kendo().TextBox()
-            .Name("availabilitySchedule")
-            .HtmlAttributes(new { id = "availabilitySchedule", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Tipul biletului: </label>
-            @(Html.Kendo().TextBox()
-            .Name("ticketName")
-            .HtmlAttributes(new { id = "ticketName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Cod bilet: </label>
-            @(Html.Kendo().TextBox()
-            .Name("ticketCode")
-            .HtmlAttributes(new { id = "ticketCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Moneda: </label>
-            @(Html.Kendo().TextBox()
-            .Name("currencyName")
-            .HtmlAttributes(new { id = "currencyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Pretul biletului: </label>
-            @(Html.Kendo().TextBox()
-            .Name("ticketPrice")
-            .HtmlAttributes(new { id = "ticketPrice", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-
-            @(Html.Kendo().TextBox()
-            .Name("currencyCode")
-            .HtmlAttributes(new { id = "currencyCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Pret in lei: </label>
-            @(Html.Kendo().TextBox()
-            .Name("currencyRate")
-            .HtmlAttributes(new { id = "currencyRate", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Data adaugarii: </label>
-            @(Html.Kendo().TextBox()
-            .Name("dateAdded")
-            .HtmlAttributes(new { id = "dateAdded", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Coordonate GPS(lat;long): </label>(
-            @(Html.Kendo().TextBox()
-            .Name("latitude")
-            .HtmlAttributes(new { id = "latitude", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            );
-            @(Html.Kendo().TextBox()
-            .Name("longitude")
-            .HtmlAttributes(new { id = "longitude", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            ))
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Tipul atractiei: </label>
-            @(Html.Kendo().TextBox()
-            .Name("attractionName")
-            .HtmlAttributes(new { id = "attractionName", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <li class="listaObiectiveLI">
-            <label class="header">Codul atractiei: </label>
-            @(Html.Kendo().TextBox()
-            .Name("attractionCode")
-            .HtmlAttributes(new { id = "attractionCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
-            )
-        </li>
-        <div id="googleMap" style="width:50%;height:400px;" class="map-container"></div>
-
-
-
-        <script>
-
-
-
-            var map;
-
-
-
-            var markers = [];
-
-
-
-            function myMap() {
-
-
-
-                var startLatLng = { lat: 44.4894, lng: 26.1267 };
-
-
-
-                map = new google.maps.Map(document.getElementById('googleMap'), {
-
-
-
-                    zoom: 12,
-
-
-
-                    center: startLatLng,
-
-
-
-
-
-
-                });
-
-
-
-
-
-
-
-
-
-
-                map.addListener('click', function (event) {
-
-
-
-                    clearMarkers();
-
-
-
-                    addMarker(event.latLng);
-
-
-
-                    document.getElementById("Latitude").value = event.latLng.lat();
-
-
-
-                    document.getElementById("Longitude").value = event.latLng.lng();
-
-
-
-                });
-
-
-
-
-
-
-
-
-
-
-                addMarker(startLatLng);
-
-
-
-            }
-
-
-
-
-
-
-
-
-
-
-            function addMarker(location) {
-
-
-
-                var marker = new google.maps.Marker({
-
-
-
-                    position: location,
-
-
-
-                    map: map
-
-
-
-                });
-
-
-
-                markers.push(marker);
-
-
-
-            }
-
-
-
-
-
-
-
-
-
-
-            function setMapOnAll(map) {
-
-
-
-                for (var i = 0; i < markers.length; i++) {
-
-
-
-                    markers[i].setMap(map);
-
-
-
-                }
-
-
-
-            }
-
-
-
-
-
-
-
-
-
-
-            function clearMarkers() {
-
-
-
-                setMapOnAll(null);
-
-
-
-            }
-
-
-
-
-
-
-
-
-
-
-            function showMarkers() {
-
-
-
-                setMapOnAll(map);
-
-
-
-            }
-
-
-
-
-
-
-
-
-
-
-            function deleteMarkers() {
+    <table class="table table-striped" >
+        <tr>
+            <td>
+
+
+                <ul id="listaObiective">
+                    <li class="text-light">LOC PENTRU IMAGINE</li>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Nume obiectiv:</label>
+                    @(Html.Kendo().TextBox()
+                    .Name("landmarkName")
+                    .HtmlAttributes(new { id = "landmarkName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                    )
+                </li>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Scurta descriere: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("shortDesc")
+                .HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500", @readonly = "readonly" })
+                )
+                </li>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Tipul de obiectiv: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("landmarkTypeName")
+                .HtmlAttributes(new { id = "landmarkTypeName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Codul obiectivului: </label></td><td>
+                    @(Html.Kendo().TextBox()
+                    .Name("landmarkTypeCode")
+                    .HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                    )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Tara: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("countryName")
+                .HtmlAttributes(new { id = "countryName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Judet: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("countyName")
+                .HtmlAttributes(new { id = "countyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Oras: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("cityName")
+                .HtmlAttributes(new { id = "cityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Program: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("availabilityName")
+                .HtmlAttributes(new { id = "availabilityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                /
+                @(Html.Kendo().TextBox()
+                .Name("availabilitySchedule")
+                .HtmlAttributes(new { id = "availabilitySchedule", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Tipul biletului: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("ticketName")
+                .HtmlAttributes(new { id = "ticketName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Cod bilet: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("ticketCode")
+                .HtmlAttributes(new { id = "ticketCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Moneda: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("currencyName")
+                .HtmlAttributes(new { id = "currencyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Pretul biletului: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("ticketPrice")
+                .HtmlAttributes(new { id = "ticketPrice", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+
+                @(Html.Kendo().TextBox()
+                .Name("currencyCode")
+                .HtmlAttributes(new { id = "currencyCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Pret in lei: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("currencyRate")
+                .HtmlAttributes(new { id = "currencyRate", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Data adaugarii: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("dateAdded")
+                .HtmlAttributes(new { id = "dateAdded", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Coordonate GPS(lat;long): </label>
+            </td>
+            <td>
+                
+                @(Html.Kendo().TextBox()
+                .Name("latitude")
+                .HtmlAttributes(new { id = "latitude", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                );
+                @(Html.Kendo().TextBox()
+                .Name("longitude")
+                .HtmlAttributes(new { id = "longitude", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                ))
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Tipul atractiei: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("attractionName")
+                .HtmlAttributes(new { id = "attractionName", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+        </tr>
+        <tr>
+            <td>
+                <li class="listaObiectiveLI text-light">
+                    <label class="header">Codul atractiei: </label>
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("attractionCode")
+                .HtmlAttributes(new { id = "attractionCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
+                )
+                </li>
+
+            </td>
+        </tr>
+    </table>
+   
+    <div id="googleMap" style="width:50%;height:400px;" class="map-container"></div>
+    
+
+
+    <script>
+
+
+
+        var map;
+
+
+
+        var markers = [];
+
+
+
+        function myMap() {
+
+
+
+            var startLatLng = { lat: 44.4894, lng: 26.1267 };
+
+
+
+            map = new google.maps.Map(document.getElementById('googleMap'), {
+
+
+
+                zoom: 12,
+
+
+
+                center: startLatLng,
+
+
+
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+
+            map.addListener('click', function (event) {
 
 
 
@@ -395,7 +344,88 @@
 
 
 
-                markers = [];
+                addMarker(event.latLng);
+
+
+
+                document.getElementById("Latitude").value = event.latLng.lat();
+
+
+
+                document.getElementById("Longitude").value = event.latLng.lng();
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+
+            addMarker(startLatLng);
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        function addMarker(location) {
+
+
+
+            var marker = new google.maps.Marker({
+
+
+
+                position: location,
+
+
+
+                map: map
+
+
+
+            });
+
+
+
+            markers.push(marker);
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+        function setMapOnAll(map) {
+
+
+
+            for (var i = 0; i < markers.length; i++) {
+
+
+
+                markers[i].setMap(map);
 
 
 
@@ -403,35 +433,44 @@
 
 
 
+        }
+
+        function clearMarkers() {
+
+            setMapOnAll(null);
+
+        }
+
+        function showMarkers() {
+
+            setMapOnAll(map);
+
+        }
+
+
+        function deleteMarkers() {
 
 
 
-        </script>
+            clearMarkers();
 
 
 
+            markers = [];
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg&callback=myMap"></script>
 
 
-
-
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg&callback=myMap"></script>
-
-
-
-
-
-
-
-        <style>
-
-
-
-            .map-container {
-                position: absolute;
-                bottom: 20%;
-                right: 10%;
-            }
-        </style>
+    <style>
+        .map-container {
+            position: absolute;
+            bottom: 20%;
+            right: 10%;
+        }
+    </style>
+    </ul>
 
     <p align="right"> <a href='/Landmark/LandmarkComment?Id=#=LandmarkId#' class="k-button k-primary">Adauga comentariu</a></p>
     <br />
@@ -440,7 +479,7 @@
             .HtmlAttributes(new { id = "textboxUserName", type = "textbox", maxlength = "900",@readonly="readonly" })
     )
 
-    <br /><br /><label>Cu user-ul logat</label>
+    <br /><br /><label class="text-light">Cu user-ul logat</label>
     @(Html.Kendo().CheckBox()
             .Name("checkboxUserName")
             .Checked(false)
@@ -460,13 +499,13 @@
     </li>
 
     <li>
-        <label>Comentariul:</label>
+        <label class="text-light">Comentariul:</label>
         @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "800", id = "textAreaComment" })
 
         <br /><br />
         <button type="button" id="btnAddComm" class="k-button" onclick="addComment()">Adauga comentariu</button>
-        <br /><hr /><h2>Comentarii anterioare</h2>
-        <table>
+        <br /><hr /><h2 class="text-light">Comentarii anterioare</h2>
+        <table  class=" table table-striped table-dark">
             <tr>
                 <td>Comentariul:</td>
                 <td>Data comentariului</td>
