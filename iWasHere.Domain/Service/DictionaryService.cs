@@ -519,11 +519,18 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryTicketType.Add(dictType);
             return _dbContext.SaveChanges();
         }
-        public void TicketType_DestroyId(int id)
+        public string TicketType_DestroyId(int id)
         {
-            
-            _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
         public List<DictionaryTicketType> GetCmbTicketType()
         {
