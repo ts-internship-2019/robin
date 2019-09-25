@@ -67,13 +67,24 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
         }
 
-        public ActionResult TicketType_Destroy(DictionaryTicketType dictionaryTicketType)
+        public ActionResult TicketType_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryTicketType dictionaryTicketType)
         {
-            if (dictionaryTicketType != null)
+
+            string error = _dictionaryService.TicketType_DestroyId(dictionaryTicketType.TicketTypeId);
+            if (!String.IsNullOrEmpty(error))
             {
-                _dictionaryService.TicketType_DestroyId(dictionaryTicketType.TicketTypeId);
+                ModelState.AddModelError("e", error);
+                return Json(ModelState.ToDataSourceResult());
             }
-            return Json(ModelState.ToDataSourceResult());
+            else
+            {
+                if (dictionaryTicketType != null)
+                {
+                    _dictionaryService.TicketType_DestroyId(dictionaryTicketType.TicketTypeId);
+                }
+                return Json(ModelState.ToDataSourceResult());
+
+            }
         }
         public ActionResult CmbTicketType([DataSourceRequest] DataSourceRequest request, string cmbTicketTypeName)
         {
