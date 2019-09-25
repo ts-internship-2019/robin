@@ -477,7 +477,7 @@
             {
                 @if (currentLandmark.LandmarkRating != null)
                 {
-                    @foreach (var comm in currentLandmark.LandmarkRating)
+                    @foreach (var comm in currentLandmark.LandmarkRating.Where(a=>a.LandmarkId==7))
                     {
                         <tr>
                             <td>
