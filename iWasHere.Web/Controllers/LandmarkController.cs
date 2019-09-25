@@ -86,28 +86,31 @@ namespace iWasHere.Web.Controllers
         [HttpPost]
         public ActionResult AddNewLandmark(string landmarkName, string LandmarkShortDescription, double ticketPrice, int currencyId, int ticketTypeId, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
         {
-            Ticket ticket = new Ticket
-            {
-               TicketPrice=ticketPrice,
-               TicketTypeId= ticketTypeId,
-               CurrencyId=currencyId
-            };
-            _dictionaryService.AddTicket(ticket);
-            Landmark landmark = new Landmark
-            {
-                LandmarkName = landmarkName,
-                LandmarkShortDescription = LandmarkShortDescription,
-                TicketId = ticket.TicketId,
-                DictionaryAvailabilityId = dictionaryAvailability,
-                DictionaryItemId = dictionaryItemId,
-                DictionaryAttractionTypeId = dictionaryAttractionTypeId,
-                DictionaryCityId = cityId,
-                Longitude = longit,
-                Latitude = lat,
-                DateAdded = DateTime.Now
-            };
-            _dictionaryService.AddLandmark(landmark);
-            return Json(ModelState.ToDataSourceResult());
+           
+                Ticket ticket = new Ticket
+                {
+                    TicketPrice = ticketPrice,
+                    TicketTypeId = ticketTypeId,
+                    CurrencyId = currencyId
+                };
+                _dictionaryService.AddTicket(ticket);
+                Landmark landmark = new Landmark
+                {
+                    LandmarkName = landmarkName,
+                    LandmarkShortDescription = LandmarkShortDescription,
+                    TicketId = ticket.TicketId,
+                    DictionaryAvailabilityId = dictionaryAvailability,
+                    DictionaryItemId = dictionaryItemId,
+                    DictionaryAttractionTypeId = dictionaryAttractionTypeId,
+                    DictionaryCityId = cityId,
+                    Longitude = longit,
+                    Latitude = lat,
+                    DateAdded = DateTime.Now
+                };
+                _dictionaryService.AddLandmark(landmark);
+                return Json(ModelState.ToDataSourceResult());
+            
+           
         }
 
 

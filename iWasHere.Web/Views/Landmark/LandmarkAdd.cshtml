@@ -34,11 +34,11 @@
                                         <p><b>Incarcare Imagine</b></p>
 
                                         @*The Upload is able to upload files out-of-band using the
-            HTML5 File API with fallback for legacy browsers.
+                                        HTML5 File API with fallback for legacy browsers.
 
-            You need to configure save action that will receive
-            the uploaded files.
-            An optional remove action is also available.*@
+                                        You need to configure save action that will receive
+                                        the uploaded files.
+                                        An optional remove action is also available.*@
                                     </div>
 
 
@@ -86,7 +86,7 @@
                                 <td>
                                     @(Html.Kendo().TextBox()
                                     .Name("inputLandmarkName")
-                                    .HtmlAttributes(new { id = "textBoxTicketCost", type = "number", maxlength = "100" , style = "width: 100%" })
+                                    .HtmlAttributes(new { id = "textBoxTicketCost", type = "textbox", maxlength = "20" , style = "width: 100%" })
                                     )
                                 </td>
                             </tr>
@@ -95,19 +95,19 @@
                                     <p>Tip de valuta</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                               .Name("cmbCurrency")
                                               .DataTextField("CurrencyName")
                                               .DataValueField("CurrencyId")
-                                              .Placeholder("Selectati tipul de valuta.")
+                                              .OptionLabel("Selectati tipul de valuta.")
                                               .DataSource(source =>
+                                              {
+                                                  source.Read(read =>
                                                   {
-                                                      source.Read(read =>
-                                                      {
-                                                          read.Action("CmbCurrency", "Landmark");
+                                                      read.Action("CmbCurrency", "Landmark");
                                                   });
                                               })
-                                             
+
                                               .HtmlAttributes(new { id = "cmbCurrency", style = "width: 100%" })
                                     )
                                 </td>
@@ -117,11 +117,11 @@
                                     <p>Tip de bilet</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                               .Name("TicketType")
                                               .DataTextField("TicketName")
                                               .DataValueField("TicketTypeId")
-                                              .Placeholder("Selectati tipul de bilet.")
+                                              .OptionLabel("Selectati tipul de bilet.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -140,11 +140,11 @@
                                     <p>Tip de atractie:</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                               .Name("landmarkDetailFilter")
                                               .DataTextField("ItemName")
                                               .DataValueField("ItemId")
-                                              .Placeholder("Selectati tipul de atractie.")
+                                              .OptionLabel("Selectati tipul de atractie.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -162,11 +162,11 @@
                                     <p>Tip zona de atractie</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                               .Name("attractionfilter")
                                               .DataTextField("AttractionName")
                                               .DataValueField("AttractionTypeId")
-                                              .Placeholder("Selectati tipul de zona.")
+                                              .OptionLabel("Selectati tipul de zona.")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -184,11 +184,11 @@
                                     <p>Interval vizitare:</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                               .Name("availabilityFilter")
                                               .DataTextField("AvailabilityName")
                                               .DataValueField("AvailabilityId")
-                                              .Placeholder("Selectati intervalul.")
+                                             .OptionLabel("Selectati intervalul")
                                               .DataSource(source =>
                                                   {
                                                       source.Read(read =>
@@ -205,11 +205,11 @@
                                     <p>Tara :</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                            .Name("countryFilter")
                                            .DataTextField("CountryName")
                                            .DataValueField("CountryId")
-                                           .Placeholder("Selectati tara.")
+                                           .OptionLabel("Selectati tara")
                                            .DataSource(source =>
                                            {
                                                source.Read(read =>
@@ -226,11 +226,11 @@
                                     <p>Judet :</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                            .Name("countyFilter")
                                            .DataTextField("CountyName")
                                            .DataValueField("CountyId")
-                                           .Placeholder("Selectati judetul.")
+                                           .OptionLabel("Selectati judetul")
                                            .DataSource(source =>
                                                {
                                                    source.Read(read =>
@@ -259,11 +259,11 @@
                                     <p>Oras :</p>
                                 </td>
                                 <td>
-                                    @(Html.Kendo().ComboBox()
+                                    @(Html.Kendo().DropDownList()
                                            .Name("cityFilter")
                                            .DataTextField("CityName")
                                            .DataValueField("CityId")
-                                           .Placeholder("Selectati orasul.")
+                                           .OptionLabel("Selectati orasul")
                                            .DataSource(source =>
                                                {
                                                    source.Read(read =>
@@ -293,8 +293,8 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
-                                            .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLong", type = "textbox", maxlength = "100" , style = "width: 100%"  })
+                                            .Name("inputlong")
+                                            .HtmlAttributes(new { id = "textBoxLong", type = "textbox", maxlength = "10" , style = "width: 100%"  })
                                     )
                                 </td>
                             </tr>
@@ -304,18 +304,9 @@
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
-                                            .Name("inputLandmarkName")
-                                            .HtmlAttributes(new { id = "textBoxLat", type = "textbox", maxlength = "100", style = "width: 100%" })
+                                            .Name("inputlat")
+                                            .HtmlAttributes(new { id = "textBoxLat", type = "textbox", maxlength = "20" , style = "width: 100%" })
                                     )
-                                    <script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg'></script><div style='overflow:hidden;height:400px;width:520px;'><div id='gmap_canvas' style='height:400px;width:520px;'></div>
-                                    <style>
-                                        #gmap_canvas img {
-                                            max-width: none !important;
-                                            background: none !important
-                                        }
-                                    </style></div> <a href='https://www.symptoma.ro/'>Symptoma</a>
-                                    <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=bf990d1187f88b49d7729dfba894413fe2a2deea'></script>
-                                    <script type='text/javascript'>function init_map() { var myOptions = { zoom: 12, center: new google.maps.LatLng(44.4894413, 26.127059299999928), mapTypeId: google.maps.MapTypeId.ROADMAP }; map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions); marker = new google.maps.Marker({ map: map, position: new google.maps.LatLng(44.4894413, 26.127059299999928) }); infowindow = new google.maps.InfoWindow({ content: '<strong>Global City Business</strong><br>Soseaua Bucuresti Nord 10,Voluntari<br>077190 Bucharest<br>' }); google.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); }); infowindow.open(map, marker); } google.maps.event.addDomListener(window, 'load', init_map);</script>
                                 </td>
                             </tr>
                         </table>
@@ -371,9 +362,9 @@
                                 cache: false,
                                 success: function (result)
                                 {   document.getElementById("cmbCurrency").value = ticketdata.responseJSON.CurrencyId;
-                                    $("#cmbCurrency").data("kendoComboBox").value(ticketdata.responseJSON.CurrencyId);
+                                    $("#cmbCurrency").data("kendoDropDownList").value(ticketdata.responseJSON.CurrencyId);
                                     document.getElementById("cmbTicketType").value = ticketdata.responseJSON.TicketTypeId;
-                                    $("#cmbTicketType").data("kendoComboBox").value(ticketdata.responseJSON.TicketTypeId);
+                                    $("#cmbTicketType").data("kendoDropDownList").value(ticketdata.responseJSON.TicketTypeId);
                                     $("#textBoxTicketCost").val(ticketdata.responseJSON.TicketPrice);
                                     return result
                                 }
@@ -396,11 +387,11 @@
                                                                  success: function (result)
                                                                  {
                                                                      document.getElementById("cmbCountry").value = countrydata.responseJSON.CountryId;
-                                                                     $("#cmbCountry").data("kendoComboBox").value(countrydata.responseJSON.CountryId);
+                                                                     $("#cmbCountry").data("kendoDropDownList").value(countrydata.responseJSON.CountryId);
                                                                      document.getElementById("cmbCounty").value = countydata.responseJSON.CountyId;
-                                                                     $("#cmbCounty").data("kendoComboBox").value(countydata.responseJSON.CountyId);
+                                                                     $("#cmbCounty").data("kendoDropDownList").value(countydata.responseJSON.CountyId);
                                                                      document.getElementById("cmbCity").value = data.responseJSON.DictionaryCityId;
-                                                                     $("#cmbCity").data("kendoComboBox").value(data.responseJSON.DictionaryCityId);
+                                                                     $("#cmbCity").data("kendoDropDownList").value(data.responseJSON.DictionaryCityId);
                                                                  }
 
                                                              })
@@ -465,7 +456,7 @@
                 if (checkBox.checked == true)
                 {
                        var chk = 1;
-                       tprice = document.getElementById('textBoxTicketCost').value;
+                       tprice = document.getElementById('textBoxTicketCost').value; tpriceLength = tprice.length;
                        tcurrencyid = document.getElementById('cmbCurrency').value;
                        ttickettypeid = document.getElementById('cmbTicketType').value;
                 }
@@ -476,20 +467,17 @@
                 lditemid = document.getElementById('cmbLandmarkDetail').value;
                 ldattractionid = document.getElementById('cmbAttraction').value;
 				ldavailabilty = document.getElementById('cmbAvailability').value;
-                llong = document.getElementById('textBoxLong').value;
-                llat = document.getElementById('textBoxLat').value;
+                llong = document.getElementById('textBoxLong').value; llongLength = llong.length;
+                llat = document.getElementById('textBoxLat').value; llatLength = llat.length;
                 ldcity = document.getElementById('cmbCity').value;
                 if (lname == "" || ldesc == "" || llat == "" || llong == "" || document.getElementById('cmbLandmarkDetail').value == ""  || document.getElementById('cmbAttraction').value == ""   || document.getElementById('cmbAvailability').value == ""   || document.getElementById('cmbCity').value == "" ) 
                 {
-
                         alert("Campuri necompletate!");
-                    
                 }
                 else if (chk==1)
                 { //chk 1 se introduce landmark complet cu bilet complet
                     if (document.getElementById('cmbCurrency').value == "" || document.getElementById('cmbTicketType').value == "" || document.getElementById('textBoxTicketCost').value == "") { alert("Campuri necompletate!"); }
-                    else if (landmarkId == 0)
-                    {//landmark nou
+                    else if (landmarkId == 0 && llongLength <= 10 && llatLength <= 10 && tpriceLength<=8 && isNaN(tprice)==false&& isNaN(llat)==false&& isNaN(llong)==false) {//landmark nou
                         $.ajax({
                             type: 'POST',
                             url: '/Landmark/AddNewLandmark',
@@ -500,26 +488,23 @@
                             }
                         })
 
-                       $(".k-upload-selected").click();
+                        $(".k-upload-selected").click();
 
                         $.ajax({
                             type: 'POST',
                             url: '/Async/SaveUploadedImagesDB',
-                            data: {lmkid: 3},
+                            data: { lmkid: 3 },
                             cache: false,
                             success: function (result) {
                                 return result;
                             }
                         })
-
-
                         //$(".k-upload-selected").click();
 
                         alert("Obiectiv salvat cu succes!");
                         window.location.href = "/Landmark/Landmark";
 
-                    } else
-                    {//landmark  cu bilet - edit cu bilet
+                    } else if (llongLength <= 10 && llatLength <= 10 && tpriceLength<=8 && isNaN(tprice)==false&& isNaN(llat)==false&& isNaN(llong)==false) {//landmark  cu bilet - edit cu bilet
                         $.ajax({
                             type: 'POST',
                             url: '/Landmark/LandmarkUpdate',
@@ -531,11 +516,11 @@
                         })
                         alert("Obiectiv editat cu succes!");
                         window.location.href = "/Landmark/Landmark";
-                    }
+                    } else { alert("Campuri completate necorespunzator!");}
                 }
                 else if (chk==2)
                 {// chk 2 se introduce doar landmark
-                    if (landmarkId == 0) {
+                    if (landmarkId == 0 && llongLength <= 10 && llatLength <= 10&& isNaN(llat)==false&& isNaN(llong)==false) {
                         $.ajax({
                             type: 'POST',
                             url: '/Landmark/AddNewLandmark2',
@@ -545,7 +530,7 @@
                                 return result;
                             }
                         })
-                           $(".k-upload-selected").click();
+                        $(".k-upload-selected").click();
                         $.ajax({
                             type: 'POST',
                             url: '/Async/SaveUploadedImagesDB',
@@ -554,12 +539,11 @@
                             success: function (result) {
                                 return result;
                             }
-                    })
+                        })
                         alert("Obiectiv salvat cu succes!");
                         window.location.href = "/Landmark/Landmark";
-                    } else
-                    {
-                         $.ajax({
+                    } else if (llongLength <= 10 && llatLength <= 10&& isNaN(llat)==false&& isNaN(llong)==false) {
+                        $.ajax({
                             type: 'POST',
                             url: '/Landmark/LandmarkUpdate2',
                             data: { landmarkId: landmarkId, landmarkName: lname, LandmarkShortDescription: ldesc, dictionaryItemId: lditemid, dictionaryAttractionTypeId: ldattractionid, dictionaryAvailability: ldavailabilty, cityId: ldcity, longit: llong, lat: llat },
@@ -572,14 +556,9 @@
                         window.location.href = "/Landmark/Landmark";
 
 
-                    }
+                    } else { alert("Campuri completate necorespunzator!");}
                 }
     }
-    $("#textBoxTicketCost").on("keypress", function(evt) {
-  var keycode = evt.charCode || evt.keyCode;
-  if (keycode == 46) {
-    return false;
-  }
-});
-
+   
+   
   </script>
