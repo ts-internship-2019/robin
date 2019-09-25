@@ -8,7 +8,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-nova.min.css" />
-        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.nova.min.css" />
+        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.metroblack.min.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -59,55 +59,57 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm  border-bottom box-shadow mb-3 border-danger" style="background-color: #0e0e0e">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">iWasHere.Web</a>
+                <a class="navbar-brand text-danger" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/robin-logo.png" alt="robin logo" class="img-fluid" width="30" height="30">
+                    obin
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="navbar-collapse collapse  d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul id="menu" class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ImageUpload" asp-action="ImageUpload">Upload Imagini</a>
-                        </li>
+                        @*<li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>*@   
                         <li id="Item1" class="nav-item">
                             Meniu
                             <ul>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCountry" asp-action="Country">Țară</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCounty" asp-action="County">Județe</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCity" asp-action="City">Oraș</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="Ticket" asp-action="Ticket">Tip de bilet</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryCurrency" asp-action="Index">Tip Valută</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryLandmarkType" asp-action="LandmarkDetails">Detalii Atracție</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryAttractionType" asp-action="AttractionType">Tipul de atracție</a></li>
-                                <li><a class="nav-link text-dark" asp-area="" asp-controller="DictionaryAvailability" asp-action="Availability">Disponibilitate</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="DictionaryCountry" asp-action="Country">Țară</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="DictionaryCounty" asp-action="County">Județe</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="DictionaryCity" asp-action="City">Oraș</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="Ticket" asp-action="Ticket">Tip de bilet</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="DictionaryCurrency" asp-action="Currency">Tip Valută</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="DictionaryLandmarkType" asp-action="LandmarkDetails">Detalii Atracție</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="DictionaryAttractionType" asp-action="AttractionType">Tipul de atracție</a></li>
+                                <li><a class="nav-link text-light" asp-area="" asp-controller="DictionaryAvailability" asp-action="Availability">Disponibilitate</a></li>
 
                             </ul>
                         </li>
-                        <li><a class="nav-link text-dark" asp-area="" asp-controller="Landmark" asp-action="Landmark">Obiective</a></li>
+                        <li><a class="nav-link text-light" asp-area="" asp-controller="Landmark" asp-action="Landmark">Obiective</a></li>
                     </ul>
                 </div>
-            </div>
+               </div>
         </nav>
     </header>
     <div class="container">
-        <partial name="_CookieConsentPartial" />
+        @*<partial name="_CookieConsentPartial" />*@
         <main role="main" class="pb-3">
-            @RenderBody()
+            <body style='background: #000000'>
+                @RenderBody()
+                </body>
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top border-danger footer text-muted" style="background-color: #0e0e0e">
         <div class="container">
-            &copy; 2019 - iWasHere.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2019 - Robin - <a class="text-danger" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

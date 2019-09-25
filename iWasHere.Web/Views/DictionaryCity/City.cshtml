@@ -3,23 +3,16 @@
 
     <meta name="viewport" content="width=device-width" />
     <title>Oras</title>
-    <style>
-        p {
-            display: inline;
-        }
-    </style>
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-    <p>
+    <p class="text-light">
         Nume oras:
         @(Html.Kendo().TextBox()
             .Name("inputCityNameFilter")
             .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
         )
-    </p>
 
-    <p>
         Nume judet:
         @(Html.Kendo().ComboBox()
                   .Name("countyFilter")
@@ -35,27 +28,26 @@
                   .HtmlAttributes(new { id = "cmbCountyFilter"/*, style = "width: 100%" */})
         )
 
+
+
+        @(Html.Kendo().Button()
+                .Name("iconTextButton")
+                .Tag("a")
+                .Icon("filter")
+                .Content("Filtreaza")
+                .HtmlAttributes(new { id = "btnFilter", type = "button" })
+                .Events(e => e.Click("refresh"))
+        )
+
+        @(Html.Kendo().Button()
+                .Name("kendoIconTextButton")
+                .Tag("a")
+                .Icon("filter-clear")
+                .Content("Sterge filtru")
+                .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+                .Events(e => e.Click("removeFilter"))
+        )
     </p>
-
-    @(Html.Kendo().Button()
-            .Name("iconTextButton")
-            .Tag("a")
-            .Icon("filter")
-            .Content("Filtreaza")
-            .HtmlAttributes(new { id = "btnFilter", type = "button" })
-            .Events(e => e.Click("refresh"))
-    )
-
-    @(Html.Kendo().Button()
-            .Name("kendoIconTextButton")
-            .Tag("a")
-            .Icon("filter-clear")
-            .Content("Sterge filtru")
-            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
-            .Events(e => e.Click("removeFilter"))
-    )
-    <br />
-    <br />
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCity>
         ()
         .Name("CityGrid")
@@ -67,7 +59,7 @@
         columns.Bound(c => c.CountyId).Hidden();
         columns.Bound(c => c.County.CountyName).Title("Judet");
         columns.Template("<a  class='k-button' href='/DictionaryCity/CityAdd?Id=#=CityId# '> Editeaza </a>").Width(150);
-        columns.Command(command => { command.Destroy(); }).Width(200);
+        columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
         })
         .Editable(editable =>
         {

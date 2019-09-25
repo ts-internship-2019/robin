@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Valuta</title>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+    <p class="text-light">
+        Nume valuta:
+        @(Html.Kendo().TextBox()
+          .Name("inputCurrencyNameFilter")
+          .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
+        )
+        @(Html.Kendo().Button()
+                .Name("iconTextButton")
+                .Tag("a")
+                .Icon("filter")
+                .Content("Filtreaza")
+                .HtmlAttributes(new { id = "btnFilter", type = "button" })
+                .Events(e => e.Click("refresh"))
+        )
+
+        @(Html.Kendo().Button()
+                .Name("kendoIconTextButton")
+                .Tag("a")
+                .Icon("filter-clear")
+                .Content("Sterge filtru")
+                .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+                .Events(e => e.Click("removeFilter"))
+        )
+
+
+
+        @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCurrency>
+            ()
+            .Name("CurrencyGrid")
+            .Pageable()
+            .Scrollable()
+            .Columns(columns =>
+            {
+            columns.Bound(c => c.CurrencyId).Hidden();
+            columns.Bound(c => c.CurrencyCode).Title("Codul Valutei").Width(200).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+            columns.Bound(c => c.CurrencyName).Title("Numele Valutei").Width(350).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+            columns.Template("<a  class='k-button' href='/DictionaryCurrency/CurrencyAdd?Id=#=CurrencyId# '> Editeaza </a>").Width(150);
+            columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
+
+        })
+            .DataSource(dataSource => dataSource
+            .Ajax()
+            .Model(model => model.Id(p => p.CurrencyId))
+            .Read(read => read.Action("Currency_Read", "DictionaryCurrency").Data("getFilter"))
+            .Destroy(destroy => destroy.Action("Currency_Destroy", "DictionaryCurrency"))
+            //.Update(update => update.Action("Currency_QuickUpdateId", "DictionaryCurrency"))
+            .PageSize(20)
+            )
+        )
+        <script>
+
+            getFilter = function () {
+                var model = {};
+                model["txtboxCurrencyName"] = $("#inputTextbox").val();
+                return model;
+            }
+
+            removeFilter = function () {
+                $("#inputTextbox").val("");
+                refresh();
+            }
+
+            refresh = function () {
+                $("#CurrencyGrid").data("kendoGrid").dataSource.read();
+                $("#CurrencyGrid").data("kendoGrid").dataSource.page(1);
+            }
+
+
+            ///adaugat pentru EDIT
+            saveChanges = function () {
+                grid = $("#CurrencyGrid").data("kendoGrid");
+                grid.removeRow($(element).closest("tr"));
+                grid.dataSource.sync();
+            }
+
+        </script>
+<p align="right"> <a href='/DictionaryCurrency/CurrencyAdd?Id=0' class="k-button k-primary">Adauga valuta</a></p>
+</body>
+

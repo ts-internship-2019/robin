@@ -86,28 +86,31 @@ namespace iWasHere.Web.Controllers
         [HttpPost]
         public ActionResult AddNewLandmark(string landmarkName, string LandmarkShortDescription, double ticketPrice, int currencyId, int ticketTypeId, int dictionaryItemId, int dictionaryAttractionTypeId, int dictionaryAvailability, int cityId, decimal longit, decimal lat)
         {
-            Ticket ticket = new Ticket
-            {
-               TicketPrice=ticketPrice,
-               TicketTypeId= ticketTypeId,
-               CurrencyId=currencyId
-            };
-            _dictionaryService.AddTicket(ticket);
-            Landmark landmark = new Landmark
-            {
-                LandmarkName = landmarkName,
-                LandmarkShortDescription = LandmarkShortDescription,
-                TicketId = ticket.TicketId,
-                DictionaryAvailabilityId = dictionaryAvailability,
-                DictionaryItemId = dictionaryItemId,
-                DictionaryAttractionTypeId = dictionaryAttractionTypeId,
-                DictionaryCityId = cityId,
-                Longitude = longit,
-                Latitude = lat,
-                DateAdded = DateTime.Now
-            };
-            _dictionaryService.AddLandmark(landmark);
-            return Json(ModelState.ToDataSourceResult());
+           
+                Ticket ticket = new Ticket
+                {
+                    TicketPrice = ticketPrice,
+                    TicketTypeId = ticketTypeId,
+                    CurrencyId = currencyId
+                };
+                _dictionaryService.AddTicket(ticket);
+                Landmark landmark = new Landmark
+                {
+                    LandmarkName = landmarkName,
+                    LandmarkShortDescription = LandmarkShortDescription,
+                    TicketId = ticket.TicketId,
+                    DictionaryAvailabilityId = dictionaryAvailability,
+                    DictionaryItemId = dictionaryItemId,
+                    DictionaryAttractionTypeId = dictionaryAttractionTypeId,
+                    DictionaryCityId = cityId,
+                    Longitude = longit,
+                    Latitude = lat,
+                    DateAdded = DateTime.Now
+                };
+                _dictionaryService.AddLandmark(landmark);
+                return Json(ModelState.ToDataSourceResult());
+            
+           
         }
 
 
@@ -235,13 +238,25 @@ namespace iWasHere.Web.Controllers
 
             return Json(ModelState.ToDataSourceResult());
         }
-
+        [HttpPost]
+        public ActionResult AddComment(int landmarkId, string userid, string commenttext, DateTime? commentdate, int ratingvalue)
+        {
+            LandmarkRating rating = new LandmarkRating
+            {
+                RatingValue = ratingvalue,
+                UserId = userid,
+                LandmarkId = landmarkId,
+                CommentDesc = commenttext,
+                ComentDate = commentdate
+            };
+            _dictionaryService.AddComment(rating);
+            return Json(ModelState.ToDataSourceResult());
+        }
 
         public IActionResult LandmarkViewDetails()
         {
             return View(_dictionaryService.GetLandmarkReadOnly());
         }
-
         public IActionResult Download(int id)
         {
             LandmarkReadOnlyModel model = _dictionaryService.GetLandmarkById(id);

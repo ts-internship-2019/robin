@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-    <p>
+    <p class="text-light">
         Cod Bilet :
         @(Html.Kendo().TextBox()
           .Name("inputTicketTypeCodeFilter")
@@ -57,8 +57,11 @@
             .ButtonCount(5))
             .Sortable()
             .DataSource(dataSource => dataSource
+
             .Ajax()
-            .PageSize(20)
+            .Events(e => e.Error("error"))
+            .PageSize(20)    
+            .Model(model => model.Id(p => p.TicketTypeId))
             .Read(read => read.Action("TicketTypeRead", "Ticket").Data("getFilter"))
             .Destroy(destroy => destroy.Action("TicketType_Destroy", "Ticket"))
             )
@@ -66,22 +69,29 @@
 
     <script>
 
-        getFilter = function () {
+        getFilter = function ()
+        {
             var model = {};
             model["txtTicketTypeCode"] = $("#textBoxTicketTypeCode").val();
             return model;
         }
 
-        removeFilter = function () {
+        removeFilter = function ()
+        {
             $("#textBoxTicketTypeCode").val("");
             refresh();
         }
 
-        refresh = function () {
+        refresh = function ()
+        {
             $("#ticketgrid").data("kendoGrid").dataSource.read();
             $("#ticketgrid").data("kendoGrid").dataSource.page(1);
         }
-
+        function error(e)
+        {
+        alert("Tipul de bilet nu poate fii sters deoarece este folosit de un obiectiv!")
+        refresh();
+         } 
     </script>
     <p align="right"> <a href='/Ticket/TicketAdd?Id=0' class="k-button k-primary">Adauga un nou tip de bilet</a></p>
 

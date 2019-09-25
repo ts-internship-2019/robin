@@ -3,24 +3,17 @@
 
     <meta name="viewport" content="width=device-width" />
     <title>Judete</title>
-    <style>
-        p {
-            display: inline;
-        }
-    </style>
 </head>
 <body>
     @*<h1>Lista judete</h1>*@
     <h1>@ViewData["Title"]</h1>
-    <p>
+    <p class="text-light">
         Nume judet:
         @(Html.Kendo().TextBox()
             .Name("inputCountyNameFilter")
             .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
         )
-    </p>
 
-    <p>
         Tara:
     @(Html.Kendo().ComboBox()
               .Name("countryFilter")
@@ -36,9 +29,7 @@
               })
               .HtmlAttributes(new { id = "cmbCountryFilter"/*, style = "width: 100%" */})
     )
-</p>
 
-    <p>
         @(Html.Kendo().Button()
                 .Name("iconTextButton")
                 .Tag("a")
@@ -47,9 +38,7 @@
                 .HtmlAttributes(new { id = "btnFilter", type = "button" })
                 .Events(e => e.Click("refresh"))
         )
-    </p>
 
-    <p>
         @(Html.Kendo().Button()
                 .Name("kendoIconTextButton")
                 .Tag("a")
@@ -62,8 +51,7 @@
 
 
    
-    <br />
-    <br />
+
     @(Html.Kendo().Grid<iWasHere.Domain.Models.DictionaryCounty>()
             .Name("CountyGrid")
             .Columns(columns =>
@@ -73,7 +61,7 @@
                 columns.Bound(c => c.CountryId).Hidden();
                 columns.Bound(c => c.Country.CountryName).Title("Tara");
                 columns.Template("<a  class='k-button' href='/DictionaryCounty/CountyAdd?Id=#=CountyId# '> Editeaza </a>").Width(150);
-                columns.Command(command => { command.Destroy(); }).Width(200);
+                columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
             })
             .HtmlAttributes(new { id = "CountyGrid", style = "height: 550px;" })
             .Scrollable()
@@ -89,10 +77,11 @@
             .DataSource(dataSource => dataSource
 
                 .Ajax()
+                .Events(e => e.Error("error"))
                 .Model(model => model.Id(p => p.CountyId))
                 .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
                 .Destroy(destroy => destroy.Action("County_Destroy", "DictionaryCounty"))
-                .PageSize(20)
+                .PageSize(10)
             )
     )
 
@@ -122,6 +111,11 @@
             grid.dataSource.sync();
         }
 
+        function error(e)
+        {
+        alert("Tipul de judet nu poate fii sters deoarece este folosit de un obiectiv!")
+        refresh();
+         } 
     </script>
     <p align="right"> <a href='/DictionaryCounty/CountyAdd?Id=0' class="k-button k-primary">Adauga judet</a></p>
 </body>

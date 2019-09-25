@@ -270,10 +270,18 @@ namespace iWasHere.Domain.Service
             return _dbContext.SaveChanges();
         }
 
-        public void County_DestroyId(int id)
+        public string County_DestroyId(int id)
         {
-            _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCounty.Single(a => a.CountyId == id));
             _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
         public string County_UpdateId(DictionaryCounty dictionaryCounty)
@@ -324,100 +332,7 @@ namespace iWasHere.Domain.Service
             _dbContext.SaveChanges();
         }
 
-        public int GetLandmarkCount()
-        {
-            return _dbContext.Landmark.Count();
-        }
         
-        public List<Landmark> GetLandmarkPage(int page, int pageSize, string txtboxLendmarkName)
-        {
-            IQueryable<Landmark> queryable = _dbContext.Landmark.Include(c => c.DictionaryCity).Include(d=>d.DictionaryAttractionType).Include(e => e.DictionaryAvailability).Include(f => f.DictionaryItem).Include(g => g.Ticket);
-            
-            if (!string.IsNullOrWhiteSpace(txtboxLendmarkName))
-            {
-                queryable = queryable.Where(a => a.LandmarkName.Contains(txtboxLendmarkName));
-            }
-            queryable = queryable.Select(a => new Landmark()            
-            {
-                LandmarkId = a.LandmarkId,
-                LandmarkName = a.LandmarkName,
-                LandmarkShortDescription = a.LandmarkShortDescription,
-                TicketId = a.TicketId,
-                DictionaryAvailabilityId = a.DictionaryAvailabilityId,
-                DictionaryItemId = a.DictionaryItemId,
-                DateAdded = a.DateAdded,
-                DictionaryAttractionTypeId = a.DictionaryAttractionTypeId,
-                Longitude = a.Longitude,
-                Latitude = a.Latitude,
-                DictionaryCityId = a.DictionaryCityId,
-
-                //FK-urile catre tabele
-                DictionaryAvailability = a.DictionaryAvailability,
-                DictionaryItem = a.DictionaryItem,
-                Ticket = a.Ticket,
-                DictionaryAttractionType = a.DictionaryAttractionType,
-                DictionaryCity = a.DictionaryCity
-
-            }).Skip((page-1)*pageSize).Take(pageSize);
-
-            return queryable.ToList();
-        }
-
-        public List<Landmark> GetLandmark()
-        {
-            List<Landmark> dictionaryLandmark = _dbContext.Landmark.Include(c => c.DictionaryCity)
-                                                                        .ThenInclude(county => county.County)
-                                                                            .ThenInclude(country=> country.Country)
-            .Include(d => d.DictionaryAttractionType)
-            .Include(e => e.DictionaryAvailability)
-            .Include(f => f.DictionaryItem)
-            .Include(g => g.Ticket)
-                .ThenInclude(currency => currency.DictionaryCurrency)
-            .Include(g => g.Ticket)
-                .ThenInclude(ttype=>ttype.TicketType)
-            .Select(a => new Landmark()
-            {
-                LandmarkId = a.LandmarkId,
-                LandmarkName = a.LandmarkName,
-                LandmarkShortDescription = a.LandmarkShortDescription,
-                TicketId = a.TicketId,
-                DictionaryAvailabilityId = a.DictionaryAvailabilityId,
-                DictionaryItemId = a.DictionaryItemId,
-                DateAdded = a.DateAdded,
-                DictionaryAttractionTypeId = a.DictionaryAttractionTypeId,
-                Longitude = a.Longitude,
-                Latitude = a.Latitude,
-                DictionaryCityId = a.DictionaryCityId,
-
-                //FK-urile catre tabele
-                DictionaryAvailability = a.DictionaryAvailability,
-                DictionaryItem = a.DictionaryItem,
-                Ticket = a.Ticket,
-                DictionaryAttractionType = a.DictionaryAttractionType,
-                DictionaryCity = a.DictionaryCity,
-                
-
-            }).ToList();
-
-            return dictionaryLandmark;
-        }
-
-        public List<Landmark> GetLandmarkReadOnly()
-        {
-            List<Landmark> dictionaryLandmark = _dbContext.Landmark.Include(c => c.DictionaryCity)
-                                                                        .ThenInclude(county => county.County)
-                                                                            .ThenInclude(country => country.Country)
-            .Include(d => d.DictionaryAttractionType)
-            .Include(e => e.DictionaryAvailability)
-            .Include(f => f.DictionaryItem)
-            .Include(g => g.Ticket)
-                .ThenInclude(currency => currency.DictionaryCurrency)
-            .Include(g => g.Ticket)
-                .ThenInclude(ttype => ttype.TicketType)
-            .ToList();
-
-            return dictionaryLandmark;
-        }
         #endregion
 
         #region ticket
@@ -519,11 +434,18 @@ namespace iWasHere.Domain.Service
             _dbContext.DictionaryTicketType.Add(dictType);
             return _dbContext.SaveChanges();
         }
-        public void TicketType_DestroyId(int id)
+        public string TicketType_DestroyId(int id)
         {
-            
-            _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryTicketType.Single(a => a.TicketTypeId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
         public List<DictionaryTicketType> GetCmbTicketType()
         {
@@ -554,16 +476,26 @@ namespace iWasHere.Domain.Service
         {
             return _dbContext.DictionaryCurrency.Count();
         }
-        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize)
+        public List<DictionaryCurrency> GetDictionaryCurrencyPage(int page, int pageSize, string txtboxCurrencyName, string txtboxCurrencyCode)
         {
-            List<DictionaryCurrency> dictionaryCurrency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrency()
+            IQueryable<DictionaryCurrency> queryable = _dbContext.DictionaryCurrency;
+
+            if (!string.IsNullOrWhiteSpace(txtboxCurrencyName))
+            {
+                queryable = queryable.Where(a => a.CurrencyName.Contains(txtboxCurrencyName));
+            }
+            if (!string.IsNullOrWhiteSpace(txtboxCurrencyCode))
+            {
+                queryable = queryable.Where(a => a.CurrencyCode.Contains(txtboxCurrencyCode));
+            }
+            queryable = queryable.Select(a => new DictionaryCurrency()
             {
                 CurrencyId = a.CurrencyId,
                 CurrencyCode = a.CurrencyCode,
                 CurrencyName = a.CurrencyName
-            }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            }).Skip((page - 1) * pageSize).Take(pageSize);
 
-            return dictionaryCurrency;
+            return queryable.ToList();
         }
 
         public List<DictionaryCurrency> GetDictionaryCurrencyFilterPage(int page, int pageSize, string txtboxCurrencyName)
@@ -583,9 +515,20 @@ namespace iWasHere.Domain.Service
             return queryable.ToList();
         }
 
+        public int AddCurrency(DictionaryCurrency modelCurrency)
+        {
+            _dbContext.DictionaryCurrency.Add(modelCurrency);
+            return _dbContext.SaveChanges();
+        }
+
         public int AdaugaValuta(DictionaryCurrency ValutaAdaugata)
         {
             _dbContext.DictionaryCurrency.Add(ValutaAdaugata);
+            return _dbContext.SaveChanges();
+        }
+        public int AddNewCurrency(DictionaryCurrency dictionaryCurrency)
+        {
+            _dbContext.DictionaryCurrency.Add(dictionaryCurrency);
             return _dbContext.SaveChanges();
         }
 
@@ -611,12 +554,11 @@ namespace iWasHere.Domain.Service
 
 
 
-            public int UpdateCurrency(DictionaryCurrency dictionaryCurrency)
-            {
-
-                _dbContext.DictionaryCurrency.Update(dictionaryCurrency);
-                return _dbContext.SaveChanges();
-            }
+            public void UpdateCurrency(DictionaryCurrency modelCurrency)
+        {
+            _dbContext.Update(modelCurrency);
+            _dbContext.SaveChanges();
+        }
 
             public void UpdateCurrencyId(DictionaryCurrency dictionaryCurrency)
             {
@@ -1041,9 +983,11 @@ namespace iWasHere.Domain.Service
         public LandmarkReadOnlyModel GetLandmarkById(int landmarkId)
         {
             IQueryable<Landmark> queryable = _dbContext.Landmark;
+            IQueryable<LandmarkRating> landmarkRating = _dbContext.LandmarkRating;
             if (landmarkId>0)
             {
                 queryable = queryable.Where(a => a.LandmarkId.Equals(landmarkId));
+                landmarkRating = landmarkRating.Where(a => a.LandmarkId.Equals(landmarkId));
             }
             _dbContext.Landmark.Include(c => c.DictionaryCity)
                                                                         .ThenInclude(county => county.County)
@@ -1058,10 +1002,113 @@ namespace iWasHere.Domain.Service
             .ToList();
 
             Landmark landmarkResult  = queryable.FirstOrDefault();
+            LandmarkRating landmarkRatingResult = landmarkRating.FirstOrDefault();
 
             LandmarkReadOnlyModel landmarkReadOnlyModel = new LandmarkReadOnlyModel();
-            landmarkReadOnlyModel = landmarkReadOnlyModel.ConvertToModel(landmarkResult);
+            landmarkReadOnlyModel = landmarkReadOnlyModel.ConvertToModel(landmarkResult, landmarkRatingResult);
+            landmarkReadOnlyModel.Username = landmarkRating.Select(a => a.User.UserName).ToString();
             return landmarkReadOnlyModel;
+        }
+        public int GetLandmarkCount()
+        {
+            return _dbContext.Landmark.Count();
+        }
+
+        public List<Landmark> GetLandmarkPage(int page, int pageSize, string txtboxLendmarkName)
+        {
+            IQueryable<Landmark> queryable = _dbContext.Landmark.Include(c => c.DictionaryCity).Include(d => d.DictionaryAttractionType).Include(e => e.DictionaryAvailability).Include(f => f.DictionaryItem).Include(g => g.Ticket);
+
+            if (!string.IsNullOrWhiteSpace(txtboxLendmarkName))
+            {
+                queryable = queryable.Where(a => a.LandmarkName.Contains(txtboxLendmarkName));
+            }
+            queryable = queryable.Select(a => new Landmark()
+            {
+                LandmarkId = a.LandmarkId,
+                LandmarkName = a.LandmarkName,
+                LandmarkShortDescription = a.LandmarkShortDescription,
+                TicketId = a.TicketId,
+                DictionaryAvailabilityId = a.DictionaryAvailabilityId,
+                DictionaryItemId = a.DictionaryItemId,
+                DateAdded = a.DateAdded,
+                DictionaryAttractionTypeId = a.DictionaryAttractionTypeId,
+                Longitude = a.Longitude,
+                Latitude = a.Latitude,
+                DictionaryCityId = a.DictionaryCityId,
+
+                //FK-urile catre tabele
+                DictionaryAvailability = a.DictionaryAvailability,
+                DictionaryItem = a.DictionaryItem,
+                Ticket = a.Ticket,
+                DictionaryAttractionType = a.DictionaryAttractionType,
+                DictionaryCity = a.DictionaryCity
+
+            }).Skip((page - 1) * pageSize).Take(pageSize);
+
+            return queryable.ToList();
+        }
+
+        public List<Landmark> GetLandmark()
+        {
+            List<Landmark> dictionaryLandmark = _dbContext.Landmark.Include(c => c.DictionaryCity)
+                                                                        .ThenInclude(county => county.County)
+                                                                            .ThenInclude(country => country.Country)
+            .Include(d => d.DictionaryAttractionType)
+            .Include(e => e.DictionaryAvailability)
+            .Include(f => f.DictionaryItem)
+            .Include(g => g.Ticket)
+                .ThenInclude(currency => currency.DictionaryCurrency)
+            .Include(g => g.Ticket)
+                .ThenInclude(ttype => ttype.TicketType)
+            .Select(a => new Landmark()
+            {
+                LandmarkId = a.LandmarkId,
+                LandmarkName = a.LandmarkName,
+                LandmarkShortDescription = a.LandmarkShortDescription,
+                TicketId = a.TicketId,
+                DictionaryAvailabilityId = a.DictionaryAvailabilityId,
+                DictionaryItemId = a.DictionaryItemId,
+                DateAdded = a.DateAdded,
+                DictionaryAttractionTypeId = a.DictionaryAttractionTypeId,
+                Longitude = a.Longitude,
+                Latitude = a.Latitude,
+                DictionaryCityId = a.DictionaryCityId,
+
+                //FK-urile catre tabele
+                DictionaryAvailability = a.DictionaryAvailability,
+                DictionaryItem = a.DictionaryItem,
+                Ticket = a.Ticket,
+                DictionaryAttractionType = a.DictionaryAttractionType,
+                DictionaryCity = a.DictionaryCity,
+
+
+            }).ToList();
+
+            return dictionaryLandmark;
+        }
+        public List<Landmark> GetLandmarkReadOnly()
+        {
+            IQueryable<Landmark> queryable = _dbContext.Landmark;
+            queryable.Include(c => c.DictionaryCity)
+                                                                        .ThenInclude(county => county.County)
+                                                                            .ThenInclude(country => country.Country)
+            .Include(d => d.DictionaryAttractionType)
+            .Include(e => e.DictionaryAvailability)
+            .Include(f => f.DictionaryItem)
+            .Include(g => g.Ticket)
+                .ThenInclude(currency => currency.DictionaryCurrency)
+            .Include(g => g.Ticket)
+                .ThenInclude(ttype => ttype.TicketType)
+            .Include(h=>h.LandmarkRating)
+                .ThenInclude(user=>user.User)
+            .ToList();
+            return queryable.ToList();
+        }
+
+        public int AddComment(LandmarkRating rating)
+        {
+            _dbContext.LandmarkRating.Add(rating);
+            return _dbContext.SaveChanges();
         }
         public int AddTicket(Ticket ticket)
         {
@@ -1256,7 +1303,10 @@ namespace iWasHere.Domain.Service
                                 new Text("Orasul: " + model.CityName))),
                                 new Paragraph(
                             new Run(
-                                new Text("Judetul: " + model.CountyName)))
+                                new Text("Judetul: " + model.CountyName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Tara: " + model.CountryName)))
                                 );
 
                 mainPart.Document.Save();
