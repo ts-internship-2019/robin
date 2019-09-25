@@ -21,12 +21,15 @@ namespace iWasHere.Web.Controllers
         {
             _dictionaryService = dictionaryService;
         }
-        //added 18 sep pentru butonul de ADD, am facut new folder cu Add si Index in DictionaryCurrency
-        public IActionResult Index()
+     
+        public IActionResult Currency()
         {
             return View();
         }
-
+        public IActionResult CurrencyAdd()
+        {
+            return View();
+        }
 
         public ActionResult Currency_Read([DataSourceRequest] DataSourceRequest request, string txtboxCurrencyName)
         {
@@ -38,16 +41,28 @@ namespace iWasHere.Web.Controllers
 
         }
 
-
-
         [HttpGet]
         public IActionResult Add()
         {
 
-
             return View("AddCurrency");
         }
 
+        [HttpPost]
+        public ActionResult Currency_Update(int id, string currencyname, string currencycode)
+        {
+            DictionaryCurrency dictionaryCurrency = new DictionaryCurrency();
+            dictionaryCurrency.CurrencyId = id;
+            dictionaryCurrency.CurrencyName = currencyname;
+            dictionaryCurrency.CurrencyCode = currencycode;
+
+            if (dictionaryCurrency != null)
+            {
+                _dictionaryService.UpdateCurrency(dictionaryCurrency);
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+        }
 
         [HttpPost]
         public IActionResult AddValuta(DictionaryCurrency modelValuta)
@@ -66,11 +81,30 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
         }
 
+        public ActionResult CountyGetById(int txtCurrencyId)
+        {
+
+            return Json(_dictionaryService.GetDictionaryCurrencyById(txtCurrencyId));
+        }
+
         //Problems with Json:
         public ActionResult GetDictionaryCurrencyById(int txtCurrencyId)
         {
 
             return Json(_dictionaryService.GetDictionaryCurrencyById(txtCurrencyId));
+        }
+
+        [HttpPost]
+        public ActionResult AddNewCurrency(string currencyname, string currencycode)
+        {
+            DictionaryCurrency dictionaryCurrency = new DictionaryCurrency
+            {
+                CurrencyName = currencyname,
+                CurrencyCode = currencycode
+            };
+            _dictionaryService.AddCurrency(dictionaryCurrency);
+
+            return Json(ModelState.ToDataSourceResult());
         }
 
         public ActionResult UpdateCurrency(int id, string name, string code)

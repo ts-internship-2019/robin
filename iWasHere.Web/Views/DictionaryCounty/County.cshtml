@@ -92,7 +92,7 @@
                 .Model(model => model.Id(p => p.CountyId))
                 .Read(read => read.Action("County_Read", "DictionaryCounty").Data("getFilter"))
                 .Destroy(destroy => destroy.Action("County_Destroy", "DictionaryCounty"))
-                .PageSize(20)
+                .PageSize(10)
             )
     )
 
