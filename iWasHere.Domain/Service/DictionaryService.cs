@@ -1317,7 +1317,13 @@ namespace iWasHere.Domain.Service
                                 new Text("Judetul: " + model.CountyName))),
                                 new Paragraph(
                             new Run(
-                                new Text("Tara: " + model.CountryName)))
+                                new Text("Tara: " + model.CountryName))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Rating: " + model.RatingValue))),
+                                new Paragraph(
+                            new Run(
+                                new Text("Comentarii: " + model.Comment)))
                                 );
 
                 mainPart.Document.Save();
