@@ -270,174 +270,49 @@
    
     <div id="googleMap" style="width:50%;height:400px;" class="map-container"></div>
     
-
-
     <script>
-
-
-
         var map;
-
-
-
         var markers = [];
-
-
-
         function myMap() {
-
-
-
             var startLatLng = { lat: 44.4894, lng: 26.1267 };
-
-
-
             map = new google.maps.Map(document.getElementById('googleMap'), {
-
-
-
                 zoom: 12,
-
-
-
                 center: startLatLng,
-
-
-
-
-
-
             });
-
-
-
-
-
-
-
-
-
-
             map.addListener('click', function (event) {
-
-
-
                 clearMarkers();
-
-
-
                 addMarker(event.latLng);
-
-
-
                 document.getElementById("Latitude").value = event.latLng.lat();
-
-
-
                 document.getElementById("Longitude").value = event.latLng.lng();
-
-
-
             });
-
-
-
-
-
-
-
-
-
 
             addMarker(startLatLng);
-
-
-
         }
-
-
-
-
-
-
-
-
-
-
         function addMarker(location) {
-
-
-
             var marker = new google.maps.Marker({
-
-
-
                 position: location,
-
-
-
                 map: map
-
-
-
             });
-
-
-
             markers.push(marker);
-
-
-
         }
-
-
-
-
-
-
-
-
-
 
         function setMapOnAll(map) {
 
-
-
             for (var i = 0; i < markers.length; i++) {
-
-
-
                 markers[i].setMap(map);
-
-
-
             }
-
-
-
         }
 
         function clearMarkers() {
-
             setMapOnAll(null);
-
         }
 
         function showMarkers() {
-
             setMapOnAll(map);
-
         }
 
-
         function deleteMarkers() {
-
-
-
-            clearMarkers();
-
-
-
+           clearMarkers();
             markers = [];
         }
 
