@@ -38,8 +38,6 @@
             columns.Bound(c => c.DateAdded).Hidden().Title("Data adaugare");
             columns.Bound(c => c.DictionaryAttractionTypeId).Hidden();
 
-            /*columns.Bound(c => c.DictionaryCity.County.Country.CountryName).Title("Tara");
-            columns.Bound(c => c.DictionaryCity.County.CountyName).Title("Judet");*/
             columns.Bound(c => c.DictionaryCity.CityName).Title("Oras");
             columns.Bound(c => c.Longitude);
             columns.Bound(c => c.Latitude);
@@ -51,7 +49,6 @@
         })
 
         .HtmlAttributes(new { style = "height: 550px;" })
-        //.Events(eve=>eve.("recordDblClick"))
         .Scrollable()
         .Sortable()
         .Pageable()
