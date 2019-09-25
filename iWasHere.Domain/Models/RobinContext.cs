@@ -312,7 +312,7 @@ namespace iWasHere.Domain.Models
 
             modelBuilder.Entity<LandmarkImage>(entity =>
             {
-                entity.Property(e => e.ImageUrl)
+                entity.Property(e => e.ImageURL)
                     .IsRequired()
                     .HasColumnName("ImageURL");
 
@@ -320,7 +320,7 @@ namespace iWasHere.Domain.Models
                     .WithMany(p => p.LandmarkImage)
                     .HasForeignKey(d => d.LandmarkId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LandmarkI__Landm__18B6AB08");
+                    .HasConstraintName("FK__LandmarkI__Landm__3552E9B6");
             });
 
             modelBuilder.Entity<LandmarkRating>(entity =>
