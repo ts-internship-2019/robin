@@ -8,31 +8,31 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-
-
-    @(Html.Kendo().Button()
-        .Name("iconTextButton")
-        .Tag("a")
-        .Icon("filter")
-        .Content("Filtreaza")
-        .HtmlAttributes(new { id = "btnFilter", type = "button" })
-        .Events(e => e.Click("refresh"))
-    )
-
-    @(Html.Kendo().Button()
-            .Name("kendoIconTextButton")
-            .Tag("a")
-            .Icon("filter-clear")
-            .Content("Sterge filtru")
-            .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
-            .Events(e => e.Click("removeFilter"))
-    )
-
-
-    @(Html.Kendo().TextBox()
+    <p class="text-light"> Nume tara:
+        @(Html.Kendo().TextBox()
         .Name("inputCountryFilter")
         .HtmlAttributes(new { id = "inputTextbox", type = "textbox" })
-    )
+        )
+        @(Html.Kendo().Button()
+            .Name("iconTextButton")
+            .Tag("a")
+            .Icon("filter")
+            .Content("Filtreaza")
+            .HtmlAttributes(new { id = "btnFilter", type = "button" })
+            .Events(e => e.Click("refresh"))
+        )
+
+        @(Html.Kendo().Button()
+                .Name("kendoIconTextButton")
+                .Tag("a")
+                .Icon("filter-clear")
+                .Content("Sterge filtru")
+                .HtmlAttributes(new { id = "btnResetFilter", type = "button" })
+                .Events(e => e.Click("removeFilter"))
+        )
+
+    </p>
+
 
 
 
@@ -41,7 +41,7 @@
         .Columns(columns =>
         {
             columns.Bound(c => c.CountryId).Hidden();
-            columns.Bound(c => c.CountryName).Title("Tara");;
+            columns.Bound(c => c.CountryName).Title("Tara"); ;
             columns.Template("<a  class='k-button' href='/DictionaryCountry/AddCountry?Id=#=CountryId# '> Editeaza </a>").Width(150);
             columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
 
@@ -95,11 +95,11 @@
             $("#CountryGrid").data("kendoGrid").dataSource.page(1);
         }
 
-        //saveChanges = function () {
-        //    grid = $("#CountryGrid").data("kendoGrid");
-        //    grid.removeRow($(element).closest("tr"));
-        //    grid.dataSource.sync();
-        //}
+            //saveChanges = function () {
+            //    grid = $("#CountryGrid").data("kendoGrid");
+            //    grid.removeRow($(element).closest("tr"));
+            //    grid.dataSource.sync();
+            //}
 
     </script>
 </body>

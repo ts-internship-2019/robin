@@ -14,43 +14,51 @@
    
     <div class="row">
         <div class="col-xl-6 col-sm-10 offset-sm-3">
-            <div class="card">
-                <div class="card-block">
+            <div class="card bg-danger">
+                <div class="card-block" style="background-color: #1b1b1b">
                     <form class="k-form">
                         <fieldset>
-                            <p id="landmarkTypeAddTitle">Test</p>
-                            @*//start*@
+                            <p id="landmarkTypeAddTitle" class="text-light">Adauga tip de atractie</p>
+                            <table>
+                                <tr>
+                                    <td>
+
+                                        <span class="text-light">Cod detaliu atractie: </span>
+                                    </td>
+                                    <td>
+                                        @(Html.Kendo().TextBox()
+                                        .Name("inputLandmarkTypeCode")
+                                        .HtmlAttributes(new { id = "textBoxLandmarkTypeCode", type = "textbox", maxlength = "10" })
+                                        )
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+
+                                        <span class="text-light">Nume detaliu atractie: </span>
+                                    </td>
+                                    <td>
+                                        @(Html.Kendo().TextBox()
+                                   .Name("inputLandmarkTypeName")
+                                   .HtmlAttributes(new { id = "textBoxLandmarkTypeName", type = "textbox", maxlength = "200" })
+                                        )
 
 
-                            @*end*@
-                            <label class="k-form-field">
-                                <span>Cod detaliu atractie: </span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputLandmarkTypeCode")
-                                .HtmlAttributes(new { id = "textBoxLandmarkTypeCode", type = "textbox", maxlength = "10" })
-                                )
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
 
-                            </label>
-                            <label class="k-form-field">
-                                <span>Nume detaliu atractie: </span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputLandmarkTypeName")
-                                .HtmlAttributes(new { id = "textBoxLandmarkTypeName", type = "textbox", maxlength = "200" })
-                                )
+                                        <span class="text-light">Descriere detaliu atractie: </span> </td>
+                                      <td>  @(Html.Kendo().TextBox()
+                                        .Name("inputLandmarkTypeDescription")
+                                        .HtmlAttributes(new { id = "textBoxLandmarkTypeDescription", type = "textbox", maxlength = "200" })
+                                        )
+                                    </td>
+                                </tr>
+</table> <br />
 
-                            </label>
-
-                            </label>
-                            <label class="k-form-field">
-                                <span>Descriere detaliu atractie: </span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputLandmarkTypeDescription")
-                                .HtmlAttributes(new { id = "textBoxLandmarkTypeDescription", type = "textbox", maxlength = "200" })
-                                )
-
-                            </label>
-
-                        </fieldset>
+</fieldset>
 
                         <div class="text-right">
                             <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>

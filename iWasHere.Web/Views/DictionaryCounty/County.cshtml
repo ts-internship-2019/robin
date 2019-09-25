@@ -12,7 +12,7 @@
 <body>
     @*<h1>Lista judete</h1>*@
     <h1>@ViewData["Title"]</h1>
-    <p>
+    <p class="text-light">
         Nume judet:
         @(Html.Kendo().TextBox()
             .Name("inputCountyNameFilter")
@@ -20,7 +20,7 @@
         )
     </p>
 
-    <p>
+    <p  class="text-light">
         Tara:
     @(Html.Kendo().ComboBox()
               .Name("countryFilter")
@@ -73,7 +73,7 @@
                 columns.Bound(c => c.CountryId).Hidden();
                 columns.Bound(c => c.Country.CountryName).Title("Tara");
                 columns.Template("<a  class='k-button' href='/DictionaryCounty/CountyAdd?Id=#=CountyId# '> Editeaza </a>").Width(150);
-                columns.Command(command => { command.Destroy(); }).Width(200);
+                columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
             })
             .HtmlAttributes(new { id = "CountyGrid", style = "height: 550px;" })
             .Scrollable()

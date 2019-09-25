@@ -11,7 +11,7 @@
 </head>
 <body>
     <h1>@ViewData["Title"]</h1>
-    <p>
+    <p class="text-light">
         Nume oras:
         @(Html.Kendo().TextBox()
             .Name("inputCityNameFilter")
@@ -19,7 +19,7 @@
         )
     </p>
 
-    <p>
+    <p class="text-light">
         Nume judet:
         @(Html.Kendo().ComboBox()
                   .Name("countyFilter")
@@ -67,7 +67,7 @@
         columns.Bound(c => c.CountyId).Hidden();
         columns.Bound(c => c.County.CountyName).Title("Judet");
         columns.Template("<a  class='k-button' href='/DictionaryCity/CityAdd?Id=#=CityId# '> Editeaza </a>").Width(150);
-        columns.Command(command => { command.Destroy(); }).Width(200);
+        columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
         })
         .Editable(editable =>
         {

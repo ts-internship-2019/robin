@@ -14,34 +14,36 @@
 
     <div class="row">
         <div class="col-xl-6 col-sm-10 offset-sm-3">
-            <div class="card">
-                <div class="card-block">
+            <div class="card bg-danger">
+                <div class="card-block"  style="background-color: #1b1b1b">
                     <form class="k-form">
                         <fieldset>
-                            <p id="attractionTypeAddTitle">Test</p>
-                            @*//start*@
+                            <p id="attractionTypeAddTitle" class="text-light">Adauga zona atractie</p>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <span class="text-light">Cod tip de atractie: </span>
+                                    </td>
+                                    <td>
+                                        @(Html.Kendo().TextBox()
+                                        .Name("inputAttractionTypeCode")
+                                        .HtmlAttributes(new { id = "textBoxAttractionTypeCode", type = "textbox", maxlength = "10" })
+                                        )
+</td></tr><tr><td>
 
 
-                            @*end*@
-                            <label class="k-form-field">
-                                <span>Cod tip de atractie: </span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputAttractionTypeCode")
-                                .HtmlAttributes(new { id = "textBoxAttractionTypeCode", type = "textbox", maxlength = "10" })
-                                )
+                                        <span class="text-light">Nume atractie: </span></td><td>
+                                        @(Html.Kendo().TextBox()
+                                        .Name("inputAttractionTypeName")
+                                        .HtmlAttributes(new { id = "textBoxAttractionTypeName", type = "textbox", maxlength = "200" })
+                                        )
 
-                            </label>
-                            <label class="k-form-field">
-                                <span>Nume atractie: </span>
-                                @(Html.Kendo().TextBox()
-                                .Name("inputAttractionTypeName")
-                                .HtmlAttributes(new { id = "textBoxAttractionTypeName", type = "textbox", maxlength = "200" })
-                                )
 
-                            </label>
-
+                                    </td>
+                                </tr>
+                            </table>
                         </fieldset>
-
+                        <br />
                         <div class="text-right">
                             <button type="button" class="k-button k-primary" onclick="cancel()">Anuleaza</button>
                             <button type="button" id="btnSaveEdit" class="k-button" onclick="editFunction(1)">Salveaza</button>

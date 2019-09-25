@@ -2,17 +2,17 @@
 
 <div class="row">
 
-    <div class="col-xl-7 col-sm-10 offset-sm-3">
-        <div class="card">
-            <div class="card-block">
+    <div class="col-xl-7 col-sm-10 offset-sm-3 ">
+        <div class="card bg-danger">
+            <div class="card-block"  style="background-color: #1b1b1b">
                 <form class="k-form">
                     <!--#region tabel informatii obiectiv -->
                     <fieldset>
-                        <h4> <p id="LandmarkAddTitle">Adaugare obiectiv nou</p></h4>
+                        <h4> <p id="LandmarkAddTitle" class="text-light">Adaugare obiectiv nou</p></h4>
                         <table align="center">
                             <tr>
                                 <td>
-                                    <span>Numele atractiei : </span>
+                                    <span class="text-light">Numele atractiei : </span>
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
@@ -23,7 +23,7 @@
                               
                             </tr>
                             <tr>
-                                <td>  <span>Descrierea atractiei : </span></td>
+                                <td>  <span class="text-light">Descrierea atractiei : </span></td>
                                 <td colspan="2" align="center">
                                     @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "100", id = "textAreaLandmarkShortDesc" })
                                 </td>
@@ -31,7 +31,7 @@
                             <tr>
                                 <td colspan="2" align="center">
                                     <div class="box">
-                                        <p><b>Incarcare Imagine</b></p>
+                                        <p class="text-light"><b>Incarcare Imagine</b></p>
 
                                         @*The Upload is able to upload files out-of-band using the
                                         HTML5 File API with fallback for legacy browsers.
@@ -71,17 +71,20 @@
                             </tr>
                             <tr>
                                 <td>
-                                    @(Html.Kendo().CheckBox()
-                                           .Name("eq1")
-                                           .Checked(true)
-                                           .Label("Cu bilet de intrare")
-                                           .HtmlAttributes(new { id = "checkTicket", onclick = "myFunction()" })
-                                    )
+                                    <p class="text-light">
+                                        @(Html.Kendo().CheckBox()
+                                               .Name("eq1")
+                                               .Checked(true)
+
+                                                       .HtmlAttributes(new { id = "checkTicket", onclick = "myFunction()" })
+                                        )
+                                        Cu bilet de intrare
+                                    </p>
                                 </td>
                             </tr>
                             <tr id="trTicketCost1">
                                 <td>
-                                    <p>Costul biletului de acces: </p>
+                                    <p class="text-light">Costul biletului de acces: </p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
@@ -92,7 +95,7 @@
                             </tr>
                             <tr id="trTicketCost2">
                                 <td>
-                                    <p>Tip de valuta</p>
+                                    <p class="text-light">Tip de valuta</pclass="text-light">
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -114,7 +117,7 @@
                             </tr>
                             <tr id="trTicketCost3">
                                 <td>
-                                    <p>Tip de bilet</p>
+                                    <p  class="text-light">Tip de bilet</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -137,7 +140,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Tip de atractie:</p>
+                                    <p  class="text-light">Tip de atractie:</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -159,7 +162,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Tip zona de atractie</p>
+                                    <p  class="text-light">Tip zona de atractie</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -181,7 +184,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Interval vizitare:</p>
+                                    <p class="text-light">Interval vizitare:</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -202,7 +205,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Tara :</p>
+                                    <p class="text-light">Tara :</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -223,7 +226,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Judet :</p>
+                                    <p class="text-light">Judet :</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -256,7 +259,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Oras :</p>
+                                    <p class="text-light">Oras :</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().DropDownList()
@@ -289,7 +292,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Longitudine</p>
+                                    <p class="text-light">Longitudine</p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
@@ -300,7 +303,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p>Latitudine </p>
+                                    <p class="text-light">Latitudine </p>
                                 </td>
                                 <td>
                                     @(Html.Kendo().TextBox()
