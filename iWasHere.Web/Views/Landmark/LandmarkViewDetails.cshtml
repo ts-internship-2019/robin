@@ -55,7 +55,7 @@
     </style>
 </head>
 <body>
-    <table>
+    <table class="table table-striped" >
         <tr>
             <td>
 
@@ -65,7 +65,7 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td colspan="2" align="center">
                 <li class="listaObiectiveLI text-light">
                     <label class="header">Nume obiectiv:</label>
                     @(Html.Kendo().TextBox()
@@ -435,51 +435,17 @@
 
         }
 
-
-
-
-
-
-
-
-
-
         function clearMarkers() {
-
-
 
             setMapOnAll(null);
 
-
-
         }
-
-
-
-
-
-
-
-
-
 
         function showMarkers() {
 
-
-
             setMapOnAll(map);
 
-
-
         }
-
-
-
-
-
-
-
-
 
 
         function deleteMarkers() {
@@ -491,36 +457,13 @@
 
 
             markers = [];
-
-
-
         }
 
-
-
-
-
-
     </script>
-
-
-
-
-
-
-
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUUUUB62VO2kljdA7ooXvr5T90EMtg9Rg&callback=myMap"></script>
 
 
-
-
-
-
-
     <style>
-
-
-
         .map-container {
             position: absolute;
             bottom: 20%;
@@ -536,7 +479,7 @@
             .HtmlAttributes(new { id = "textboxUserName", type = "textbox", maxlength = "900",@readonly="readonly" })
     )
 
-    <br /><br /><label>Cu user-ul logat</label>
+    <br /><br /><label class="text-light">Cu user-ul logat</label>
     @(Html.Kendo().CheckBox()
             .Name("checkboxUserName")
             .Checked(false)
@@ -556,13 +499,13 @@
     </li>
 
     <li>
-        <label>Comentariul:</label>
+        <label class="text-light">Comentariul:</label>
         @Html.TextArea("textarea", "", new { @class = "k-textbox", style = "width: 100%;", maxlength = "800", id = "textAreaComment" })
 
         <br /><br />
         <button type="button" id="btnAddComm" class="k-button" onclick="addComment()">Adauga comentariu</button>
-        <br /><hr /><h2>Comentarii anterioare</h2>
-        <table>
+        <br /><hr /><h2 class="text-light">Comentarii anterioare</h2>
+        <table  class=" table table-striped table-dark">
             <tr>
                 <td>Comentariul:</td>
                 <td>Data comentariului</td>
