@@ -78,6 +78,15 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult LandmarkType_Destroy([DataSourceRequest] DataSourceRequest request, DictionaryLandmarkType dictionaryLandmarkType)
         {
+            string error = _dictionaryService.TicketType_DestroyId(dictionaryLandmarkType.ItemId);
+
+            if (!String.IsNullOrEmpty(error))
+            {
+                ModelState.AddModelError("e", error);
+                return Json(ModelState.ToDataSourceResult());
+            }
+            else
+
             if (dictionaryLandmarkType != null)
             {
                 _dictionaryService.LandmarkType_DestroyId(dictionaryLandmarkType.ItemId);

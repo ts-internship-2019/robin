@@ -484,15 +484,15 @@
 
                         $(".k-upload-selected").click();
 
-                        $.ajax({
-                            type: 'POST',
-                            url: '/Async/SaveUploadedImagesDB',
-                            data: { lmkid: 3 },
-                            cache: false,
-                            success: function (result) {
-                                return result;
-                            }
-                        })
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '/Async/SaveUploadedImagesDB',
+                        //    data: { lmkid: 3 },
+                        //    cache: false,
+                        //    success: function (result) {
+                        //        return result;
+                        //    }
+                        //})
                         //$(".k-upload-selected").click();
 
                 alert("Obiectiv salvat cu succes!");
@@ -525,15 +525,15 @@
                             }
                         })
                         $(".k-upload-selected").click();
-                        $.ajax({
-                            type: 'POST',
-                            url: '/Async/SaveUploadedImagesDB',
-                            data: { lmkid: 3 },
-                            cache: false,
-                            success: function (result) {
-                                return result;
-                            }
-                        })
+                        //$.ajax({
+                        //    type: 'POST',
+                        //    url: '/Async/SaveUploadedImagesDB',
+                        //    data: { lmkid: 3 },
+                        //    cache: false,
+                        //    success: function (result) {
+                        //        return result;
+                        //    }
+                        //})
                         alert("Obiectiv salvat cu succes!");
                         window.location.href = "/Landmark/Landmark";
                     } else if (llongLength <= 10 && llatLength <= 10&& isNaN(llat)==false&& isNaN(llong)==false) {
@@ -554,5 +554,27 @@
                 }
     }
    
-   
+
+    
+                                            $("#files").kendoUpload({
+                                            async: {
+                                                saveUrl: "/Upload/Async_Save",     //?id=" + landmarkId2,
+                                                removeUrl: "/Upload/Async_Remove",
+                                                autoUpload: false
+                                            }
+                                            //upload: onUpload
+                                        })
+
+
   </script>
+
+@*<script>
+                                            $("#files").kendoUpload({
+                                            async: {
+                                                saveUrl: "/Upload/Async_Save",     //?id=" + landmarkId2,
+                                                removeUrl: "/Upload/Async_Remove",
+                                                autoUpload: false
+                                            }
+                                            //upload: onUpload
+                                        })
+</script>*@

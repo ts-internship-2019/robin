@@ -19,6 +19,8 @@ namespace iWasHere.Web.Controllers
     public class LandmarkController : Controller
     {
         private readonly DictionaryService _dictionaryService;
+
+        public static int newId;
        
 
         public LandmarkController(DictionaryService dictionaryService)
@@ -108,6 +110,9 @@ namespace iWasHere.Web.Controllers
                     DateAdded = DateTime.Now
                 };
                 _dictionaryService.AddLandmark(landmark);
+
+                int newId = landmark.LandmarkId;
+
                 return Json(ModelState.ToDataSourceResult());
             
            

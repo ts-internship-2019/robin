@@ -627,13 +627,22 @@ namespace iWasHere.Domain.Service
 
 
 
-        public void LandmarkType_DestroyId(int id)
+        public string LandmarkType_DestroyId(int id)
         {
-            _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryLandmarkType.Single(a => a.ItemId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
         }
 
-    public int GetDictionaryLandmarkTypeCount()
+
+        public int GetDictionaryLandmarkTypeCount()
         {
             return _dbContext.DictionaryLandmarkType.Count();
         }
@@ -1254,6 +1263,8 @@ namespace iWasHere.Domain.Service
 
             _dbContext.LandmarkImage.Add(img);
             _dbContext.SaveChanges();
+
+
         }
 
         public void SaveUploadedImagesDB(LandmarkImage img)

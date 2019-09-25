@@ -59,6 +59,7 @@
             .Editable(editable => editable.Mode(GridEditMode.InLine))
         .DataSource(dataSource => dataSource
             .Ajax()
+            .Events(e => e.Error("error"))
             .Model(model => model.Id(p => p.ItemId))
 
             //CRUD
@@ -90,6 +91,11 @@
             $("#landmarkTypeGrid").data("kendoGrid").dataSource.read();
             $("#landmarkTypeGrid").data("kendoGrid").dataSource.page(1);
         }
+                function error(e)
+        {
+        alert("Tipul de atractie nu poate fi sters deoarece este folosit de un obiectiv!")
+        refresh();
+         } 
 
 
     </script>
