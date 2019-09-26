@@ -51,7 +51,7 @@
             {
             columns.Bound(c => c.CurrencyId).Hidden();
             columns.Bound(c => c.CurrencyCode).Title("Codul Valutei").Width(200).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
-            columns.Bound(c => c.CurrencyName).Title("Numele Valutei").Width(350).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+            columns.Bound(c => c.CurrencyName).Title("Numele Valutei").Width(150).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
                 columns.Bound(c => c.ConversionRate).Title("Rata de Schimb Valutar").Width(350).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
             columns.Template("<a  class='k-button' href='/DictionaryCurrency/CurrencyAdd?Id=#=CurrencyId# '> Editeaza </a>").Width(150);
             columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
