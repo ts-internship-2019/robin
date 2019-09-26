@@ -294,7 +294,10 @@
     <script>
         var map;
         var markers = [];
-            function onLoadView() {
+        function onLoadView() {
+            if(document.getElementById("ticketCode").value != "RON")
+            document.getElementById("currencyRate").value = document.getElementById("currencyRate").value * document.getElementById("ticketPrice").value;
+
             var lati = parseFloat(document.getElementById("latitude").value);
             var longi = parseFloat(document.getElementById("longitude").value);
 
