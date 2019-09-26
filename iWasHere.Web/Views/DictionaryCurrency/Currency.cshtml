@@ -8,11 +8,10 @@
 
 
     <h1>@ViewData["Title"]</h1>
-    <p class="text-light">
+    <p class="text-light" align="right">
         Data Valuta:
        @(Html.Kendo().TextBox() .Name("inputDate") .HtmlAttributes(new { id = "inputDate", type = "textbox" }) ) 
-       </p>
-    <p align="right"> <a onclick="getCursDate();" class="k-button k-primary">Curs Valutar</a></p>
+      <a onclick="getCursDate();" class="k-button k-primary text-light">Curs Valutar</a></p>
 
     
 
@@ -70,6 +69,7 @@
         <script>
             function getCursDate() {
                 var dataCurs = $("#inputDate").val();
+                if (document.getElementById("inputDate").value == "") { dataCurs="25-09-2019"}
                 window.location.href = "/DictionaryCurrency/LoadBNRData?DataCurs=" + dataCurs;
             }
 
