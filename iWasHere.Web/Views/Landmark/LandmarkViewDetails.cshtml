@@ -54,18 +54,17 @@
                 -webkit-transform: scale(1.5); /* Safari 3-8 */
                 transform: scale(1.5);
             }
-
-            .imageSection {
-                width:480px;
-                height:320px;
-            }
     </style>
     
 </head>
 
 <body onload="onLoadView()">
     <table class="table table-striped">
-
+        <tr>
+            <td>
+                <p class="text-light">LOC PENTRU IMAGINE</p>
+            </td>
+        </tr>
         <tr>
             <td colspan="2" align="center">
                 <p class="listaObiectiveLI text-light">
@@ -78,21 +77,16 @@
             </td>
         </tr>
         <tr>
-            <td align="center" colspan="2">
-                <p class="text-light"><img class="imageSection" src="~/images/castelul-peles.jpg" /></p>
-                @*<img src="~/images/"+imgURL>*@
-            </td>
-        </tr>
-        <tr>
             <td>
-                
-            </td>
-            <td rowspan="5">
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Scurta descriere: </label>
                 </p>
-                @Html.TextArea("shortDesc", "", new { @class = "k-textbox", style = "width: 100%;", rows="20", maxlength = "100", id = "shortDesc" })
-
+            </td>
+            <td>
+                @(Html.Kendo().TextBox()
+                .Name("shortDesc")
+                .HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500", @readonly = "readonly" })
+                )
             </td>
         </tr>
         <tr>
@@ -100,7 +94,8 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Tipul de obiectiv: </label>
                 </p>
-
+            </td>
+            <td>
                 @(Html.Kendo().TextBox()
                 .Name("landmarkTypeName")
                 .HtmlAttributes(new { id = "landmarkTypeName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -112,7 +107,8 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Codul obiectivului: </label>
                 </p>
-
+            </td>
+            <td>
                 @(Html.Kendo().TextBox()
                 .Name("landmarkTypeCode")
                 .HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -123,7 +119,8 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Tara: </label>
                 </p>
-
+            </td>
+            <td>
                 @(Html.Kendo().TextBox()
                 .Name("countryName")
                 .HtmlAttributes(new { id = "countryName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -134,7 +131,8 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Judet: </label>
                 </p>
-
+            </td>
+            <td>
                 @(Html.Kendo().TextBox()
                 .Name("countyName")
                 .HtmlAttributes(new { id = "countyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -145,7 +143,8 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Oras: </label>
                 </p>
-          
+            </td>
+            <td>
                 @(Html.Kendo().TextBox()
                 .Name("cityName")
                 .HtmlAttributes(new { id = "cityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -294,10 +293,7 @@
     <script>
         var map;
         var markers = [];
-        function onLoadView() {
-            if(document.getElementById("ticketCode").value != "RON")
-            document.getElementById("currencyRate").value = document.getElementById("currencyRate").value * document.getElementById("ticketPrice").value;
-
+            function onLoadView() {
             var lati = parseFloat(document.getElementById("latitude").value);
             var longi = parseFloat(document.getElementById("longitude").value);
 
@@ -504,7 +500,7 @@
                 data: { landmarkId: modelId, userid: userid, commenttext: commenttext, commentdate: commentdate, ratingvalue: ratingvalue },
                 cache: false,
                 success: function (result) {
-                    alert("Comentariu adaugat. \nReimprospatarea paginii in 2 secunde"); return result;
+                    alert("Comentariu adaugat. \nIn 2 secunde se v-a efectua un refresh la pagina."); return result;
                 }
             })
             setTimeout("location.reload(true);", 2000);

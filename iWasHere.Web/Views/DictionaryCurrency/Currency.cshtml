@@ -5,7 +5,18 @@
     <title>Valuta</title>
 </head>
 <body>
+
+
     <h1>@ViewData["Title"]</h1>
+    <p class="text-light">
+        Data Valuta:
+       @(Html.Kendo().TextBox() .Name("inputDate") .HtmlAttributes(new { id = "inputDate", type = "textbox" }) ) 
+       </p>
+    <p align="right"> <a onclick="getCursDate();" class="k-button k-primary">Curs Valutar</a></p>
+
+    
+
+
     <p class="text-light">
         Nume valuta:
         @(Html.Kendo().TextBox()
@@ -42,6 +53,7 @@
             columns.Bound(c => c.CurrencyId).Hidden();
             columns.Bound(c => c.CurrencyCode).Title("Codul Valutei").Width(200).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
             columns.Bound(c => c.CurrencyName).Title("Numele Valutei").Width(350).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
+                columns.Bound(c => c.ConversionRate).Title("Rata de Schimb Valutar").Width(350).Filterable(ftb => ftb.Cell(cell => cell.Operator("contains").SuggestionOperator(FilterType.Contains)));
             columns.Template("<a  class='k-button' href='/DictionaryCurrency/CurrencyAdd?Id=#=CurrencyId# '> Editeaza </a>").Width(150);
             columns.Command(command => { command.Destroy().Text("Sterge").HtmlAttributes(new { @class = "k-primary" }); }).Width(150);
 
@@ -56,6 +68,10 @@
             )
         )
         <script>
+            function getCursDate() {
+                var dataCurs = $("#inputDate").val();
+                window.location.href = "/DictionaryCurrency/LoadBNRData?DataCurs=" + dataCurs;
+            }
 
             getFilter = function () {
                 var model = {};
@@ -82,6 +98,9 @@
             }
 
         </script>
-<p align="right"> <a href='/DictionaryCurrency/CurrencyAdd?Id=0' class="k-button k-primary">Adauga valuta</a></p>
+    <p align="right"> <a href='/DictionaryCurrency/CurrencyAdd?Id=0' class="k-button k-primary">Adauga valuta</a></p>
+
+
+
 </body>
 

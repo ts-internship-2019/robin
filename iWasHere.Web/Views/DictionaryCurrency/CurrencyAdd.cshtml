@@ -30,6 +30,7 @@
 
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td>
                                         <span>Cod valuta:</span>
@@ -39,6 +40,21 @@
                                         .Name("inputCurrencyCode")
                                         .HtmlAttributes(new { id = "textBoxCurrencyCode", type = "textbox", maxlength = "100" })
                                         )
+                                    </td>
+                                  
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>Rata de Curs Valutar:</span>
+                                    </td>
+                                   
+                                    <td>
+
+                                        @(Html.Kendo().TextBox()
+                                        .Name("inputConversionRate")
+                                        .HtmlAttributes(new { id = "textBoxConversionRate", type = "textbox", maxlength = "100" })
+                                        )
+
                                     </td>
                                 </tr>
                             </table>
@@ -76,6 +92,7 @@
                     if (data.responseJSON != null) {
                         document.getElementById("textBoxCurrencyName").value = data.responseJSON.CurrencyName;
                         document.getElementById("textBoxCurrencyCode").value = data.responseJSON.CurrencyCode;
+                        document.getElementById("textBoxConversionRate").value = data.responseJSON.ConversionRate;
                     }
                     else //id-ul nu este gasit in db
                     {
@@ -94,14 +111,15 @@
         function editFunction(eventType) {  //functie ce adauga/editeaza, daca eventtype este 1 se apasa pe salveaza, daca este 2 se apasa pe salveaza si nou
             currencyname = document.getElementById('textBoxCurrencyName').value;
             currencycode = document.getElementById('textBoxCurrencyCode').value;
-            if (currencyname == "" || currencycode == "") {
+            conversionrate = document.getElementById('textBoxConversionRate').value;
+            if (currencyname == "" || currencycode == "" || conversionrate == "") {
                 alert("Campuri necompletate!");
             } else {
                 if (modelId != 0 && eventType == 1) {
                     $.ajax({
                         type: 'POST',
-                        url: '/DictionaryCurrency/Currency_Update',
-                        data: { id: modelId, currencyname: currencyname, currencycode: currencycode },
+                        url: '/DictionaryCurrency/UpdateCurrency',
+                        data: { id: modelId, name: currencyname, code: currencycode, conversionrate: conversionrate },
                         cache: false,
                         success: function (result) {
                             alert("Editat cu succes"); return result;
@@ -114,7 +132,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryCurrency/AddNewCurrency',
-                        data: { currencyname: currencyname, currencycode: currencycode },
+                        data: { currencyname: currencyname, currencycode: currencycode, conversionrate: conversionrate },
                         cache: false,
                         success: function (result) {
                             alert("Adaugat cu Success"); return result;
@@ -126,7 +144,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '/DictionaryCurrency/AddNewCurrency',
-                        data: { currencyname: currencyname, currencycode: currencycode },
+                        data: { currencyname: currencyname, currencycode: currencycode, conversionrate: conversionrate },
                         cache: false,
                         success: function (result) {
                             alert("Adaugat cu Success"); return result;
