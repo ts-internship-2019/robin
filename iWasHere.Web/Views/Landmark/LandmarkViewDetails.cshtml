@@ -65,12 +65,7 @@
 
 <body onload="onLoadView()">
     <table class="table table-striped">
-        <tr>
-            <td>
-                <p class="text-light"><img class="imageSection" src="~/images/castelul-peles.jpg"/></p>
-                @*<img src="~/images/"+imgURL>*@
-            </td>
-        </tr>
+
         <tr>
             <td colspan="2" align="center">
                 <p class="listaObiectiveLI text-light">
@@ -83,16 +78,21 @@
             </td>
         </tr>
         <tr>
+            <td align="center" colspan="2">
+                <p class="text-light"><img class="imageSection" src="~/images/castelul-peles.jpg" /></p>
+                @*<img src="~/images/"+imgURL>*@
+            </td>
+        </tr>
+        <tr>
             <td>
+                
+            </td>
+            <td rowspan="5">
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Scurta descriere: </label>
                 </p>
-            </td>
-            <td>
-                @(Html.Kendo().TextBox()
-                .Name("shortDesc")
-                .HtmlAttributes(new { id = "shortDesc", type = "textbox", maxlength = "500", @readonly = "readonly" })
-                )
+                @Html.TextArea("shortDesc", "", new { @class = "k-textbox", style = "width: 100%; height=auto;", maxlength = "100", id = "shortDesc" })
+
             </td>
         </tr>
         <tr>
@@ -100,8 +100,7 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Tipul de obiectiv: </label>
                 </p>
-            </td>
-            <td>
+
                 @(Html.Kendo().TextBox()
                 .Name("landmarkTypeName")
                 .HtmlAttributes(new { id = "landmarkTypeName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -113,8 +112,7 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Codul obiectivului: </label>
                 </p>
-            </td>
-            <td>
+
                 @(Html.Kendo().TextBox()
                 .Name("landmarkTypeCode")
                 .HtmlAttributes(new { id = "landmarkTypeCode", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -125,8 +123,7 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Tara: </label>
                 </p>
-            </td>
-            <td>
+
                 @(Html.Kendo().TextBox()
                 .Name("countryName")
                 .HtmlAttributes(new { id = "countryName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -137,8 +134,7 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Judet: </label>
                 </p>
-            </td>
-            <td>
+
                 @(Html.Kendo().TextBox()
                 .Name("countyName")
                 .HtmlAttributes(new { id = "countyName", type = "textbox", maxlength = "100", @readonly = "readonly" })
@@ -149,8 +145,7 @@
                 <p class="listaObiectiveLI text-light">
                     <label class="header">Oras: </label>
                 </p>
-            </td>
-            <td>
+          
                 @(Html.Kendo().TextBox()
                 .Name("cityName")
                 .HtmlAttributes(new { id = "cityName", type = "textbox", maxlength = "100", @readonly = "readonly" })
