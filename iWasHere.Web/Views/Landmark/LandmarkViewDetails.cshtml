@@ -506,7 +506,7 @@
                 data: { landmarkId: modelId, userid: userid, commenttext: commenttext, commentdate: commentdate, ratingvalue: ratingvalue },
                 cache: false,
                 success: function (result) {
-                    alert("Comentariu adaugat. \nIn 2 secunde se v-a efectua un refresh la pagina."); return result;
+                    alert("Comentariu adaugat. \nReimprospatarea paginii in 2 secunde"); return result;
                 }
             })
             setTimeout("location.reload(true);", 2000);
